@@ -8,3 +8,11 @@ Branche principale utilisée pour le déploiement, merci d'envoyer vos modificat
 - Juliette GAILLEMIN
 - Matthieu GALANTE
 - Astrid Heidi GANLONON 
+
+## Installation
+
+Requis : [Node.js](https://nodejs.org/en/) et [npm](https://www.npmjs.com/)
+
+```bash
+npm install dans le dossier crocojourney
+```

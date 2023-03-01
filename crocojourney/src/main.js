@@ -1,5 +1,40 @@
-import { createApp } from 'vue'
-import './style.css'
+import {
+    createApp
+} from 'vue'
 import App from './App.vue'
+import Home from './views/Home.vue'
+import Login from './views/Login.vue'
+import NotFound from './views/NotFound.vue'
+import Register from './views/Register.vue'
+import Profile from './views/Profile.vue'
+import {
+    createRouter,
+    createWebHistory
+} from 'vue-router'
 
-createApp(App).mount('#app')
+const router = createRouter({
+    history: createWebHistory(),
+    routes: [{
+            path: '/',
+            component: Home
+        },
+        {
+            path: '/login',
+            component: Login
+        },
+        {
+            path: '/register',
+            component: Register
+        },
+        {
+            path: '/profile',
+            component: Profile
+        },
+        {
+            path: '/:pathMatch(.*)*',
+            component: NotFound
+        }
+    ]
+})
+
+createApp(App).use(router).mount('#app')

@@ -84,7 +84,7 @@
                 </div>
             </div>
             <button type="submit" class="btn btn-success col-md-3 mb-4">Valider</button>
-            <p>Vous avez déjà un compte? <a href="" class="text-decoration-none">Connectez-vous</a>!</p>
+            <p>Vous avez déjà un compte? <RouterLink to="/login" class="text-decoration-none">Connectez-vous</RouterLink>!</p>
         </form>
     </div>
 </template>

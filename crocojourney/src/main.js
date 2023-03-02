@@ -6,6 +6,7 @@ import Home from './views/Home.vue'
 import Login from './views/Login.vue'
 import NotFound from './views/NotFound.vue'
 import Register from './views/Register.vue'
+import Recovery from './views/Recovery.vue'
 import Profile from './views/Profile.vue'
 import API from './scripts/API'
 import {
@@ -30,6 +31,10 @@ const router = createRouter({
         {
             path: '/profile',
             component: Profile
+        },
+        {
+            path: '/recovery',
+            component: Recovery
         },
         {
             path: '/:pathMatch(.*)*',

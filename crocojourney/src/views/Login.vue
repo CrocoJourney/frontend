@@ -25,10 +25,13 @@
                     <div style="padding-top: 3%;"><input type="text" id="password" name="password"></div>
                     <div></div>
                 </div>
+                
                 <div style="padding-top: 13%;">
+                    <RouterLink class="btn -success" to="/recovery">Mot de passe oublié ?</RouterLink>
+                </div>
+                <div style="padding-top: 3%;">
                     <RouterLink class="btn -success" to="/profile">S'inscire</RouterLink>
                 </div>
-                
                 <div style="padding-top: 3%; padding-bottom: 7%;">
                     <RouterLink class="btn -success" to="/profile">Se connecter</RouterLink>
                 </div>

@@ -7,6 +7,7 @@ import Login from './views/Login.vue'
 import NotFound from './views/NotFound.vue'
 import Register from './views/Register.vue'
 import Profile from './views/Profile.vue'
+import API from './scripts/API'
 import {
     createRouter,
     createWebHistory

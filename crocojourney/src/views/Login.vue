@@ -1,7 +1,7 @@
 <template>
     <div class="container text-center">
   <div class="row">
-    <div style="width: 25%;">
+    <div style="width: 30%;">
         <p>column</p>
     </div>
     <div class="col">
@@ -16,7 +16,7 @@
                 <img src="../assets/img/crocojourney.png" alt="" style="width: 40%;">
                 <div class="row">
                     <div></div>
-                    <div><input type="text" id="login" name="login"></div>
+                    <div class="form-check"><input type="text" id="login" name="login"></div>
                     <div></div>
                     
                 </div>
@@ -25,12 +25,15 @@
                     <div style="padding-top: 3%;"><input type="text" id="password" name="password"></div>
                     <div></div>
                 </div>
-                <div style="padding-top: 13%;">
-                    <a href="">S'inscire</a>
-                </div>
                 
+                <div style="padding-top: 13%;">
+                    <RouterLink class="btn -success" to="/recovery">Mot de passe oublié ?</RouterLink>
+                </div>
+                <div style="padding-top: 3%;">
+                    <RouterLink class="btn -success" to="/profile">S'inscire</RouterLink>
+                </div>
                 <div style="padding-top: 3%; padding-bottom: 7%;">
-                    <button class="btn btn-success" >Se connecter</button>
+                    <RouterLink class="btn -success" to="/profile">Se connecter</RouterLink>
                 </div>
                 
             </div>
@@ -39,7 +42,7 @@
             <p>column</p>
         </div>
     </div>
-    <div style="width: 25%;">
+    <div style="width: 30%;">
         <p>column</p>
     </div>
   </div>

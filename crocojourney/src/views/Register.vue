@@ -34,12 +34,6 @@
                         Femme
                     </label>
                 </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="sexRadio" id="sexRadioFemme">
-                    <label class="form-check-label" for="sexRadioFemme">
-                        Non déterminé
-                    </label>
-                </div>
             </div>
             <div class="row mb-4">
                 <div class="col">

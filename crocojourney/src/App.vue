@@ -1,15 +1,21 @@
 <template>
   <div>
-    <RouterLink to="/">Home</RouterLink>
-    <RouterLink to="/profile">Profile</RouterLink>
-    <RouterLink to="/login">Login</RouterLink>
-    <RouterLink to="/register">Register</RouterLink>
+    <Navbar></Navbar>
     <router-view></router-view>
   </div>
 </template>
 
 <script>
-export default {
-  name: 'App'
-}
+import { defineComponent } from 'vue';
+import Navbar from './components/Navbar.vue'
+export default defineComponent({
+  name: 'App',
+  components: {
+    Navbar
+  },
+  setup() {
+    return {
+    }
+  }
+})
 </script>

@@ -39,8 +39,15 @@
 import { defineComponent } from 'vue'
 import API from "../scripts/API.js"
 import User from "../scripts/User.js"
+import emitter from "../scripts/emitter.js"
 export default defineComponent({
   name: 'Navbar',
+  mounted() {
+    emitter.on('userUpdated', () => {
+      this.photoPath = API.API_URL + "/static/pictures/" + (User.currentUser?.photoPath ?? "default.png");
+      this.$forceUpdate();
+    })
+  },
   data() {
     // si l'utilisateur n'a pas de photo de profil, on affiche l'image par défaut
     return {  

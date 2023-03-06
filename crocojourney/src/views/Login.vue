@@ -17,7 +17,7 @@
                 <div class="row">
                     <div></div>
                         <div class="col-md-8 mx-auto form-floating">
-                            <input class="form-control" type="text" id="login" name="login" placeholder="Login">
+                            <input ref="login" class="form-control" type="text" id="login" name="login" placeholder="Login">
                             <label for="login" class="form-label">Prénom</label>
                         </div>
                     <div></div>
@@ -26,7 +26,7 @@
                 <div class="row">
                     <div style="padding-top: 5%;"></div>
                         <div class="col-md-8 mx-auto form-floating">
-                            <input class="form-control col-md-8" type="password" id="password" name="password" placeholder="password">
+                            <input ref="password" class="form-control col-md-8" type="password" id="password" name="password" placeholder="password">
                             <label for="password" class="form-label">Prénom</label>
                         </div>
                     <div></div>
@@ -58,6 +58,7 @@
 <script>
 import { defineComponent } from 'vue';
 import API from "../scripts/API.js"
+import emitter from "../scripts/emitter.js"
 export default defineComponent({
     name: 'Login',
     methods: {
@@ -67,6 +68,8 @@ export default defineComponent({
             if(!login || !password) return window.alert("Veuillez remplir tous les champs");
             try {
                 await API.login(login, password);
+                // on envoie un event pour dire que l'utilisateur s'est connecté pour mettre à jour la navbar
+                emitter.emit('userUpdated');
                 this.$router.push({ path: '/' });
             } catch (error) {
                 const json = await error.json();

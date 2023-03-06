@@ -156,6 +156,7 @@ class API {
                 .then((response) => {
                     if (response.status === 200) {
                         response.json().then(async (data) => {
+                            User.currentUser = new User();
                             User.currentUser.accessToken = data.access_token;
                             User.currentUser.refreshToken = data.refresh_token;
                             await User.currentUser.fetchInfo();

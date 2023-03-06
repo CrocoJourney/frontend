@@ -1,13 +1,13 @@
 <template>
     <div class="container text-center">
   <div class="row">
-    <div style="width: 25%;">
-        <p>column</p>
+    <div style="width: 30%;">
+        <p></p>
     </div>
     <div class="col">
         <div class="row">
             <div class="h-25">
-                <p>column</p>
+                <p></p>
             </div>
         </div>
         <div class="row" style="padding-top: 10%;">
@@ -16,19 +16,28 @@
                 <img src="../assets/img/crocojourney.png" alt="" style="width: 40%;">
                 <div class="row">
                     <div></div>
-                    <div><input ref="login" type="text" id="login" name="login"></div>
+                        <div class="col-md-8 mx-auto form-floating">
+                            <input class="form-control" type="text" id="login" name="login" placeholder="Login">
+                            <label for="login" class="form-label">Prénom</label>
+                        </div>
                     <div></div>
                     
                 </div>
                 <div class="row">
+                    <div style="padding-top: 5%;"></div>
+                        <div class="col-md-8 mx-auto form-floating">
+                            <input class="form-control col-md-8" type="password" id="password" name="password" placeholder="password">
+                            <label for="password" class="form-label">Prénom</label>
+                        </div>
                     <div></div>
-                    <div style="padding-top: 3%;"><input ref="password" type="text" id="password" name="password"></div>
-                    <div></div>
-                </div>
-                <div style="padding-top: 13%;">
-                    <a href="">S'inscire</a>
                 </div>
                 
+                <div style="padding-top: 13%;">
+                    <RouterLink class="" to="/recovery">Mot de passe oublié ?</RouterLink>
+                </div>
+                <div style="padding-top: 3%;">
+                    <RouterLink class="" to="/register">S'inscrire</RouterLink>
+                </div>
                 <div style="padding-top: 3%; padding-bottom: 7%;">
                     <button @click="login" class="btn btn-success" >Se connecter</button>
                 </div>
@@ -36,11 +45,11 @@
             </div>
         </div>
         <div class="row">
-            <p>column</p>
+            <p></p>
         </div>
     </div>
-    <div style="width: 25%;">
-        <p>column</p>
+    <div style="width: 30%;">
+        <p></p>
     </div>
   </div>
 </div>

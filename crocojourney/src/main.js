@@ -9,6 +9,7 @@ import Register from './views/Register.vue'
 import Recovery from './views/Recovery.vue'
 import Profile from './views/Profile.vue'
 import API from './scripts/API'
+import Resetpassword from './views/Resetpassword.vue'
 import {
     createRouter,
     createWebHistory
@@ -35,6 +36,9 @@ const router = createRouter({
         {
             path: '/recovery',
             component: Recovery
+        }, {
+            path: '/reset',
+            component: Resetpassword
         },
         {
             path: '/:pathMatch(.*)*',

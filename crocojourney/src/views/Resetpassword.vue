@@ -34,3 +34,22 @@
     
 </template>
 
+<script>
+import { defineComponent } from 'vue';
+import API from "../scripts/API.js"
+export default defineComponent({
+    name: "Resetpassword",
+    mounted() {
+        // si on a pas de token dans l'url, on redirige vers la page de login
+        if (!this.$route.query.token) {
+            // dire qu'il y a un probleme et rediriger vers la page de recuperation de mot de passe
+            this.$router.push("/recovery");
+        }
+    },
+    data() {
+        return {};
+    },
+    methods: {},
+    components: {  }
+})
+</script>

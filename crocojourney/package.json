@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "bootstrap-autocomplete": "^2.3.7",
     "mitt": "^3.0.0",
     "vue": "^3.2.45",
     "vue-router": "^4.1.6"

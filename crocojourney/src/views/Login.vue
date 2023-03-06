@@ -16,13 +16,13 @@
                 <img src="../assets/img/crocojourney.png" alt="" style="width: 40%;">
                 <div class="row">
                     <div></div>
-                    <div><input type="text" id="login" name="login"></div>
+                    <div><input ref="login" type="text" id="login" name="login"></div>
                     <div></div>
                     
                 </div>
                 <div class="row">
                     <div></div>
-                    <div style="padding-top: 3%;"><input type="text" id="password" name="password"></div>
+                    <div style="padding-top: 3%;"><input ref="password" type="text" id="password" name="password"></div>
                     <div></div>
                 </div>
                 <div style="padding-top: 13%;">
@@ -30,7 +30,7 @@
                 </div>
                 
                 <div style="padding-top: 3%; padding-bottom: 7%;">
-                    <button class="btn btn-success" >Se connecter</button>
+                    <button @click="login" class="btn btn-success" >Se connecter</button>
                 </div>
                 
             </div>
@@ -45,3 +45,27 @@
   </div>
 </div>
 </template>
+
+<script>
+import { defineComponent } from 'vue';
+import API from "../scripts/API.js"
+export default defineComponent({
+    name: 'Login',
+    methods: {
+        async login() {
+            const login = this.$refs.login.value;
+            const password = this.$refs.password.value;
+            if(!login || !password) return window.alert("Veuillez remplir tous les champs");
+            try {
+                await API.login(login, password);
+                this.$router.push({ path: '/' });
+            } catch (error) {
+                const json = await error.json();
+                console.log(json);
+                window.alert(json.detail);
+            }
+        }
+    }
+})
+
+</script>

@@ -35,6 +35,9 @@ class User {
         Object.assign(user, JSON.parse(json));
         return user;
     }
+    static isLoggedIn() {
+        return User.currentUser !== undefined && User.currentUser.accessToken !== undefined;
+    }
 }
 
 window.User = User;

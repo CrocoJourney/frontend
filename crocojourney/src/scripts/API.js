@@ -26,12 +26,12 @@ class API {
      * @param {*} data
      * @param {*} headers
      */
-    static request(method, url, data, headers) {
+    static request(method, url, body, headers) {
         return new Promise(async (resolve, reject) => {
             const response = await fetch(`${API.API_URL}${url}`, {
                 method: method,
                 headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'Content-Type': 'application/json',
                     Accept: 'application/json',
                     'Sec-Fetch-Mode': 'cors',
                     'Sec-Fetch-Site': 'same-origin',
@@ -40,7 +40,7 @@ class API {
                     ...headers,
                 },
                 mode: 'cors',
-                body: data,
+                body: body,
             });
             switch (response.status) {
                 case 200:
@@ -61,11 +61,11 @@ class API {
      * @param {*} data body of the request maybe json or form data etc..
      * @returns
      */
-    static requestLogged(method, url, data) {
+    static requestLogged(method, url, body) {
         return new Promise(async (resolve, reject) => {
             try {
                 // on fait la requete avec le token en header
-                const res = await API.request(method, url, data, {
+                const res = await API.request(method, url, body, {
                     [API.AuthorizationHeader]: `Bearer ${User.currentUser.accessToken}`,
                 });
                 resolve(res);
@@ -80,7 +80,7 @@ class API {
                             reject(err);
                         }
                         // on refait la requete avec le nouveau token
-                        const res2 = await API.request(method, url, data, {
+                        const res2 = await API.request(method, url, body, {
                             [API.AuthorizationHeader]: User.currentUser.accessToken,
                         });
                         switch (res2.status) {

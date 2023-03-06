@@ -8,7 +8,7 @@
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-list-4" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div v-if="User?.isLoggedIn()" class="collapse navbar-collapse" id="navbar-list-4">
+    <div v-if="User.isLoggedIn()" class="collapse navbar-collapse" id="navbar-list-4">
       <ul class="navbar-nav ms-auto">
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -38,12 +38,14 @@
 <script>
 import { defineComponent } from 'vue'
 import API from "../scripts/API.js"
+import User from "../scripts/User.js"
 export default defineComponent({
   name: 'Navbar',
   data() {
     // si l'utilisateur n'a pas de photo de profil, on affiche l'image par défaut
     return {  
-      photoPath: API.API_URL + "/static/pictures/" + (User.currentUser?.photoPath ?? "default.png")
+      photoPath: API.API_URL + "/static/pictures/" + (User.currentUser?.photoPath ?? "default.png"),
+      User
     }
   },
   methods: {
@@ -53,8 +55,11 @@ export default defineComponent({
           refresh_token: User.currentUser.refreshToken
         });
       const res = await API.requestLogged(API.METHOD.POST, "/auth/logout", JSONbody);
-      if (res.status === 200) {
-        User.currentUser = null;
+      // TODO : refacto dans User.js
+      if (res.message === "ok") {
+        User.currentUser = undefined;
+        localStorage.removeItem('user');
+        this.$forceUpdate();
         this.$router.push("/login"); // TODO : vérifier dans le cahier des charges si on doit rediriger vers la page de login ou la page d'accueil
       }
     }

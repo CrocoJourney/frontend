@@ -36,7 +36,11 @@ class User {
         return user;
     }
     static isLoggedIn() {
-        return User.currentUser !== undefined && User.currentUser.accessToken !== undefined;
+        if(User.currentUser === undefined || User.currentUser.accessToken === undefined) {
+            return false;
+        }else{
+            return true;
+        }
     }
 }
 

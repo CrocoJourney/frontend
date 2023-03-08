@@ -10,6 +10,7 @@ import Recovery from './views/Recovery.vue'
 import Profile from './views/Profile.vue'
 import CreateJourney from './views/CreateJourney.vue'
 import API from './scripts/API'
+import Resetpassword from './views/Resetpassword.vue'
 import {
     createRouter,
     createWebHistory
@@ -36,6 +37,9 @@ const router = createRouter({
         {
             path: '/recovery',
             component: Recovery
+        }, {
+            path: '/reset',
+            component: Resetpassword
         },
         {
             path: '/createjourney',

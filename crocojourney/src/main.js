@@ -9,6 +9,7 @@ import Register from './views/Register.vue'
 import Recovery from './views/Recovery.vue'
 import Profile from './views/Profile.vue'
 import CreateJourney from './views/CreateJourney.vue'
+import History from './views/History.vue'
 import API from './scripts/API'
 import Resetpassword from './views/Resetpassword.vue'
 import {
@@ -44,6 +45,10 @@ const router = createRouter({
         {
             path: '/createjourney',
             component: CreateJourney
+        },
+        {
+            path: '/history',
+            component: History
         },
         {
             path: '/:pathMatch(.*)*',

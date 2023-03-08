@@ -16,6 +16,7 @@
           </a>
           <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
             <RouterLink class="dropdown-item" to="/profile">Profil</RouterLink>
+            <RouterLink class="dropdown-item" to="/history">Historique des trajets</RouterLink>
             <button @click="logout" class="dropdown-item">Déconnexion</button>
           </div>
         </li>   

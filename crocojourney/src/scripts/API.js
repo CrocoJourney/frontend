@@ -172,6 +172,40 @@ class API {
                 });
         });
     }
+    static register(firstName, lastName, email, phone, hasVehicle, profilePic, password, confirmPassword) {
+    return new Promise((resolve, reject) => {
+            fetch(`${API.API_URL}/auth/register`, {
+                method: API.METHOD.POST,
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    Accept: 'application/json',
+                    'Sec-Fetch-Mode': 'cors',
+                    'Sec-Fetch-Site': 'same-origin',
+                    'Sec-Fetch-Dest': 'empty',
+                    Referer: window.location.origin,
+                },
+                mode: 'cors',
+                body: `firstname=${firstName}&lastname=${lastName}&mail=${email}&password=${password}&confirmPassword=${confirmPassword}&phonenumber=${phone}&car=${hasVehicle}&sex=${sex}&mailNotification=true&photo=${profilePic}`,
+            })
+                .then((response) => {
+                    if (response.status === 200) {
+                        response.json().then(async (data) => {
+                            User.currentUser = new User();
+                            User.currentUser.accessToken = data.access_token;
+                            User.currentUser.refreshToken = data.refresh_token;
+                            await User.currentUser.fetchInfo();
+                            User.saveToLocalStorage();
+                            resolve(data);
+                        });
+                    } else {
+                        reject(response);
+                    }
+                })
+                .catch((err) => {
+                    reject(err);
+                });
+        });
+    }
 }
 window.API = API;
 export default API;

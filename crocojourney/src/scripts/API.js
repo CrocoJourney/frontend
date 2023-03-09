@@ -186,7 +186,7 @@ class API {
                     Referer: window.location.origin,
                 },
                 mode: 'cors',
-                body: `firstname=${firstName}&lastname=${lastName}&mail=${email}&password=${password}&confirmPassword=${passwordConfirm}&phonenumber=${phone}&car=${hasVehicle}&mailNotification=true`,
+                body: `firstname=${firstName}&lastname=${lastName}&mail=${email}&password=${password}&confirmPassword=${passwordConfirm}&phonenumber=${phone}&car=${hasVehicle}&sex=${sex}&mailNotification=true`,
             })
                 .then((response) => {
                     if (response.status === 200) {

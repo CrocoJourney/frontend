@@ -1,5 +1,5 @@
 <template>
-<nav class="navbar navbar-expand-sm navbar-dark bg-dark fixed-top">
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark">
   <div class="container-fluid">
     <RouterLink class="navbar-brand" to="/">
       <img src="../assets/img/crocojourney.png" width="40" height="40" class="d-inline-block align-text-top" alt="logo">

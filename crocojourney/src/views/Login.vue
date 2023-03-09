@@ -18,7 +18,7 @@
                     <div></div>
                         <div class="col-md-8 mx-auto form-floating">
                             <input ref="login" class="form-control" type="text" id="login" name="login" placeholder="Login">
-                            <label for="login" class="form-label">Mail</label>
+                            <label for="login" class="form-label ms-1">Mail</label>
                         </div>
                     <div></div>
                     
@@ -27,7 +27,7 @@
                     <div style="padding-top: 5%;"></div>
                         <div class="col-md-8 mx-auto form-floating">
                             <input ref="password" class="form-control col-md-8" type="password" id="password" name="password" placeholder="password">
-                            <label for="password" class="form-label">Mot de passe</label>
+                            <label for="password" class="form-label ms-1">Mot de passe</label>
                         </div>
                     <div></div>
                 </div>

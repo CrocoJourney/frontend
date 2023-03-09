@@ -172,6 +172,41 @@ class API {
                 });
         });
     }
+
+    static createJourney(firstname, lastname, mail, password, confirmPassword ) {
+        return new Promise((resolve, reject) => {
+            fetch(`${API.API_URL}/auth/login`, {
+                method: API.METHOD.POST,
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    Accept: 'application/json',
+                    'Sec-Fetch-Mode': 'cors',
+                    'Sec-Fetch-Site': 'same-origin',
+                    'Sec-Fetch-Dest': 'empty',
+                    Referer: window.location.origin,
+                },
+                mode: 'cors',
+                body: `username=${username}&password=${password}`,
+            })
+                .then((response) => {
+                    if (response.status === 200) {
+                        response.json().then(async (data) => {
+                            User.currentUser = new User();
+                            User.currentUser.accessToken = data.access_token;
+                            User.currentUser.refreshToken = data.refresh_token;
+                            await User.currentUser.fetchInfo();
+                            User.saveToLocalStorage();
+                            resolve(data);
+                        });
+                    } else {
+                        reject(response);
+                    }
+                })
+                .catch((err) => {
+                    reject(err);
+                });
+        });
+    }
 }
 window.API = API;
 export default API;

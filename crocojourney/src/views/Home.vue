@@ -11,12 +11,12 @@
                         </button>
                     </RouterLink>
                 </div>
-                <div v-else>
-                    <SearchBar />
-                </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <img src="../assets/img/favicon.ico" alt="Description de l'image" class="w-100 h-auto" />
+            </div>
+            <div v-if="User.isLoggedIn()">
+                <SearchBar />
             </div>
         </div>
     </div>

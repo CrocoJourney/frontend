@@ -3,7 +3,6 @@
 </script>
 
 <template>
-
     <div class="text-start mt-5 mb-4 col-md-6 mx-auto" id="alertsDiv">
         <!--<div class="alert alert-danger alert-dismissible fade show" role="alert">
             <div>
@@ -38,13 +37,13 @@
             <div class="col-md-4 mx-auto mb-4">
                 <h4>Sexe <span class="text-danger">*</span></h4>
                 <div class="form-check">
-                    <input ref="sex" class="form-check-input" type="radio" name="sexRadio" id="sexRadioHomme" checked>
+                    <input ref="sex" class="form-check-input" type="radio" name="sexRadio" id="sexRadioHomme" value="H" checked>
                     <label class="form-check-label" for="sexRadioHomme">
                         Homme
                     </label>
                 </div>
                 <div class="form-check">
-                    <input ref="sex" class="form-check-input" type="radio" name="sexRadio" id="sexRadioFemme">
+                    <input class="form-check-input" type="radio" name="sexRadio" id="sexRadioFemme" value="F">
                     <label class="form-check-label" for="sexRadioFemme">
                         Femme
                     </label>
@@ -72,7 +71,7 @@
             </div>
             <div class="col-md-6 mx-auto mb-4">
                 <div class="form-check form-switch">
-                    <input ref="vehicle" class="form-check-input" type="checkbox" value="yes" id="vehicle">
+                    <input ref="vehicle" class="form-check-input" type="checkbox" id="vehicle">
                     <label class="form-check-label" for="vehicle">
                         Je dispose d'un véhicule
                     </label>
@@ -122,7 +121,7 @@ export default defineComponent({
         async register() {
             const firstName = this.$refs.firstName;
             const lastName = this.$refs.lastName;
-            const sex = this.$refs.sex;
+            const male = this.$refs.sex;
             const email = this.$refs.email;
             const phone = this.$refs.phone;
             const vehicle = this.$refs.vehicle;
@@ -164,12 +163,13 @@ export default defineComponent({
                 valid = false;
             }
 
-            const hasVehicle = vehicle.value == "yes" ? true : false;
+            const hasVehicle = vehicle.checked;
+            const sex = male.checked ? "H" : "F";
 
+            console.log("Register attempted, as " + firstName.value + " " + lastName.value + " (" + sex + ")\n" + email.value + "\n" + phone.value + "\nHas a vehicle : " + hasVehicle + "\nPlain password : " + password.value + "/ " + passwordConfirm.value + "\nProfile picture : " + profilePic.value);
             if(valid){
-                console.log("Register attempted, as " + firstName.value + " " + lastName.value + " (" + sex.value + ")\n" + email.value + "\n" + phone.value + "\nHas a vehicle : " + hasVehicle + "\nPlain password : " + password.value + "/ " + passwordConfirm.value + "\nProfile picture : " + profilePic.value);
                 try {
-                    await API.register(firstName.value, lastName.value, email.value, phone.value, hasVehicle, profilePic, password.value);
+                    await API.register(firstName.value, lastName.value, sex, email.value, phone.value, hasVehicle, profilePic, password.value, passwordConfirm.value);
                     this.$router.push({ path: '/register' });
                     document.querySelector("#alertsDiv").innerHTML="<div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\"><div><strong>Inscription réussie !</strong> Vous pouvez désormais vous <RouterLink to=\"/login\" class=\"text-decoration-none\">connecter</RouterLink> pour commencer à utiliser CrocoJourney.<button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"alert\" aria-label=\"Close\"></button></div></div>";
                 } catch (error) {

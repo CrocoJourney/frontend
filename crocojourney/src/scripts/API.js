@@ -173,6 +173,41 @@ class API {
         });
     }
 
+    static register(firstName, lastName, sex, email, phone, hasVehicle, profilePic, password, passwordConfirm) {
+        return new Promise((resolve, reject) => {
+            fetch(`${API.API_URL}/users/`, {
+                method: API.METHOD.POST,
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    Accept: 'application/json',
+                    'Sec-Fetch-Mode': 'cors',
+                    'Sec-Fetch-Site': 'same-origin',
+                    'Sec-Fetch-Dest': 'empty',
+                    Referer: window.location.origin,
+                },
+                mode: 'cors',
+                body: `firstname=${firstName}&lastname=${lastName}&mail=${email}&password=${password}&confirmPassword=${passwordConfirm}&phonenumber=${phone}&car=${hasVehicle}&mailNotification=true`,
+            })
+                .then((response) => {
+                    if (response.status === 200) {
+                        response.json().then(async (data) => {
+                            User.currentUser = new User();
+                            User.currentUser.accessToken = data.access_token;
+                            User.currentUser.refreshToken = data.refresh_token;
+                            await User.currentUser.fetchInfo();
+                            User.saveToLocalStorage();
+                            resolve(data);
+                        });
+                    } else {
+                        reject(response);
+                    }
+                })
+                .catch((err) => {
+                    reject(err);
+                });
+        });
+    }
+
     static createJourney(firstname, lastname, mail, password, confirmPassword ) {
         return new Promise((resolve, reject) => {
             fetch(`${API.API_URL}/auth/login`, {

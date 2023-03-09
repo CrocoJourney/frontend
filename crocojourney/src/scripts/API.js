@@ -172,6 +172,40 @@ class API {
                 });
         });
     }
+
+    static reset(email) {
+        const JSONbody = JSON.stringify(
+            {
+              mail:email
+            });
+        return new Promise((resolve, reject) => {
+            fetch(`${API.API_URL}/auth/reset`, {
+                method: API.METHOD.POST,
+                headers: {
+                    'Content-Type': 'application/json',
+                    Accept: 'application/json',
+                    'Sec-Fetch-Mode': 'cors',
+                    'Sec-Fetch-Site': 'same-origin',
+                    'Sec-Fetch-Dest': 'empty',
+                    Referer: window.location.origin,
+                },
+                mode: 'cors',
+                body: JSONbody
+            })
+                .then((response) => {
+                    if (response.status === 200) {
+                        response.json().then(async (data) => {
+                            resolve(data);
+                        });
+                    } else {
+                        reject(response);
+                    }
+                })
+                .catch((err) => {
+                    reject(err);
+                });
+        });
+    }
 }
 window.API = API;
 export default API;

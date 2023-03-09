@@ -34,25 +34,26 @@
                         <h4 style="text-align: center;">Depart <br> <br>|<br>|<br>|<br>|<br>|<br>|<br>|<br><br>Destination </h4>
                     </div>
                     <!-- Partie moyenne droite (destination et étapes) -->
-                    <div class="" style="width: 50%; float: left; margin-top: 5%; overflow: scroll">
-                        <h4 class="overflow-auto">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius soluta corrupti iusto distinctio harum sit possimus ab aliquid voluptates! Fugiat aliquam enim provident in rem molestias tempora veniam, nisi amet.</h4>
-                        <h4 class="overflow-auto">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius soluta corrupti iusto distinctio harum sit possimus ab aliquid voluptates! Fugiat aliquam enim provident in rem molestias tempora veniam, nisi amet.</h4>
-                        <h4 class="overflow-auto">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius soluta corrupti iusto distinctio harum sit possimus ab aliquid voluptates! Fugiat aliquam enim provident in rem molestias tempora veniam, nisi amet.</h4>
+                    <div class="" style="width: 50%; float: left; margin-top: 5%; overflow: scroll; max-height: 40%;">
+                        <h4 class="">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius soluta corrupti iusto distinctio harum sit possimus ab aliquid voluptates! Fugiat aliquam enim provident in rem molestias tempora veniam, nisi amet.</h4>
+                        <h4 class="">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius soluta corrupti iusto distinctio harum sit possimus ab aliquid voluptates! Fugiat aliquam enim provident in rem molestias tempora veniam, nisi amet.</h4>
+                        <h4 class="">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius soluta corrupti iusto distinctio harum sit possimus ab aliquid voluptates! Fugiat aliquam enim provident in rem molestias tempora veniam, nisi amet.</h4>
                     </div>
                 </div>   
+                
+                </div>
                 <div class="form-check" style="width: 25%; float: none;">
                     <input style="margin-left: 10%; margin-top: 20%;" type="date">
                 </div>
-            </div>
         </div>
 
         <!-- Partie droite de l'écran -->
         <div class="col" style="float: left;">
             <div class="mx-5 ">
                 <h4>Précisions sur le lieu de rendez-vous</h4>
-                <textarea name="" id="" style="resize: none; width: 140%; height: 100px;"></textarea>
+                <textarea class="form-control"  name="" id="" style="resize: none; width: 140%; height: 100px;"></textarea>
                 <h4>Contraintes et commentaires</h4>
-                <textarea name="" id="" style="resize: none; width: 140%; height: 100px;"></textarea>
+                <textarea class="form-control" style="resize: none; width: 140%; height: 100px;"></textarea>
                 <div style="float: left; width: 100%; margin-top: 5%;">
 
                     <!-- Places -->
@@ -90,3 +91,30 @@
     </div>
 
 </template>
+
+<script>
+import { defineComponent } from 'vue';
+import API from "../scripts/API.js"
+import emitter from "../scripts/emitter.js"
+export default defineComponent({
+    name: 'Login',
+    methods: {
+        async login() {
+            const login = this.$refs.login.value;
+            const password = this.$refs.password.value;
+            if(!login || !password) return window.alert("Veuillez remplir tous les champs");
+            try {
+                await API.login(login, password);
+                // on envoie un event pour dire que l'utilisateur s'est connecté pour mettre à jour la navbar
+                emitter.emit('userUpdated');
+                this.$router.push({ path: '/' });
+            } catch (error) {
+                const json = await error.json();
+                console.log(json);
+                window.alert(json.detail);
+            }
+        }
+    }
+})
+
+</script>

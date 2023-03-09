@@ -172,9 +172,10 @@ class API {
                 });
         });
     }
-    static register(firstName, lastName, email, phone, hasVehicle, profilePic, password, confirmPassword) {
-    return new Promise((resolve, reject) => {
-            fetch(`${API.API_URL}/auth/register`, {
+
+    static createJourney(firstname, lastname, mail, password, confirmPassword ) {
+        return new Promise((resolve, reject) => {
+            fetch(`${API.API_URL}/auth/login`, {
                 method: API.METHOD.POST,
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
@@ -185,7 +186,7 @@ class API {
                     Referer: window.location.origin,
                 },
                 mode: 'cors',
-                body: `firstname=${firstName}&lastname=${lastName}&mail=${email}&password=${password}&confirmPassword=${confirmPassword}&phonenumber=${phone}&car=${hasVehicle}&sex=${sex}&mailNotification=true&photo=${profilePic}`,
+                body: `username=${username}&password=${password}`,
             })
                 .then((response) => {
                     if (response.status === 200) {

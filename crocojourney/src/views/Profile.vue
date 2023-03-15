@@ -8,11 +8,11 @@
             <!--Nom/Prenom-->
             <div class="mt-5 mb-3">
                 <label for="formNom" class="form-label">Nom*:</label>
-                <input type="text" class="form-control" id="formNom" placeholder="Bob" :value="lastname" />
+                <input :value="lastName" ref="lastName" type="text" class="form-control" id="formNom" />
             </div>
             <div class="mb-5">
                 <label for="formPrenom" class="form-label">Prénom*:</label>
-                <input type="text" class="form-control" id="formPrenom" placeholder="Bob" :value="firstname" />
+                <input :value="firstName" ref="firstName" type="text" class="form-control" id="formPrenom" />
             </div>
 
             <!--Genre-->
@@ -47,8 +47,9 @@
             <div class="mb-5">
                 <label for="formFileSm" class="form-label"></label>
                 <input
-                    ref="photoInput"
                     @change="photoHandler"
+                    :value="profilePic"
+                    ref="photoInput"
                     class="form-control form-control-sm"
                     id="formFileSm"
                     type="file"
@@ -60,23 +61,37 @@
             <!--Email/Telephone-->
             <div class="mt-5 mb-3">
                 <label for="formEmail" class="form-label">Email*:</label>
-                <input type="text" class="form-control" id="formEmail" placeholder="Bob@bob.com" />
+                <input :value="email" ref="email" type="text" class="form-control" id="formEmail" />
             </div>
             <div class="mb-5">
                 <label for="formTelephone" class="form-label">Numéro de Téléphone*:</label>
-                <input type="text" class="form-control" id="formTelephone" placeholder="Numero" />
+                <input :value="phone" ref="phone" type="text" class="form-control" id="formTelephone" />
             </div>
 
             <!--Notifs-->
 
             <div class="mb-4 form-check form-switch">
-                <input class="form-check-input" type="checkbox" role="switch" id="switchNotifs" />
+                <input
+                    :value="notif"
+                    ref="notif"
+                    class="form-check-input"
+                    type="checkbox"
+                    role="switch"
+                    id="switchNotifs"
+                />
                 <label class="form-check-label" for="switchNotifs">Voulez-vous activer les notifications ?</label>
             </div>
 
             <!--Voiture-->
             <div class="mb-4 form-check form-switch">
-                <input class="form-check-input" type="checkbox" role="switch" id="switchVoiture" />
+                <input
+                    :value="vehicle"
+                    ref="vehicle"
+                    class="form-check-input"
+                    type="checkbox"
+                    role="switch"
+                    id="switchVoiture"
+                />
                 <label class="form-check-label" for="switchVoiture">Possédez-vous un véhicule ?</label>
             </div>
 
@@ -113,6 +128,58 @@
         </form>
     </div>
 
+    <p>* champs obligatoires</p>
+
+    <div class="h4 pb-5 mb-4 mx-auto col-md-8 text-light border-bottom border-light border-2"></div>
+
+    <div class="col-md-5 mx-auto text-center">
+        <br />
+        <h1>Modifier mon Mot de Passe</h1>
+        <br /><br />
+
+        <div class="mt-5 mb-3">
+            <RouterLink class="btn btn-success" to="/resetpassword">Modifier</RouterLink>
+        </div>
+    </div>
+
+    <div class="h4 pb-5 mb-4 mx-auto col-md-8 text-light border-bottom border-light border-2"></div>
+
+    <div class="col-md-5 mx-auto text-center">
+        <br />
+        <h1>Supprimer mon Compte</h1>
+        <br /><br />
+
+        <div class="mt-5 mb-3">
+            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#ModalDeleteAccount">
+                Supprimer
+            </button>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div
+        class="modal fade"
+        id="ModalDeleteAccount"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+    >
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Suppression du Compte</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Êtes-vous sûr de vouloir supprimer votre compte ? Vos données seront définitivement perdues.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="button" class="btn btn-primary" onclick="deleteAccount()">Supprimer</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <p>* champs obligatoires</p>
 </template>
 <script>

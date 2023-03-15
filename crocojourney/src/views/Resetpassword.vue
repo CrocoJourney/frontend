@@ -17,7 +17,7 @@
                                 <small id="helpPassword" class="form-text">Le mot de passe doit contenir au moins 8 caractères</small>
                             </div>
                             
-                            <div class="col-md-6" style="padding-top: 3%; padding-bottom: 7%;">
+                            <div class="col-md-6 mx-auto" style="padding-top: 3%; padding-bottom: 7%;">
                                 <label for="ConfirmPassword">Confirmer le mot de passe</label>
                                 <input type="password" class="form-control" id="ConfirmPassword" placeholder="Mot de passe">
                             </div>  

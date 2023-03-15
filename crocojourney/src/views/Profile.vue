@@ -76,15 +76,14 @@
             <!--Mot de passe-->
             <div class="mt-5 mb-4">
                 <label for="pass" class="form-label">Mot de Passe*: (Entrez votre mot de passe pour modifier)</label>
-                <input ref="password" type="password" class="form-control" id="pass" name="password"  minlength="8" required>
+                <input :value="password" type="password" class="form-control" id="pass" name="password" required>
             </div>
 
             <!--Bouton Valider-->
-            <button type="submit" class="btn btn-success col-md-3 mb-4">Modifier</button>
+            <div class="btn btn-success col-md-3 mb-4" onclick="modifDatas()" >Modifier</div>
 
         </form>
 
-        <!-- <Profile firstName="Lyon" departure="Paris"  date="2023-04-10"  name="Bob"  rate="4.5"   price="10"></Profile> -->
     </div>
 
     <p>* champs obligatoires</p>
@@ -92,7 +91,7 @@
     <div class="h4 pb-5 mb-4 mx-auto col-md-8 text-light border-bottom border-light border-2"></div>
 
     <div class="col-md-5 mx-auto text-center">
-        <h1>Modifier mon Mot de Passe</h1>
+        <br><h1>Modifier mon Mot de Passe</h1><br><br>
 
         <div class="mt-5 mb-3">
             <RouterLink class="btn btn-success" to="/resetpassword">Modifier</RouterLink>
@@ -103,10 +102,10 @@
     <div class="h4 pb-5 mb-4 mx-auto col-md-8 text-light border-bottom border-light border-2"></div>
 
     <div class="col-md-5 mx-auto text-center">
-        <h1>Supprimer mon Compte</h1>
+        <br><h1>Supprimer mon Compte</h1><br><br>
 
         <div class="mt-5 mb-3">
-            <RouterLink class="btn btn-success" to="/deleteaccount">Supprimer</RouterLink>
+            <RouterLink class="btn btn-success" to="/deleteAccount">Supprimer</RouterLink>
         </div>
     </div>
     
@@ -139,23 +138,28 @@ export default defineComponent({
             
         }
         
-    },  
+    },
     
-    methods:{
-    
-    async profile(){
-            const firstName = this.$refs.firstName;
-            const lastName = this.$refs.lastName;
-            const genre = this.$refs.genre;
-            const email = this.$refs.email;
-            const phone = this.$refs.phone;
-            const vehicle = this.$refs.vehicle;
-            const notif = this.$refs.notif;
-            const profilePic = this.$refs.profilePic;
-            const password = this.$refs.password;
-            const passwordConfirm = this.$refs.passwordConfirm;
+    modifDatas(){
+
+        if(password == User.currentUser.password){
+
+            //Suppression datas
+            User.currentUser.lastname= lastName ;
+            User.currentUser.firstname= firstName ;
+            User.currentUser.phonenumber= phone ;
+            User.currentUser.mail= email ;
+            User.currentUser.sex= genre ;
+            User.currentUser.notif= notif ;
+            User.currentUser.vehicle= vehicle ;
+            User.currentUser.profilePic= profilePic;
+
+            //Deconnexion user
+            User.isLoggedIn(0);
 
         }
-    }
+
+            return;
+        }
 })
 </script>

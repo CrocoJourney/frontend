@@ -105,9 +105,30 @@
         <br><h1>Supprimer mon Compte</h1><br><br>
 
         <div class="mt-5 mb-3">
-            <RouterLink class="btn btn-success" to="/deleteAccount">Supprimer</RouterLink>
+            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#ModalDeleteAccount">Supprimer</button>
         </div>
     </div>
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="ModalDeleteAccount" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+         <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Suppression du Compte</h1>
+         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+         </div>
+         <div class="modal-body">
+            Êtes-vous sûr de vouloir supprimer votre compte ? Vos données seront définitivement perdues.
+          </div>
+          <div class="modal-footer">
+           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+          <button type="button" class="btn btn-primary" onclick="deleteAccount()">Supprimer</button>
+         </div>
+        </div>
+    </div>
+    </div>
+
     
 
     
@@ -160,6 +181,41 @@ export default defineComponent({
         }
 
             return;
+        },
+
+    methods: {
+
+      async deleteAccount(){
+
+
+        //les datas à null
+        User.currentUser.lastname= null ;
+        User.currentUser.firstname= null ;
+        User.currentUser.phonenumber= null ;
+        User.currentUser.mail= null ;
+        User.currentUser.sex= null ;
+        User.currentUser.notif= null ;
+        User.currentUser.vehicle = null ;
+        User.currentUser.profilePic = null ;
+
+        //suppression des datas
+        const res1 = await API.requestLogged(API.METHOD.POST, "/delete/users", JSONbody);
+
+        //deconnecte l'utilisateur (on vole Antonin)
+        const JSONbody = JSON.stringify(
+        {
+            refresh_token: User.currentUser.refreshToken
+        });
+        const res2 = await API.requestLogged(API.METHOD.POST, "/auth/logout", JSONbody);
+        // TODO : refacto dans User.js
+        if (res2.message === "ok") {
+              User.currentUser = undefined;
+            localStorage.removeItem('user');
+            this.$forceUpdate();
+            this.$router.push("/home"); // c'est la page d'accueil dans ce cas
         }
+
+      }
+    }
 })
 </script>

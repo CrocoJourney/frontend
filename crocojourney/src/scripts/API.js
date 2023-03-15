@@ -96,12 +96,9 @@ class API {
                 // si on a une erreur 401 on refresh les tokens
                 switch (err.status) {
                     case 401:
-                        console.log("faut qu'on refresh");
                         try {
                             await API.refreshTokens();
-                            console.log("ah pas refresh comme i faut");
                         } catch (err) {
-                            console.log("ah ptn");
                             reject(err);
                         }
                         // on refait la requete avec le nouveau token
@@ -187,18 +184,18 @@ class API {
         });
         return new Promise((resolve, reject) => {
             fetch(`${API.API_URL}/auth/reset`, {
-                method: API.METHOD.POST,
-                headers: {
-                    'Content-Type': 'application/json',
-                    Accept: 'application/json',
-                    'Sec-Fetch-Mode': 'cors',
-                    'Sec-Fetch-Site': 'same-origin',
-                    'Sec-Fetch-Dest': 'empty',
-                    Referer: window.location.origin,
-                },
-                mode: 'cors',
-                body: JSONbody,
-            })
+                    method: API.METHOD.POST,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Accept: 'application/json',
+                        'Sec-Fetch-Mode': 'cors',
+                        'Sec-Fetch-Site': 'same-origin',
+                        'Sec-Fetch-Dest': 'empty',
+                        Referer: window.location.origin,
+                    },
+                    mode: 'cors',
+                    body: JSONbody,
+                })
                 .then((response) => {
                     if (response.status === 200) {
                         response.json().then(async (data) => {
@@ -217,18 +214,18 @@ class API {
     static register(firstName, lastName, sex, email, phone, hasVehicle, profilePic, password, passwordConfirm) {
         return new Promise((resolve, reject) => {
             fetch(`${API.API_URL}/users/`, {
-                method: API.METHOD.POST,
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                    Accept: 'application/json',
-                    'Sec-Fetch-Mode': 'cors',
-                    'Sec-Fetch-Site': 'same-origin',
-                    'Sec-Fetch-Dest': 'empty',
-                    Referer: window.location.origin,
-                },
-                mode: 'cors',
-                body: `firstname=${firstName}&lastname=${lastName}&mail=${email}&password=${password}&confirmPassword=${passwordConfirm}&phonenumber=${phone}&car=${hasVehicle}&sex=${sex}&mailNotification=true`,
-            })
+                    method: API.METHOD.POST,
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        Accept: 'application/json',
+                        'Sec-Fetch-Mode': 'cors',
+                        'Sec-Fetch-Site': 'same-origin',
+                        'Sec-Fetch-Dest': 'empty',
+                        Referer: window.location.origin,
+                    },
+                    mode: 'cors',
+                    body: `firstname=${firstName}&lastname=${lastName}&mail=${email}&password=${password}&confirmPassword=${passwordConfirm}&phonenumber=${phone}&car=${hasVehicle}&sex=${sex}&mailNotification=true`,
+                })
                 .then((response) => {
                     if (response.status === 200) {
                         response.json().then(async (data) => {

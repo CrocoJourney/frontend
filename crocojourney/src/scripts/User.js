@@ -42,6 +42,18 @@ class User {
             return true;
         }
     }
+    static async logout() {
+        const JSONbody = JSON.stringify({
+            refresh_token: User.currentUser.refreshToken
+        });
+        const res = await API.requestLogged(API.METHOD.POST, "/auth/logout", JSONbody);
+        if(res.message ==="ok"){
+            User.currentUser = undefined;
+            localStorage.removeItem('user');
+        }else{
+            throw Error(res)
+        }
+    }
 }
 
 window.User = User;

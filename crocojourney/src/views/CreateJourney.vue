@@ -1,7 +1,7 @@
 <template>
     <div class="w-auto">
         <div  style="margin: 3%; float: none;">
-            <h1>Creer un nouveau trajet</h1>
+            <h1>Créer un nouveau trajet</h1>
         </div>
         <div class="row col-md-12">
         <!-- Partie gauche de l'écran -->
@@ -31,7 +31,7 @@
                     <!-- Partie moyenne Gauche (dessin) -->
                     <div class="">
                         <div class="col overflow-auto" style="width: 25%; float: left; margin-top: 5%;">
-                            <p style="text-align: center;">Depart <br> <br>|<br>|<br>|<br>|<br>|<br>|<br>|<br><br>Destination </p>
+                            <p style="text-align: center;">Départ <br> <br>|<br>|<br>|<br>|<br>|<br>|<br>|<br><br>Destination </p>
                         </div>
                         <!-- Partie moyenne droite (destination et étapes) -->
                         <div class="overflow-auto" style="overflow-y: scroll; max-height: 200px;">

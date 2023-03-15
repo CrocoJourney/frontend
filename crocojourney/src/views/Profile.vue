@@ -199,20 +199,21 @@ export default defineComponent({
         User.currentUser.profilePic = null ;
 
         //suppression des datas
-        const res1 = await API.requestLogged(API.METHOD.POST, "/delete/users", JSONbody);
+        try{
+            await User.delete();
+            window.alert("Compte supprimé")
+        }catch(error){
+            window.alert("Erreur lors de la supression du compte")
+        }
+        
 
         //deconnecte l'utilisateur (on vole Antonin)
-        const JSONbody = JSON.stringify(
-        {
-            refresh_token: User.currentUser.refreshToken
-        });
-        const res2 = await API.requestLogged(API.METHOD.POST, "/auth/logout", JSONbody);
-        // TODO : refacto dans User.js
-        if (res2.message === "ok") {
-              User.currentUser = undefined;
-            localStorage.removeItem('user');
+        try {
+            await User.logout();
             this.$forceUpdate();
-            this.$router.push("/home"); // c'est la page d'accueil dans ce cas
+            this.$router.push("/home");
+        } catch (error) {
+            window.alert("Erreur lors de la deconnexion")
         }
 
       }

@@ -48,7 +48,6 @@
                 <label for="formFileSm" class="form-label"></label>
                 <input
                     @change="photoHandler"
-                    :value="profilePic"
                     ref="photoInput"
                     class="form-control form-control-sm"
                     id="formFileSm"
@@ -192,9 +191,13 @@ export default {
     name: 'Profile',
     data() {
         return {
-            firstname: User.currentUser.firstname,
-            lastname: User.currentUser.lastname,
+            firstName: User.currentUser.firstname,
+            lastName: User.currentUser.lastname,
             photoPath: API.API_URL + '/static/pictures/' + (User.currentUser?.photoPath ?? 'default.png'),
+            email: User.currentUser.mail,
+            phone: User.currentUser.phonenumber,
+            notif: User.currentUser.mailNotification,
+            vehicle: User.currentUser.vehicle,
         };
     },
     methods: {
@@ -213,7 +216,7 @@ export default {
                 );
                 console.log(res);
             } catch (e) {
-                console.log('error', e);
+                console.log('error', await e.json());
             }
             await User.currentUser.fetchInfo();
             User.saveToLocalStorage();

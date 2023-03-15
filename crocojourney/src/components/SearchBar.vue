@@ -100,6 +100,11 @@ export default {
         return {
             communesDepart: [],
             communesArrivee: [],
+            choice:{
+                depart: '',
+                arrivee: '',
+                date: ''
+            }
         };
     },
     methods: {
@@ -153,11 +158,13 @@ export default {
             const inputDepart = document.getElementById('depart'); // obtenir l'élément d'entrée de départ en utilisant son ID
             inputDepart.value = `${commune.nom} (${commune.departement.nom} - ${commune.code.slice(0, 2)})`; // affecter la valeur sélectionnée à l'élément d'entrée de départ avec le nom de la commune, le nom du département et le code postal
             this.communesDepart = []; // effacer la liste des communes après la sélection
+            this.choice.depart = commune.code;
         },
         selectCommuneArrivee(commune) {
             const inputArrivee = document.getElementById('arrivee'); // obtenir l'élément d'entrée de départ en utilisant son ID
             inputArrivee.value = `${commune.nom} (${commune.departement.nom} - ${commune.code.slice(0, 2)})`; // affecter la valeur sélectionnée à l'élément d'entrée de départ avec le nom de la commune, le nom du département et le code postal
             this.communesArrivee = []; // effacer la liste des communes après la sélection
+            this.choice.arrivee = commune.code;
         },
 
         onSearchClick() {
@@ -169,10 +176,10 @@ export default {
             const date = inputDate.value;
             if (depart && arrivee && date) {
                 this.$router.push({
-                    name: 'search',
-                    params: {
-                        depart: depart,
-                        arrivee: arrivee,
+                    name: 'searchResults',
+                    query: {
+                        depart: this.choice.depart,
+                        arrivee: this.choice.arrivee,
                         date: date,
                     },
                 });

@@ -214,9 +214,8 @@ export default {
                     formDatas,
                     API.CONTENT_TYPE.FORM_DATA
                 );
-                console.log(res);
             } catch (e) {
-                console.log('error', await e.json());
+                window.alert('Erreur lors de la mise à jour de la photo de profil');
             }
             await User.currentUser.fetchInfo();
             User.saveToLocalStorage();

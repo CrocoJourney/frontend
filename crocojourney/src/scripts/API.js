@@ -51,7 +51,7 @@ class API {
             headerConstructor.append("Sec-Fetch-Dest", "empty");
             headerConstructor.append("Referer", window.location.origin);
             headerConstructor.append("Content-Type", contentType);
-            if (headers == this.CONTENT_TYPE.FORM_DATA) {
+            if (contentType == this.CONTENT_TYPE.FORM_DATA ) {
                 headerConstructor.delete("Content-Type")
             }
             headerConstructor.append("Accept", "application/json");

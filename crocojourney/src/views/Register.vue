@@ -166,16 +166,14 @@ export default defineComponent({
             const hasVehicle = vehicle.checked;
             const sex = male.checked ? "H" : "F";
 
-            console.log("Register attempted, as " + firstName.value + " " + lastName.value + " (" + sex + ")\n" + email.value + "\n" + phone.value + "\nHas a vehicle : " + hasVehicle + "\nPlain password : " + password.value + "/ " + passwordConfirm.value + "\nProfile picture : " + profilePic.value);
+            //console.log("Register attempted, as " + firstName.value + " " + lastName.value + " (" + sex + ")\n" + email.value + "\n" + phone.value + "\nHas a vehicle : " + hasVehicle + "\nPlain password : " + password.value + "/ " + passwordConfirm.value + "\nProfile picture : " + profilePic.value);
             if(valid){
                 try {
                     await API.register(firstName.value, lastName.value, sex, email.value, phone.value, hasVehicle, profilePic, password.value, passwordConfirm.value);
-                    this.$router.push({ path: '/register' });
                     console.log("OK");
                     document.querySelector("#alertsDiv").innerHTML="<div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\"><div><strong>Inscription réussie !</strong> Vous pouvez désormais vous <RouterLink to=\"/login\" class=\"text-decoration-none\">connecter</RouterLink> pour commencer à utiliser CrocoJourney.<button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"alert\" aria-label=\"Close\"></button></div></div>";
                 } catch (error) {
                     const json = await error.json();
-                    console.log(json);
                     document.querySelector("#alertsDiv").innerHTML="<div class=\"alert alert-danger alert-dismissible fade show\" role=\"alert\"><div><strong>Oups !</strong> Une erreur est survenue lors de votre inscription. (" + json.detail + ")<br><button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"alert\" aria-label=\"Close\"></button></div></div>"
                     this.$router.push({ path: '#' });
                 }

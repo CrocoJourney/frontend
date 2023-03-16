@@ -1,13 +1,13 @@
 <template>
-    <div class="w-auto">
-        <div  style="margin: 3%; float: none;">
-            <h1>Créer un nouveau trajet</h1>
+    <div class="w-auto px-5 vh-90">
+        <div class="mt-5 ms-4">
+            <h1>Creer un nouveau trajet</h1>
         </div>
         <div class="row col-md-12">
         <!-- Partie gauche de l'écran -->
             <!-- Partie haute -->
-            <div class="col">
-                <div style="margin-left: 10%;  height: 20%;">
+            <div class="col mt-5">
+                <div class="ms-5">
                     <h4>Votre trajet est <span class="text-danger">*</span></h4>
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="typeRadio" id="typeRadioPublique" checked>
@@ -23,18 +23,19 @@
                     </div>
                 </div>
                 <!-- Partie moyenne -->
-                <div style="margin-top: 4%; margin-left: 1%;">
-                    <div  style="margin-left: 8%;">
+                <div class="border">
+                    <div class="ms-5 mt-5">
                         <h3>Trajet</h3>
                     </div>
                     
                     <!-- Partie moyenne Gauche (dessin) -->
-                    <div class="">
-                        <div class="col overflow-auto" style="width: 25%; float: left; margin-top: 5%;">
-                            <p style="text-align: center;">Départ <br> <br>|<br>|<br>|<br>|<br>|<br>|<br>|<br><br>Destination </p>
+                    <div>
+                        <div class="row">
+                        <div class="col-md-2 overflow-auto mt-2">
+                            <p style="text-align: center;">Depart <br> <br>|<br>|<br>|<br>|<br>|<br>|<br>|<br><br>Destination </p>
                         </div>
                         <!-- Partie moyenne droite (destination et étapes) -->
-                        <div class="overflow-auto" style="overflow-y: scroll; max-height: 200px;">
+                        <div class="col-md-9 overflow-auto mt-2 border border-danger" style="overflow-y: scroll; height: 256px;">
                             <p class="">Paris</p>
                             <p class="">Nancy</p>
                             <p class="">Marseille</p>
@@ -54,9 +55,12 @@
                             <p class="">Marseille</p>
                         </div>
                     </div>   
-                    
                     </div>
-                    <div class="form-check" style="width: 25%; float: none;">
+                    <div>
+                        <button class="col ms-3">Ajouter Etape</button>
+                    </div>
+                </div>
+                    <div class="form-check mt-5" style="width: 25%; float: none;">
                         <input class="form-control" type="date">
                     </div>
             </div>

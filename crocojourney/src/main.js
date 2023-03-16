@@ -12,7 +12,7 @@ import CreateJourney from './views/CreateJourney.vue'
 import History from './views/History.vue'
 import API from './scripts/API'
 import Resetpassword from './views/Resetpassword.vue'
-import searchResults from './views/searchResults.vue'
+import searchResults from './views/SearchResults.vue'
 import {
     createRouter,
     createWebHistory

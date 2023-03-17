@@ -104,7 +104,7 @@ class API {
                         // on refait la requete avec le nouveau token
                         const res2 = await API.request(method, url, body, {
                             [API.AuthorizationHeader]: User.currentUser.accessToken,
-                        });
+                        },contentType);
                         switch (res2.status) {
                             case 200:
                                 resolve(res2);

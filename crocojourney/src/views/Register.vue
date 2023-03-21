@@ -89,7 +89,7 @@
                         <input ref="password" type="password" class="form-control" id="passwordInput" placeholder="f" required>
                         <label for="passwordInput" class="form-label">Mot de passe <span class="text-danger">*</span></label>
                         <div id="passwordInvalidFeedback" class="invalid-feedback">
-                            Veuillez entrer un mot de passe constitué d'au moins 6 caractères.
+                            Veuillez entrer un mot de passe constitué d'au moins 8 caractères.
                         </div>
                     </div>
                 </div>
@@ -155,7 +155,7 @@ export default defineComponent({
                 phone.classList.add("is-invalid");
                 valid = false;
             }
-            if(password.value.length < 6) {
+            if(password.value.length < 8) {
                 password.classList.add("is-invalid");
                 valid = false;
             }
@@ -167,16 +167,35 @@ export default defineComponent({
             const hasVehicle = vehicle.checked;
             const sex = male.checked ? "H" : "F";
 
-            console.log("Register attempted, as " + firstName.value + " " + lastName.value + " (" + sex + ")\n" + email.value + "\n" + phone.value + "\nHas a vehicle : " + hasVehicle + "\nPlain password : " + password.value + "/ " + passwordConfirm.value + "\nProfile picture : " + profilePic.value);
+            //console.log("Register attempted, as " + firstName.value + " " + lastName.value + " (" + sex + ")\n" + email.value + "\n" + phone.value + "\nHas a vehicle : " + hasVehicle + "\nPlain password : " + password.value + "/ " + passwordConfirm.value + "\nProfile picture : " + profilePic.value);
             if(valid){
                 try {
-                    await API.register(firstName.value, lastName.value, sex, email.value, phone.value, hasVehicle, profilePic, password.value, passwordConfirm.value);
-                    this.$router.push({ path: '/register' });
+                    //await API.register(firstName.value, lastName.value, sex, email.value, phone.value, hasVehicle, profilePic, password.value, passwordConfirm.value);
+                    const formDatas = new FormData();
+                    formDatas.append('firstname', firstName.value);
+                    formDatas.append('lastname', lastName.value);
+                    formDatas.append('mail', email.value);
+                    formDatas.append('password', password.value);
+                    formDatas.append('confirmPassword', passwordConfirm.value);
+                    formDatas.append('car', hasVehicle);
+                    formDatas.append('sex', sex);
+                    formDatas.append('phonenumber', phone.value);
+                    formDatas.append('mailNotification', 'true');
+                    formDatas.append('photo', profilePic.files[0]);
+                    
+                    const res = await API.request(
+                        API.METHOD.POST,
+                        '/users/',
+                        formDatas,
+                        undefined,
+                        API.CONTENT_TYPE.FORM_DATA
+                    );
+                    console.log("OK");
                     document.querySelector("#alertsDiv").innerHTML="<div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\"><div><strong>Inscription réussie !</strong> Vous pouvez désormais vous <RouterLink to=\"/login\" class=\"text-decoration-none\">connecter</RouterLink> pour commencer à utiliser CrocoJourney.<button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"alert\" aria-label=\"Close\"></button></div></div>";
                 } catch (error) {
-                    const json = await error.json();
-                    console.log(json);
-                    window.alert(json.detail);
+                    document.querySelector("#alertsDiv").innerHTML="<div class=\"alert alert-danger alert-dismissible fade show\" role=\"alert\"><div><strong>Oups !</strong> Une erreur est survenue lors de votre inscription. (Code " + error.status + " : " + error.statusText + ")<br><button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"alert\" aria-label=\"Close\"></button></div></div>"
+                    this.$router.push({ path: '#' });
+                    console.log(error);
                 }
             }
         }

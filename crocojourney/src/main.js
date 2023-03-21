@@ -10,7 +10,6 @@ import Recovery from './views/Recovery.vue'
 import Profile from './views/Profile.vue'
 import CreateJourney from './views/CreateJourney.vue'
 import CreateGroup from './views/CreateGroup.vue'
-
 import History from './views/History.vue'
 import API from './scripts/API'
 import Resetpassword from './views/Resetpassword.vue'
@@ -19,6 +18,8 @@ import {
     createRouter,
     createWebHistory
 } from 'vue-router'
+
+import "bootstrap-icons/font/bootstrap-icons.json";
 
 const router = createRouter({
     history: createWebHistory(),

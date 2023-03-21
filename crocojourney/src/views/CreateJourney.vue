@@ -10,7 +10,7 @@
                 <div class="ms-5">
                     <h4>Votre trajet est <span class="text-danger">*</span></h4>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="typeRadio" id="typeRadioPublique" checked>
+                        <input class="form-check-input" type="radio" name="typeRadio" ref="typeRadioPublique" checked>
                         <label class="form-check-label" for="typeRadioPublique">
                             Publique
                         </label>
@@ -35,7 +35,9 @@
                             <p style="text-align: center;">Depart <br> <br>|<br>|<br>|<br>|<br>|<br>|<br>|<br><br>Destination </p>
                         </div>
                         <!-- Partie moyenne droite (destination et étapes) -->
-                        <div class="col-md-9 overflow-auto mt-2 border border-danger" style="overflow-y: scroll; height: 256px;">
+                        <ListEtape ref="etapes"/>
+                        <!--<div ref="trajet" class="col-md-9 overflow-auto mt-2 border border-danger" style="overflow-y: scroll; height: 256px;">
+                            <SearchBar />
                             <p class="">Paris</p>
                             <p class="">Nancy</p>
                             <p class="">Marseille</p>
@@ -53,11 +55,11 @@
                             <p class="">Marseille</p>
                             <p class="">Marseille</p>
                             <p class="">Marseille</p>
-                        </div>
+                        </div>-->
                     </div>   
                     </div>
                     <div>
-                        <button class="col ms-3">Ajouter Etape</button>
+                        <button class="col ms-3" @click="ajouterEtape">Ajouter Etape</button>
                     </div>
                 </div>
                     <div class="form-check mt-5" style="width: 25%; float: none;">
@@ -69,9 +71,9 @@
             <div class="col">
                 <div class="mx-5 ">
                     <h4>Précisions sur le lieu de rendez-vous</h4>
-                    <textarea class="form-control mb-4" rows="3" name="" id="" style="resize: none;"></textarea>
+                    <textarea class="form-control mb-4" rows="3" name="" ref="precisionsRDV" style="resize: none;"></textarea>
                     <h4>Contraintes et commentaires</h4>
-                    <textarea class="form-control mb-4" rows="3" style="resize: none;"></textarea>
+                    <textarea class="form-control mb-4" rows="3" name="" ref="contraintes" style="resize: none;"></textarea>
                     <div >
 
                         <!-- Places -->
@@ -111,28 +113,86 @@
 </template>
 
 <script>
+
+
 import { defineComponent } from 'vue';
 import API from "../scripts/API.js"
 import emitter from "../scripts/emitter.js"
+import SearchBar from '../components/SearchBar.vue';
+import ListEtape from '../components/ListEtape.vue';
 export default defineComponent({
     name: 'Login',
+    components:{
+        SearchBar,
+        ListEtape,
+    },
     methods: {
-        async login() {
-            const login = this.$refs.login.value;
-            const password = this.$refs.password.value;
-            if(!login || !password) return window.alert("Veuillez remplir tous les champs");
-            try {
-                await API.login(login, password);
-                // on envoie un event pour dire que l'utilisateur s'est connecté pour mettre à jour la navbar
-                emitter.emit('userUpdated');
-                this.$router.push({ path: '/' });
-            } catch (error) {
-                const json = await error.json();
-                console.log(json);
-                window.alert(json.detail);
+        async createJourney() {
+            const typeRadioPublique = this.$refs.typeRadioPublique;
+            const precisionsRDV = this.$refs.precisionsRDV;
+            const contraintes = this.$refs.contraintes;
+            const places = this.$refs.places;
+            const prix = this.$refs.prix;
+            const date = this.$refs.date;
+            
+            let valid = true;
+
+            typeRadioPublique.classList.remove("is-invalid");
+            precisionsRDV.classList.remove("is-invalid");
+            contraintes.classList.remove("is-invalid");
+            places.classList.remove("is-invalid");
+            prix.classList.remove("is-invalid");
+            date.classList.remove("is-invalid");
+            
+            /**if(firstName.value.length < 1) {
+                firstName.classList.add("is-invalid");
+                valid = false;
             }
+            if(lastName.value.length < 1) {
+                lastName.classList.add("is-invalid");
+                valid = false;
+            }
+            if(email.value.length < 3) {
+                email.classList.add("is-invalid");
+                valid = false;
+            }
+            if(phone.value.length < 10 || phone.value.length > 12) {
+                phone.classList.add("is-invalid");
+                valid = false;
+            }
+            if(password.value.length < 6) {
+                password.classList.add("is-invalid");
+                valid = false;
+            }
+            if(password.value != passwordConfirm.value || passwordConfirm.value == "") {
+                passwordConfirm.classList.add("is-invalid");
+                valid = false;
+            }
+
+            const hasVehicle = vehicle.checked;
+            const sex = male.checked ? "H" : "F";
+
+            **/
+            console.log("Trajet attempted, as " + typeRadioPublique.value + " " + precisionsRDV.value + " (" + contraintes.value + ")\n" + places.value + "\n" + prix.value + "\nDate : " + date.value );
+            if(valid){
+                try {
+                    await API.createJourney(typeRadioPublique.value, precisionsRDV.value, contraintes.value, places.value, prix.value, date.value);
+                    this.$router.push({ path: '/register' });
+                    document.querySelector("#alertsDiv").innerHTML="<div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\"><div><strong>Inscription réussie !</strong> Vous pouvez désormais vous <RouterLink to=\"/login\" class=\"text-decoration-none\">connecter</RouterLink> pour commencer à utiliser CrocoJourney.<button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"alert\" aria-label=\"Close\"></button></div></div>";
+                } catch (error) {
+                    const json = await error.json();
+                    console.log(json);
+                    window.alert(json.detail);
+                }
+            }
+        },
+         ajouterEtape(){
+            this.$refs.etapes.addItem();
         }
     }
 })
+
+console.log("t")
+
 
 </script>

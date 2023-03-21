@@ -246,9 +246,9 @@ class API {
         });
     }
 
-    static createJourney(firstname, lastname, mail, password, confirmPassword) {
+    static createJourney(title,departure, group, arrival, typeRadioPublique, precisionsRDV, contraintes, places, prix, date) {
         return new Promise((resolve, reject) => {
-            fetch(`${API.API_URL}/auth/login`, {
+            fetch(`${API.API_URL}/trips/`, {
                     method: API.METHOD.POST,
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',
@@ -259,16 +259,11 @@ class API {
                         Referer: window.location.origin,
                     },
                     mode: 'cors',
-                    body: `username=${username}&password=${password}`,
+                    body: `title=${title}&size=${places}&constraints=${contraintes}&precisions=${precisionsRDV}&price=${prix}&private=${typeRadioPublique}&steps=${password}&departure=${departure}&group=${group}&arrival=${arrival}&date=${date}`,
                 })
                 .then((response) => {
                     if (response.status === 200) {
                         response.json().then(async (data) => {
-                            User.currentUser = new User();
-                            User.currentUser.accessToken = data.access_token;
-                            User.currentUser.refreshToken = data.refresh_token;
-                            await User.currentUser.fetchInfo();
-                            User.saveToLocalStorage();
                             resolve(data);
                         });
                     } else {

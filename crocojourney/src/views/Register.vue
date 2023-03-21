@@ -114,6 +114,7 @@
 
 import { defineComponent } from 'vue';
 import API from "../scripts/API.js"
+import SearchBar from '../components/SearchBar.vue';
 import emitter from "../scripts/emitter.js"
 export default defineComponent({
     name: 'Register',

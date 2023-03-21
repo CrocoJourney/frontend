@@ -100,14 +100,20 @@ export default {
         return {
             communesDepart: [],
             communesArrivee: [],
-            choice:{
+            choice: {
                 depart: '',
                 arrivee: '',
-                date: ''
-            }
+                date: '',
+            },
         };
     },
     methods: {
+        updateVilleDepart(event) {
+            this.villeDepart = event.target.value;
+        },
+        fetchCommunesDepart() {
+            // ...
+        },
         fetchCommunesArrivee(event) {
             const searchTerm = event.target.value.trim(); // obtenir la valeur de l'entrée de recherche et supprimer les espaces blancs de début et de fin
             if (searchTerm.length < 3) {
@@ -176,7 +182,7 @@ export default {
             const date = inputDate.value;
             if (depart && arrivee && date) {
                 this.$router.push({
-                    name: 'searchResults',
+                    name: 'searchTrips',
                     query: {
                         depart: this.choice.depart,
                         arrivee: this.choice.arrivee,

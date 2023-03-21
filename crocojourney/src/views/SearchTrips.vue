@@ -1,6 +1,10 @@
 <template>
     <!--Place Holder Trouvé-->
 
+    <div class="container my -3 mt-3 mb-3">
+        <SearchBar />
+    </div>
+
     <div class="card">
         <div class="card-body">
             <div class="container text-center">
@@ -40,7 +44,7 @@
     <!--Place Holder Vide-->
 
     <div class="card" aria-hidden="true">
-        <img src="..." class="card-img-top" alt="..." />
+        <img src="" class="card-img-top" alt="..." />
         <div class="card-body">
             <h5 class="card-title placeholder-glow">
                 <span class="placeholder col-6"></span>
@@ -56,3 +60,59 @@
         </div>
     </div>
 </template>
+<script>
+import { useRoute } from 'vue-router';
+import { defineComponent } from 'vue';
+import SearchBar from '../components/SearchBar.vue';
+import API from '../scripts/API';
+
+export default defineComponent({
+    name: 'SearchTrips',
+    components: {
+        SearchBar,
+    },
+    data() {
+        return {
+            departure: '',
+            arrival: '',
+            date: '',
+        };
+    },
+    mounted() {
+        // si les paramètres de la route sont définis, on lance la recherche
+        const route = useRoute();
+        //this.departure = route.query.departure;
+        this.arrival = route.query.arrival;
+        this.date = route.query.date;
+        if (this.departure.length > 0 && this.arrival.length > 0) {
+            this.searchTrips(this.departure, this.arrival, this.date);
+        }
+    },
+    methods: {
+        async searchTrips(departure, arrival, date) {
+            // TODO: search trips via API
+            try {
+                const res = await API.requestLogged(
+                    API.METHOD.GET,
+                    `/trips?departure=${departure}&arrival=${arrival}${date ? `&date=${date}` : ''}`
+                );
+                console.log(res);
+            } catch (error) {}
+        },
+    },
+    watch: {
+        $route: {
+            handler: function (to, from) {
+                // update search results if query changed
+                this.departure = to.query.departure;
+                this.arrival = to.query.arrival;
+                this.date = to.query.date;
+                if (this.departure.length > 0 && this.arrival.length > 0) {
+                    this.searchTrips(this.departure, this.arrival, this.date);
+                }
+            },
+            deep: true,
+        },
+    },
+});
+</script>

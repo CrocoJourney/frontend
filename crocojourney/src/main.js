@@ -9,11 +9,10 @@ import Register from './views/Register.vue'
 import Recovery from './views/Recovery.vue'
 import Profile from './views/Profile.vue'
 import CreateJourney from './views/CreateJourney.vue'
-import CreateGroup from './views/CreateGroup.vue'
 import History from './views/History.vue'
 import API from './scripts/API'
 import Resetpassword from './views/Resetpassword.vue'
-import searchResults from './views/SearchResults.vue'
+import SearchTrips from './views/SearchTrips.vue'
 import {
     createRouter,
     createWebHistory
@@ -49,17 +48,13 @@ const router = createRouter({
             component: CreateJourney
         },
         {
-            path: '/creategroup',
-            component: CreateGroup
-        },
-        {
             path: '/history',
             component: History
         },
         {
-            name: 'searchResults',
-            path: '/searchResults',
-            component: searchResults
+            name: 'searchTrips',
+            path: '/searchTrips',
+            component: SearchTrips
         },
         {
             path: '/:pathMatch(.*)*',

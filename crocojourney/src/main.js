@@ -13,11 +13,13 @@ import CreateGroup from './views/CreateGroup.vue'
 import History from './views/History.vue'
 import API from './scripts/API'
 import Resetpassword from './views/Resetpassword.vue'
-import searchResults from './views/SearchResults.vue'
+import SearchTrips from './views/SearchTrips.vue'
 import {
     createRouter,
     createWebHistory
 } from 'vue-router'
+
+import "bootstrap-icons/font/bootstrap-icons.json";
 
 const router = createRouter({
     history: createWebHistory(),
@@ -57,9 +59,9 @@ const router = createRouter({
             component: History
         },
         {
-            name: 'searchResults',
-            path: '/searchResults',
-            component: searchResults
+            name: 'searchTrips',
+            path: '/searchTrips',
+            component: SearchTrips
         },
         {
             path: '/:pathMatch(.*)*',

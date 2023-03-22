@@ -7,6 +7,7 @@
           <img src="../assets/img/crocojourney.png" width="40" height="40" class="d-inline-block align-text-center" alt="logo">
           CrocoJourney
         </span>
+        <i class="bi bi-bell"></i>
       </RouterLink>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-list-4"
         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -26,6 +27,37 @@
           </li>
         </ul>
         <ul class="navbar-nav ms-auto">
+
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" id="navbarBellNotif" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-bell"></i><span class="badge bg-danger">3</span>
+              </a>
+              <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
+
+                <li class="dropdown-item">
+                  <div class="d-flex flex-column">
+                    <h5 class="mb-1">Titre notification</h5>
+                    <p class="mb-1">Description notification</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                      <button class="btn btn-success btn-sm">Accepter</button>
+                      <button class="btn btn-danger btn-sm">Refuser</button>
+                    </div>
+                  </div>
+                </li>
+                <li class="dropdown-divider"></li>
+
+                <li class="dropdown-item">
+                  <div class="d-flex flex-column">
+                    <h5 class="mb-1">Titre notification</h5>
+                    <p class="mb-1">Description notification</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                    </div>
+                  </div>
+                </li>
+                <li class="dropdown-divider"></li>
+                
+              </ul>
+            </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
               data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -87,3 +119,11 @@ export default defineComponent({
   }
 })
 </script>
+
+<style>
+.dropdown-menu {
+  max-height: 35vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+</style>

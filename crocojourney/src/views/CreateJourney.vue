@@ -35,7 +35,8 @@
                             <p style="text-align: center;">Depart <br> <br>|<br>|<br>|<br>|<br>|<br>|<br>|<br><br>Destination </p>
                         </div>
                         <!-- Partie moyenne droite (destination et étapes) -->
-                        <ListEtape ref="etapes"/>
+                        <ListEtape></ListEtape>
+                        <!--<ListEtape ref="etapes"/>-->
                         <!--<div ref="trajet" class="col-md-9 overflow-auto mt-2 border border-danger" style="overflow-y: scroll; height: 256px;">
                             <SearchBar />
                             <p class="">Paris</p>
@@ -95,7 +96,7 @@
 
                     </div>
 
-                    <div >
+                    <div>
                         <!-- bouton Gerer le départ -->
                         <div class="col" style="float:left;width:50%; margin-top: 10%;">
                             <button class="btn btn-success">Créer le trajet</button>
@@ -128,6 +129,26 @@ export default defineComponent({
     },
     methods: {
         async createJourney() {
+
+            var jsonAEnvoyer = {
+                "title": "string",
+                "size": 0,
+                "constraints": "string",
+                "precisions": "string",
+                "price": 0,
+                "private": true,
+                "steps": [
+                    {
+                    "city_id": "string",
+                    "order": 0
+                    }
+                ],
+                "departure": "string",
+                "group": 0,
+                "arrival": "string",
+                "date": "2023-03-21T21:55:04.916Z"
+            }
+
             const typeRadioPublique = this.$refs.typeRadioPublique;
             const precisionsRDV = this.$refs.precisionsRDV;
             const contraintes = this.$refs.contraintes;
@@ -143,6 +164,48 @@ export default defineComponent({
             places.classList.remove("is-invalid");
             prix.classList.remove("is-invalid");
             date.classList.remove("is-invalid");
+
+            let group
+
+            if(typeRadioPublique == "Publique"){
+                group = 0;
+            }else{
+                //à changer plus tard
+                group = 0; 
+            }
+                
+            
+
+
+            var jsonAEnvoyer = {
+                "title": "string",
+                "size": 0,
+                "constraints": contraintes,
+                "precisions": precisionsRDV,
+                "price": prix,
+                "private": typeRadioPublique,
+                "steps": [
+                    {
+                    "city_id": "string",
+                    "order": 0
+                    }
+                ],
+                "departure": "string",
+                "group": group,
+                "arrival": "string",
+                "date": "2023-03-21T21:55:04.916Z"
+            }
+
+
+
+            try{
+                const res = await API.requestLogged(
+                    API.METHOD.POST,
+
+                )
+            }catch (e){
+
+            }
             
             /**if(firstName.value.length < 1) {
                 firstName.classList.add("is-invalid");

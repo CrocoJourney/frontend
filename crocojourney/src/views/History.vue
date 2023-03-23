@@ -109,15 +109,6 @@
     </div>
 </template>
 
-<script>
-    import { defineComponent } from 'vue';
-    import API from "../scripts/API.js"
-    import emitter from "../scripts/emitter.js"
-    export default defineComponent({
-
-    })
-</script>
-
 <style>
     .scrollable{
       height: calc(50vh - 3.5rem);

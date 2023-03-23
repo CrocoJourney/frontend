@@ -19,7 +19,7 @@ import {
     createWebHistory
 } from 'vue-router'
 
-import "bootstrap-icons/font/bootstrap-icons.json";
+import "bootstrap-icons/font/bootstrap-icons.css";
 
 const router = createRouter({
     history: createWebHistory(),

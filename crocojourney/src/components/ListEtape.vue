@@ -45,7 +45,7 @@
         <br>
         <button @click="addButton">Ajouter un bouton</button>
             <div v-for="(button, index) in buttons" :key="index">
-            <label>{{ button.etapesValue }}</label>
+            <label :id="'label_' + index">{{ button.etapesValue }}{{ button.etapeCode }}</label>
             <button :id="'button_' + index" @click="addButton(index + 1)">Ajouter un bouton</button>
             </div>
         <br>
@@ -146,6 +146,7 @@
             <input type="date" id="date" name="date" class="form-control" />
         </div>
     </div>
+    <button @click="afficherListeEtape">Afficher la liste des étapes</button>
 </template>
 
 <script>
@@ -153,6 +154,7 @@ export default {
     data() {
         return {
             buttons: [],
+            listeEtapes: [],
             etapesValue: "",
             communesDepart: [],
             communesEtape: [],
@@ -280,13 +282,36 @@ export default {
         addButton(index) {
             const newButton = {
                 id: index,
-                etapesValue: this.etapesValue
+                etapesValue: this.etapesValue,
+                etapeCode: this.choice.etape
             };
             this.buttons.splice(index, 0, newButton);
             for (let i = index + 1; i < this.buttons.length; i++) {
                 const buttonId = document.getElementById(`button_${i}`);
                 buttonId.id = `button_${i + 1}`;
             }
+        },
+        afficherListeEtape(){
+            this.listeEtapes = []
+            for (let i = 0 ; i < this.buttons.length; i++) {
+                const buttonId = document.getElementById(`button_${i}`);
+                console.log(buttonId);
+                let codeVille = this.buttons[i].etapeCode
+                let valLabel={
+                    city_id: codeVille,
+                    order: i}
+                this.listeEtapes.push(valLabel)
+
+                /**valLabel={nomVille, i}
+                this.listeEtapes.push(valLabel)
+                **/
+            }
+            console.log(
+                    this.listeEtapes
+                )
+            console.log(this.choice.depart)
+            console.log(this.choice.arrivee)
+            
         }
     },
 };

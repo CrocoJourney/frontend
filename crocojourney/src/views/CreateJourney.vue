@@ -35,7 +35,7 @@
                             <p style="text-align: center;">Depart <br> <br>|<br>|<br>|<br>|<br>|<br>|<br>|<br><br>Destination </p>
                         </div>
                         <!-- Partie moyenne droite (destination et étapes) -->
-                        <ListEtape></ListEtape>
+                        <ListEtape ref="listeEtape"></ListEtape>
                         <!--<ListEtape ref="etapes"/>-->
                         <!--<div ref="trajet" class="col-md-9 overflow-auto mt-2 border border-danger" style="overflow-y: scroll; height: 256px;">
                             <SearchBar />
@@ -64,7 +64,7 @@
                     </div>
                 </div>
                     <div class="form-check mt-5" style="width: 25%; float: none;">
-                        <input class="form-control" type="date">
+                        <input class="form-control" type="date" ref="date">
                     </div>
             </div>
 
@@ -81,7 +81,7 @@
                         <span class="col" style="float:left;width:50%;">
                             <h4>Places</h4>
                             <div class="form-floating" style="width: 80%;">
-                                <input ref="login" class="form-control" type="text" id="login" name="login" placeholder="Login">
+                                <input ref="places" class="form-control">
                             </div>
                         </span>
                     
@@ -90,7 +90,7 @@
                         <span class="col" style="float:left;width:50%;">
                             <h4>Prix</h4>
                             <div class="form-floating" style="width: 80%;">
-                                <input ref="login" class="form-control" type="text" id="login" name="login" placeholder="Login">
+                                <input ref="prix" class="form-control">
                             </div>
                         </span>
 
@@ -99,7 +99,7 @@
                     <div>
                         <!-- bouton Gerer le départ -->
                         <div class="col" style="float:left;width:50%; margin-top: 10%;">
-                            <button class="btn btn-success">Créer le trajet</button>
+                            <button class="btn btn-success" @click="createJourney">Créer le trajet</button>
                         </div>
                         <!-- bouton Retour -->
                         <div class="col" style="float:left;width:50%; margin-top: 10%;">
@@ -149,22 +149,27 @@ export default defineComponent({
                 "date": "2023-03-21T21:55:04.916Z"
             }
 
-            const typeRadioPublique = this.$refs.typeRadioPublique;
-            const precisionsRDV = this.$refs.precisionsRDV;
-            const contraintes = this.$refs.contraintes;
-            const places = this.$refs.places;
-            const prix = this.$refs.prix;
-            const date = this.$refs.date;
-            
+            const typeRadioPublique = this.$refs.typeRadioPublique.value;
+            const precisionsRDV = this.$refs.precisionsRDV.value;
+            const contraintes = this.$refs.contraintes.value;
+            const places = this.$refs.places.value;
+            const prix = this.$refs.prix.value;
+            //const date = this.$refs.date.value;
+            const listeEtape = this.$refs.listeEtape
+            listeEtape.afficherListeEtape()
+            const listeDesEtapes = listeEtape.listeEtapes
+            const depart = listeEtape.choice.depart
+            const arrivee = listeEtape.choice.arrivee
+
             let valid = true;
 
-            typeRadioPublique.classList.remove("is-invalid");
+            /**typeRadioPublique.classList.remove("is-invalid");
             precisionsRDV.classList.remove("is-invalid");
             contraintes.classList.remove("is-invalid");
             places.classList.remove("is-invalid");
             prix.classList.remove("is-invalid");
             date.classList.remove("is-invalid");
-
+            **/
             let group
 
             if(typeRadioPublique == "Publique"){
@@ -179,32 +184,30 @@ export default defineComponent({
 
             var jsonAEnvoyer = {
                 "title": "string",
-                "size": 0,
+                "size": Number(places),
                 "constraints": contraintes,
                 "precisions": precisionsRDV,
-                "price": prix,
-                "private": typeRadioPublique,
-                "steps": [
-                    {
-                    "city_id": "string",
-                    "order": 0
-                    }
-                ],
-                "departure": "string",
-                "group": group,
-                "arrival": "string",
+                "price": Number(prix),
+                "private": true,//typeRadioPublique
+                "steps": listeDesEtapes,
+                "departure": depart,
+                "group": 1  ,//Number(group)
+                "arrival": arrivee,
                 "date": "2023-03-21T21:55:04.916Z"
             }
-
-
+            console.log("la bete :")
+            console.log(jsonAEnvoyer)
 
             try{
                 const res = await API.requestLogged(
                     API.METHOD.POST,
+                    '/trips/',
+                    jsonAEnvoyer,
+                    API.CONTENT_TYPE.JSON
 
                 )
             }catch (e){
-
+                    Window.alert("attention, erreur durant l'envoir du trajet au backend")
             }
             
             /**if(firstName.value.length < 1) {

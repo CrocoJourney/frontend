@@ -258,7 +258,5 @@ export default defineComponent({
     }
 })
 
-console.log("t")
-
 
 </script>

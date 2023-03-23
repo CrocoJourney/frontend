@@ -60,7 +60,7 @@ const router = createRouter({
         },
         {
             name: 'searchTrips',
-            path: '/searchTrips',
+            path: '/search',
             component: SearchTrips
         },
         {

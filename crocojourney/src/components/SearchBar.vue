@@ -8,6 +8,7 @@
                 placeholder="Ville de départ"
                 id="depart"
                 name="depart"
+                ref="depart"
                 class="form-control basicAutoComplete"
                 autocomplete="off"
                 @input="fetchCommunesDepart"
@@ -50,6 +51,7 @@
                 placeholder="Ville d'arrivée"
                 id="arrivee"
                 name="arrivee"
+                ref="arrivee"
                 class="form-control basicAutoComplete"
                 autocomplete="off"
                 @input="fetchCommunesArrivee"
@@ -87,7 +89,7 @@
         <!-- Input de la date de départ -->
         <div class="input-group me-1">
             <span class="input-group-text">Date :</span>
-            <input type="date" id="date" name="date" class="form-control" />
+            <input type="date" id="date" name="date" ref="date" class="form-control" />
         </div>
         <!-- Bouton de recherche -->
         <button class="btn btn-success" @click="onSearchClick">Rechercher</button>
@@ -180,15 +182,16 @@ export default {
             const depart = inputDepart.value;
             const arrivee = inputArrivee.value;
             const date = inputDate.value;
-            if (depart && arrivee && date) {
+            if (depart && arrivee) {
                 this.$router.push({
-                    name: 'searchTrips',
+                    path: 'search',
                     query: {
-                        depart: this.choice.depart,
-                        arrivee: this.choice.arrivee,
+                        departure: this.choice.depart,
+                        arrival: this.choice.arrivee,
                         date: date,
                     },
                 });
+                this.$forceUpdate(); // rafraîchit les composants
             }
         },
     },

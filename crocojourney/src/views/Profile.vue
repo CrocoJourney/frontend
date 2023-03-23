@@ -187,11 +187,8 @@ export default {
         };
     },
     methods: {
-        async deleteAccountBis(event) {
-            API.requestLogged(API.METHOD.DELETE, `/users/${User.currentUser.id}`, undefined, API.CONTENT_TYPE.JSON);
-        },
         async deleteAccount(event) {
-            await this.deleteAccountBis();
+            API.requestLogged(API.METHOD.DELETE, `/users/${User.currentUser.id}`, undefined, API.CONTENT_TYPE.JSON);
             User.currentUser = null;
             User.saveToLocalStorage(User.currentUser);
             emitter.emit('userUpdated');
@@ -200,7 +197,7 @@ export default {
         },
         async redirectToHomePage() {
             await this.$router.push('/');
-            await this.$router.go();
+            this.$router.go();
         },
 
         photoHandler(event) {

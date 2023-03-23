@@ -1,59 +1,107 @@
 <template>
-    <div class="container">
-        <figure class="text-center">
-            <p class="h1">Historique des trajets</p>
-        </figure>
-
-        <div class="container" style="margin-top: 5%;">
+    <div class="container-fluid vh-100">
+        <div class="row" style="margin-top: 3%;">
             <figure class="text-center">
-                <p class="h2">Liste des trajets en tant que passager</p>
+                <p class="h1">Historique des trajets</p>
             </figure>
-            <div class="col-md-8" style="width: auto;">
-                <div class="scrollable">
-                    <div class="card" style="width: 100%; height: 120px;">
-                        <h4 class="card-title" style="margin: auto;">Trajet n°</h4>
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-10">
-                                    <p class="card-text" style="margin-left: 1%;">Ville départ:      Ville d'arrivée:</p>
-                                    <p class="card-text" style="margin-left: 1%; margin-bottom: 1%;">Date départ:       Date d'arrivée:</p>
-                                </div>
-                                <div class="col">
-                                    
-                                </div>
-                                <div class="col">
-                                    <a href="#" class="btn btn-success">Noter</a>
+        </div>
+
+        <div class="row">
+            <div class="container-fluid" style="margin-top: 2%;">
+                <figure class="text-center">
+                    <p class="h2">Mes trajets en tant que passager</p>
+                </figure>
+                <div class="col-md-8" style="width: auto; margin-left: 1%; margin-right: 1%;">
+                    <div class="scrollable">
+                        <div class="card">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h4 class="card-title" style="margin: auto">Titre:</h4>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="container-fluid">
+                                            <div class="row">
+                                                <div class="col-10">
+                                                    <div class="container-fluid">
+                                                        <div class="row" style="margin-top: 1%;">
+                                                            <div class="col-md-6">
+                                                                <p class="card-text">Ville départ:</p>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <p class="card-text">Ville d'arrivée:</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row" style="margin-bottom: 1%;">
+                                                            <div class="col-md-12">
+                                                                <p class="card-text">Date départ:</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col">
+                                                    
+                                                </div>
+                                                <div class="col">
+                                                    <a href="#" class="btn btn-success">Noter</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>                           
+                        </div>                        
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="container" style="margin-top: 5%;">
-            <figure class="text-center">
-                <p class="h2">Liste des trajets en tant que passager</p>
-            </figure>
-            <div class="col-md-8" style="width: auto;">
-                <div class="scrollable">
-                    <div class="card" style="width: 100%; height: 120px;">
-                        <h4 class="card-title" style="margin: auto;">Trajet n°</h4>
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-10">
-                                    <p class="card-text" style="margin-left: 1%;">Ville départ:      Ville d'arrivée:</p>
-                                    <p class="card-text" style="margin-left: 1%; margin-bottom: 1%;">Date départ:       Date d'arrivée:</p>
-                                </div>
-                                <div class="col">
-                                    
-                                </div>
-                                <div class="col">
-                                    <a href="#" class="btn btn-success">Noter</a>
+        <div class="row">
+            <div class="container-fluid" style="margin-top: 4%;">
+                <figure class="text-center">
+                    <p class="h2">Mes trajets en tant que conducteur</p>
+                </figure>
+                <div class="col-md-8" style="width: auto; margin-left: 1%; margin-right: 1%;">
+                    <div class="scrollable">
+                        <div class="card">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h4 class="card-title" style="margin: auto">Titre:</h4>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="container-fluid">
+                                            <div class="row">
+                                                <div class="col-10">
+                                                    <div class="container-fluid">
+                                                        <div class="row" style="margin-top: 1%;">
+                                                            <div class="col-md-6">
+                                                                <p class="card-text">Ville départ:</p>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <p class="card-text">Ville d'arrivée:</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row" style="margin-bottom: 1%;">
+                                                            <div class="col-md-12">
+                                                                <p class="card-text">Date départ:</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col">
+                                                    
+                                                </div>
+                                                <div class="col">
+                                                    <a href="#" class="btn btn-success">Noter</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>                           
+                        </div>                        
+                    </div>
                 </div>
             </div>
         </div>
@@ -61,10 +109,18 @@
     </div>
 </template>
 
+<script>
+    import { defineComponent } from 'vue';
+    import API from "../scripts/API.js"
+    import emitter from "../scripts/emitter.js"
+    export default defineComponent({
+
+    })
+</script>
 
 <style>
     .scrollable{
-        height: 120px;
-        overflow-y: scroll;
+      height: calc(50vh - 3.5rem);
+      overflow-y: auto;
     }    
 </style>

@@ -195,19 +195,36 @@ export default defineComponent({
                 "arrival": arrivee,
                 "date": "2023-03-21T21:55:04.916Z"
             }
+
+            jsonAEnvoyer = {
+                title: "trajet",
+                size: Number(places),
+                constraints: contraintes,
+                precisions: precisionsRDV,
+                price: Number(prix),
+                private: true,
+                steps: listeDesEtapes,
+                departure: depart,
+                group: 1,
+                arrival: arrivee,
+                date: "2023-03-23T10:17:02.983Z"
+                }
+            
+            let resEnvoie = JSON.stringify(jsonAEnvoyer)
             console.log("la bete :")
-            console.log(jsonAEnvoyer)
+            console.log(resEnvoie)
 
             try{
                 const res = await API.requestLogged(
                     API.METHOD.POST,
                     '/trips/',
-                    jsonAEnvoyer,
+                    resEnvoie,
                     API.CONTENT_TYPE.JSON
 
                 )
+                console.log(res)
             }catch (e){
-                    Window.alert("attention, erreur durant l'envoir du trajet au backend")
+                console.log(e) 
             }
             
             /**if(firstName.value.length < 1) {
@@ -239,18 +256,7 @@ export default defineComponent({
             const sex = male.checked ? "H" : "F";
 
             **/
-            console.log("Trajet attempted, as " + typeRadioPublique.value + " " + precisionsRDV.value + " (" + contraintes.value + ")\n" + places.value + "\n" + prix.value + "\nDate : " + date.value );
-            if(valid){
-                try {
-                    await API.createJourney(typeRadioPublique.value, precisionsRDV.value, contraintes.value, places.value, prix.value, date.value);
-                    this.$router.push({ path: '/register' });
-                    document.querySelector("#alertsDiv").innerHTML="<div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\"><div><strong>Inscription réussie !</strong> Vous pouvez désormais vous <RouterLink to=\"/login\" class=\"text-decoration-none\">connecter</RouterLink> pour commencer à utiliser CrocoJourney.<button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"alert\" aria-label=\"Close\"></button></div></div>";
-                } catch (error) {
-                    const json = await error.json();
-                    console.log(json);
-                    window.alert(json.detail);
-                }
-            }
+            //console.log("Trajet attempted, as " + typeRadioPublique.value + " " + precisionsRDV.value + " (" + contraintes.value + ")\n" + places.value + "\n" + prix.value + "\nDate : " + date.value );
         },
          ajouterEtape(){
             this.$refs.etapes.addItem();
@@ -259,4 +265,6 @@ export default defineComponent({
 })
 
 
-</script>
+</script>{"detail":[{"loc":["body",1],
+"msg":"Expecting value: line 1 column 2 (char 1)","type":"value_error.jsondecode"
+,"ctx":{"msg":"Expecting value","doc":"[object Object]","pos":1,"lineno":1,"colno":2}}]}

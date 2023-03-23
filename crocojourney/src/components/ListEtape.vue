@@ -297,9 +297,11 @@ export default {
                 const buttonId = document.getElementById(`button_${i}`);
                 console.log(buttonId);
                 let codeVille = this.buttons[i].etapeCode
+                //codeVille.replace('\'','\"')
                 let valLabel={
-                    city_id: codeVille,
+                    city_id: Number(codeVille),
                     order: i}
+                JSON.stringify(valLabel)
                 this.listeEtapes.push(valLabel)
 
                 /**valLabel={nomVille, i}

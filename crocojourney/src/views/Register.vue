@@ -181,7 +181,7 @@ export default defineComponent({
                     formDatas.append('sex', sex);
                     formDatas.append('phonenumber', phone.value);
                     formDatas.append('mailNotification', 'true');
-                    formDatas.append('photo', profilePic.files[0]);
+                    if(profilePic.files.length > 0) formDatas.append('photo', profilePic.files[0]);
                     
                     const res = await API.request(
                         API.METHOD.POST,

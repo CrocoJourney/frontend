@@ -61,7 +61,7 @@ export default defineComponent({
             }
             if(!valid) return;
             try {
-                await API.login(login, password);
+                await API.login(login.value, password.value);
                 // on envoie un event pour dire que l'utilisateur s'est connecté pour mettre à jour la navbar
                 emitter.emit("userUpdated");
                 this.$router.go(-1);

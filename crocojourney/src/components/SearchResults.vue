@@ -1,6 +1,4 @@
 <template>
-    <!--Place Holder Trouvé-->
-
     <div class="card">
         <div class="card-body">
             <div class="container text-center">
@@ -33,11 +31,14 @@
                 <div class="row align-items-center">
                     <div class="col-12 col-md-5 col-lg-2 text-end fs-5 fw-semibold">{{ rate }}/5</div>
                     <div class="col-12 col-md-2 col-lg-8 text-center fs-5 fw-bold">{{ title }}</div>
-                    <div class="col-12 col-md-5 col-lg-2 text-start fs-5 fw-semibold">{{ price }}$</div>
+                    <div class="col-12 col-md-5 col-lg-2 text-start fs-5 fw-semibold">{{ price }}€</div>
+                    <div class="col-12 col-md-5 col-lg-2 text-start fs-5 fw-semibold">{{ id }}</div>
                 </div>
             </div>
 
-            <RouterLink to="#" class="btn btn-primary mt-4 mb-2">Accepter</RouterLink>
+            <RouterLink :to="{ name: 'DetailTrip', params: { id: id } }" class="btn btn-success mt-4 mb-2"
+                >Voir plus</RouterLink
+            >
         </div>
     </div>
 </template>
@@ -57,6 +58,10 @@ export default defineComponent({
         this.photoUrl = `${API.API_URL}/static/pictures/${this.photo}`;
     },
     props: {
+        id: {
+            type: Number,
+            required: true,
+        },
         departure: {
             type: String,
             required: true,

@@ -35,6 +35,7 @@
     <div class="container my-3 mt-3 mb-3">
         <div v-for="trip of sortedTrips">
             <SearchResults
+                :id="trip.id"
                 :photo="trip.photo"
                 :departure="trip.departure"
                 :arrival="trip.arrival"
@@ -128,17 +129,21 @@ export default defineComponent({
                 res.forEach(async (element) => {
                     const driver = await API.requestLogged(API.METHOD.GET, `/users/${element.driver_id}`, undefined);
                     const date = new Date(element.date);
-                    this.trips.push({
-                        departure: element.departure_name,
-                        arrival: element.arrival_name,
-                        date: element.date,
-                        title: element.title,
-                        price: element.price.toString(),
-                        time: `${date}`,
-                        photo: driver.photoPath,
-                        rate: '4.5',
-                        driver: element.driver_id,
-                    });
+                    const now = new Date();
+                    if (date.getTime() - now.getTime() > 24) {
+                        this.trips.push({
+                            id: element.id,
+                            departure: element.departure_name,
+                            arrival: element.arrival_name,
+                            date: element.date,
+                            title: element.title,
+                            price: element.price.toString(),
+                            time: `${date}`,
+                            photo: driver.photoPath,
+                            rate: '4.5',
+                            driver: element.driver_id,
+                        });
+                    }
                 });
             } catch (error) {}
         },

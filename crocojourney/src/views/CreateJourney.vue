@@ -8,19 +8,27 @@
             <!-- Partie haute -->
             <div class="col mt-5">
                 <div class="ms-5">
+
+                    <span class="col" style="float:left;width:50%;">
+                            <h4>Titre</h4>
+                            <div class="form-floating" style="width: 80%;">
+                                <input ref="titre" class="form-control">
+                            </div>
+                    </span>
+
                     <h4>Votre trajet est <span class="text-danger">*</span></h4>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="typeRadio" ref="typeRadioPublique" checked>
-                        <label class="form-check-label" for="typeRadioPublique">
-                            Publique
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input " type="radio" name="typeRadio" id="typeRadioPrive">
-                        <label class="form-check-label" for="typeRadioPrive">
-                            Privé
-                        </label>
-                    </div>
+                    <input ref="sex" class="form-check-input" type="radio" name="sexRadio" id="sexRadioHomme" value="H" checked>
+                    <label class="form-check-label" for="sexRadioHomme">
+                        Public
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="sexRadio" id="sexRadioFemme" value="F">
+                    <label class="form-check-label" for="sexRadioFemme">
+                        Prive
+                    </label>
+                </div>
                 </div>
                 <!-- Partie moyenne -->
                 <div class="">
@@ -39,8 +47,13 @@
                         <button class="col ms-3 btn btn-secondary" @click="ajouterEtape">Ajouter une étape</button>
                     </div>
                 </div>
+                    <!--La date-->
                     <div class="form-check mt-5" style="width: 25%; float: none;">
-                        <input class="form-control" type="date" ref="date">
+                        <input class="form-control" id="date" type="date" v-model="selectedDate">
+                    </div>
+                    <!--L'heure-->
+                    <div class="form-check mt-5" style="width: 25%; float: none;">
+                        <input class="form-control" id="time" type="time" v-model="selectedTime">
                     </div>
             </div>
 
@@ -102,6 +115,13 @@ import SearchBar from '../components/SearchBar.vue';
 import ListEtape from '../components/ListEtape.vue';
 export default defineComponent({
     name: 'Login',
+    data() {
+    return {
+      selectedDate: '',
+      selectedTime: '',
+      combinedDateTime: ''
+    }
+  },
     components:{
         SearchBar,
         ListEtape,
@@ -128,12 +148,16 @@ export default defineComponent({
                 "date": "2023-03-21T21:55:04.916Z"
             }
 
-            const typeRadioPublique = this.$refs.typeRadioPublique.value;
+            //const typeRadioPublique = this.$refs.typeRadioPublique.value;
             const precisionsRDV = this.$refs.precisionsRDV.value;
             const contraintes = this.$refs.contraintes.value;
             const places = this.$refs.places.value;
             const prix = this.$refs.prix.value;
+            const titre = this.$refs.titre.value;
+
             //const date = this.$refs.date.value;
+            //const time = this.$refs.time.value;
+
             const listeEtape = this.$refs.listeEtape
             listeEtape.afficherListeEtape()
             const listeDesEtapes = listeEtape.listeEtapes
@@ -151,42 +175,45 @@ export default defineComponent({
             **/
             let group
 
-            if(typeRadioPublique == "Publique"){
+            /**if(typeRadioPublique == "Publique"){
                 group = 0;
             }else{
                 //à changer plus tard
                 group = 0; 
-            }
+            }**/
                 
             
 
+            //let dateFusion = date+time
+            const combined = new Date(`${this.selectedDate}T${this.selectedTime}:00.000Z`);
+            combined.toISOString();
+            console.log(combined);
 
-            var jsonAEnvoyer = {
-                "title": "string",
-                "size": Number(places),
-                "constraints": contraintes,
-                "precisions": precisionsRDV,
-                "price": Number(prix),
-                "private": true,//typeRadioPublique
-                "steps": listeDesEtapes,
-                "departure": depart,
-                "group": 1  ,//Number(group)
-                "arrival": arrivee,
-                "date": "2023-03-21T21:55:04.916Z"
+            const male = this.$refs.sex;
+            const prive = male.checked ? false : true;
+
+            console.log(prive);
+
+
+            let groupe;
+            if(prive){
+                groupe = 1;
+            }else{
+                groupe = 0;
             }
 
-            jsonAEnvoyer = {
-                title: "trajet",
+            var jsonAEnvoyer = {
+                title: titre,
                 size: Number(places),
                 constraints: contraintes,
                 precisions: precisionsRDV,
                 price: Number(prix),
-                private: true,
+                private: prive,
                 steps: listeDesEtapes,
                 departure: depart,
-                group: 1,
+                group: groupe,
                 arrival: arrivee,
-                date: "2023-03-23T10:17:02.983Z"
+                date: combined
                 }
             
             let resEnvoie = JSON.stringify(jsonAEnvoyer)

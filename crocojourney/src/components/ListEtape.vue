@@ -42,6 +42,54 @@
             </ul>
         </div>
 
+
+                <!-- Input de la ville d'étape -->
+                <div class="input-group position-relative flex-nowrap">
+            <span class="input-group-text">à :</span>
+            <input
+                ref="inputEtape"
+                type="text"
+                placeholder="Ville d'étape"
+                id="etape"
+                name="etape"
+                class="form-control basicAutoComplete"
+                autocomplete="off"
+                v-model.lazy="etapesValue"
+                @input="fetchCommunesEtape"
+                @keydown.escape="communesEtape = []"
+                
+            />
+
+            <!-- Liste des communes proposées en autocomplete -->
+            <ul
+                class="list-group mb-3"
+                style="
+                    position: absolute;
+                    top: 100%;
+                    left: 0;
+                    z-index: 1;
+                    width: 100%;
+                    background-color: #fff;
+                    border: 1px solid #ccc;
+                    border-top: none;
+                    list-style: none;
+                    padding: 0;
+                    margin: 0;
+                "
+                v-if="communesEtape.length"
+            >
+                <li
+                    class="list-group-item"
+                    v-for="commune in communesEtape"
+                    :key="commune.code"
+                    @mousedown.prevent="selectCommuneEtape(commune)"
+                >
+                    {{ commune.nom }} ({{ commune.departement.nom }} - {{ commune.code.slice(0, 2) }})
+                </li>
+            </ul>
+        </div>
+
+
         <br>
         <button class="btn btn-secondary" @click="addButton">Ajouter un bouton</button>
             <div v-for="(button, index) in buttons" :key="index">
@@ -94,57 +142,9 @@
         </div>
 
                 
-        <!-- Input de la ville d'étape -->
-        <div class="input-group position-relative flex-nowrap">
-            <span class="input-group-text">à :</span>
-            <input
-                ref="inputEtape"
-                type="text"
-                placeholder="Ville d'étape"
-                id="etape"
-                name="etape"
-                class="form-control basicAutoComplete"
-                autocomplete="off"
-                v-model.lazy="etapesValue"
-                @input="fetchCommunesEtape"
-                @keydown.escape="communesEtape = []"
-                
-            />
 
-            <!-- Liste des communes proposées en autocomplete -->
-            <ul
-                class="list-group mb-3"
-                style="
-                    position: absolute;
-                    top: 100%;
-                    left: 0;
-                    z-index: 1;
-                    width: 100%;
-                    background-color: #fff;
-                    border: 1px solid #ccc;
-                    border-top: none;
-                    list-style: none;
-                    padding: 0;
-                    margin: 0;
-                "
-                v-if="communesEtape.length"
-            >
-                <li
-                    class="list-group-item"
-                    v-for="commune in communesEtape"
-                    :key="commune.code"
-                    @mousedown.prevent="selectCommuneEtape(commune)"
-                >
-                    {{ commune.nom }} ({{ commune.departement.nom }} - {{ commune.code.slice(0, 2) }})
-                </li>
-            </ul>
-        </div>
 
-        <!-- Input de la date de départ -->
-        <div class="input-group me-1">
-            <span class="input-group-text">Date :</span>
-            <input type="date" id="date" name="date" class="form-control" />
-        </div>
+
     </div>
     <button @click="afficherListeEtape">Afficher la liste des étapes</button>
 </template>

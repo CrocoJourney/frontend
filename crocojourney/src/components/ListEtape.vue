@@ -1,5 +1,5 @@
 <template>
-    <div class=" mb-1">
+    <div class="mt-4">
         <!-- Input de la ville de départ -->
         <div class="input-group position-relative flex">
             <span class="input-group-text">De :</span>
@@ -43,10 +43,10 @@
         </div>
 
         <br>
-        <button @click="addButton">Ajouter un bouton</button>
+        <button class="btn btn-secondary" @click="addButton">Ajouter un bouton</button>
             <div v-for="(button, index) in buttons" :key="index">
             <label :id="'label_' + index">{{ button.etapesValue }}{{ button.etapeCode }}</label>
-            <button :id="'button_' + index" @click="addButton(index + 1)">Ajouter un bouton</button>
+            <button class="btn btn-secondary" :id="'button_' + index" @click="addButton(index + 1)">+</button>
             </div>
         <br>
 

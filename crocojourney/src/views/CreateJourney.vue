@@ -1,9 +1,9 @@
 <template>
     <div class="w-auto px-5 vh-90">
         <div class="mt-5 ms-4">
-            <h1>Creer un nouveau trajet</h1>
+            <h1>Créer un nouveau trajet</h1>
         </div>
-        <div class="row col-md-12">
+        <div class="row container-fluid">
         <!-- Partie gauche de l'écran -->
             <!-- Partie haute -->
             <div class="col mt-5">
@@ -23,44 +23,20 @@
                     </div>
                 </div>
                 <!-- Partie moyenne -->
-                <div class="border">
+                <div class="">
                     <div class="ms-5 mt-5">
-                        <h3>Trajet</h3>
+                        <h4>Trajet</h4>
                     </div>
                     
                     <!-- Partie moyenne Gauche (dessin) -->
                     <div>
-                        <div class="row">
-                        <div class="col-md-2 overflow-auto mt-2">
-                            <p style="text-align: center;">Depart <br> <br>|<br>|<br>|<br>|<br>|<br>|<br>|<br><br>Destination </p>
-                        </div>
+
                         <!-- Partie moyenne droite (destination et étapes) -->
                         <ListEtape ref="listeEtape"></ListEtape>
-                        <!--<ListEtape ref="etapes"/>-->
-                        <!--<div ref="trajet" class="col-md-9 overflow-auto mt-2 border border-danger" style="overflow-y: scroll; height: 256px;">
-                            <SearchBar />
-                            <p class="">Paris</p>
-                            <p class="">Nancy</p>
-                            <p class="">Marseille</p>
-                            <p class="">Marseille</p>
-                            <p class="">Marseille</p>
-                            <p class="">Marseille</p>
-                            <p class="">Marseille</p>
-                            <p class="">Marseille</p>
-                            <p class="">Marseille</p>
-                            <p class="">Marseille</p>
-                            <p class="">Marseille</p>
-                            <p class="">Marseille</p>
-                            <p class="">Marseille</p>
-                            <p class="">Marseille</p>
-                            <p class="">Marseille</p>
-                            <p class="">Marseille</p>
-                            <p class="">Marseille</p>
-                        </div>-->
-                    </div>   
+
                     </div>
                     <div>
-                        <button class="col ms-3" @click="ajouterEtape">Ajouter Etape</button>
+                        <button class="col ms-3 btn btn-secondary" @click="ajouterEtape">Ajouter une étape</button>
                     </div>
                 </div>
                     <div class="form-check mt-5" style="width: 25%; float: none;">
@@ -70,41 +46,44 @@
 
             <!-- Partie droite de l'écran -->
             <div class="col">
-                <div class="mx-5 ">
+                <div class="mx-5">
                     <h4>Précisions sur le lieu de rendez-vous</h4>
                     <textarea class="form-control mb-4" rows="3" name="" ref="precisionsRDV" style="resize: none;"></textarea>
                     <h4>Contraintes et commentaires</h4>
                     <textarea class="form-control mb-4" rows="3" name="" ref="contraintes" style="resize: none;"></textarea>
-                    <div >
+                    <div class="row">
 
                         <!-- Places -->
-                        <span class="col" style="float:left;width:50%;">
+                        <div class="col">
                             <h4>Places</h4>
-                            <div class="form-floating" style="width: 80%;">
-                                <input ref="places" class="form-control">
+                            <div class="form-floating">
+                                <input ref="places" class="form-control" type="number">
                             </div>
-                        </span>
+                        </div>
                     
-
                         <!-- Prix -->
-                        <span class="col" style="float:left;width:50%;">
+                        <div class="col">
                             <h4>Prix</h4>
-                            <div class="form-floating" style="width: 80%;">
-                                <input ref="prix" class="form-control">
+                            <div class="form-floating input-group">
+                                <input ref="prix" class="form-control" type="number">
+                                <span class="input-group-text" id="eur">€</span>
                             </div>
-                        </span>
+                        </div>
 
                     </div>
 
-                    <div>
+                    <div class="row">
+
                         <!-- bouton Gerer le départ -->
-                        <div class="col" style="float:left;width:50%; margin-top: 10%;">
-                            <button class="btn btn-success" @click="createJourney">Créer le trajet</button>
+                        <div class="col">
+                            <button class="btn btn-success mt-4" @click="createJourney">Créer le trajet</button>
                         </div>
+
                         <!-- bouton Retour -->
-                        <div class="col" style="float:left;width:50%; margin-top: 10%;">
-                            <button class="btn btn-danger">Retour</button>
+                        <div class="col">
+                            <RouterLink class="btn btn-danger mt-4" to="/">Retour</RouterLink>
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -263,8 +242,4 @@ export default defineComponent({
         }
     }
 })
-
-
-</script>{"detail":[{"loc":["body",1],
-"msg":"Expecting value: line 1 column 2 (char 1)","type":"value_error.jsondecode"
-,"ctx":{"msg":"Expecting value","doc":"[object Object]","pos":1,"lineno":1,"colno":2}}]}
+</script>

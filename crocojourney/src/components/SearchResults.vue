@@ -32,7 +32,6 @@
                     <div class="col-12 col-md-5 col-lg-2 text-end fs-5 fw-semibold">{{ rate }}/5</div>
                     <div class="col-12 col-md-2 col-lg-8 text-center fs-5 fw-bold">{{ title }}</div>
                     <div class="col-12 col-md-5 col-lg-2 text-start fs-5 fw-semibold">{{ price }}€</div>
-                    <div class="col-12 col-md-5 col-lg-2 text-start fs-5 fw-semibold">{{ id }}</div>
                 </div>
             </div>
 
@@ -55,7 +54,7 @@ export default defineComponent({
         };
     },
     mounted() {
-        this.photoUrl = `${API.API_URL}/static/pictures/${this.photo}`;
+        this.photoUrl = `${API.API_URL}/static/pictures/` + (this.photo ?? 'default.png');
     },
     props: {
         id: {

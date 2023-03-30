@@ -70,8 +70,7 @@ export default defineComponent({
             arrival: '',
             date: '',
             trips: [],
-            driver: '',
-            sortBy: 'price_asc',
+            sortBy: '',
         };
     },
     computed: {
@@ -99,7 +98,6 @@ export default defineComponent({
                     sortedTrips.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
                     break;
                 default:
-                    sortedTrips.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
             }
 
             return sortedTrips;
@@ -126,7 +124,7 @@ export default defineComponent({
                 const res = await API.requestLogged(API.METHOD.GET, url, undefined);
                 // refresh component
                 this.trips = [];
-                res.forEach(async (element) => {
+                for await (const element of res) {
                     const driver = await API.requestLogged(API.METHOD.GET, `/users/${element.driver_id}`, undefined);
                     const date = new Date(element.date);
                     const now = new Date();
@@ -139,12 +137,12 @@ export default defineComponent({
                             title: element.title,
                             price: element.price.toString(),
                             time: `${date}`,
-                            photo: driver.photoPath,
-                            rate: '4.5',
                             driver: element.driver_id,
+                            photo: driver.photoPath,
+                            rate: '4',
                         });
                     }
-                });
+                }
             } catch (error) {}
         },
         changeSortOrder(event) {

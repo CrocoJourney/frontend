@@ -21,6 +21,7 @@
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
               <RouterLink class="dropdown-item" to="/createjourney">Créer un trajet</RouterLink>
+              <RouterLink class="dropdown-item" to="/currenttrips">Mes trajets en cours</RouterLink>
               <RouterLink class="dropdown-item" to="/history">Historique des trajets</RouterLink>
             </ul>
           </li>
@@ -36,38 +37,45 @@
         <ul class="navbar-nav ms-auto">
             
             <li class="nav-item dropdown" style="padding-right: 4px;">
-              <a class="nav-link dropdown-toggle d-flex align-items-center custom-dropdown-toggle" id="navbarBellNotif" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color:white;">
-                <i class="bi bi-bell icon-size"></i>
+              <a @click="this.getNotifications" class="nav-link dropdown-toggle d-flex align-items-center custom-dropdown-toggle" id="navbarBellNotif" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color:white;">
+                <i class="bi bi-bell icon-size-bell"></i>
                   <sup>
-                    <span class="badge bg-danger">3</span>
+                    <span class="badge bg-danger" v-if="count>0">{{count}}</span>
                   </sup>
               </a>
               <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
-
-                <li class="dropdown-item">
-                  <div class="d-flex flex-column">
-                    <h5 class="mb-1">Titre notification</h5>
-                    <p class="mb-1">Description notification</p>
+                <span v-for="notification in notifications">
+                  <li v-if="notification.action" class="dropdown-item" style="position: relative;">
                     <div class="d-flex justify-content-between align-items-center">
-                      <button class="btn btn-success btn-sm">Accepter</button>
-                      <button class="btn btn-danger btn-sm">Refuser</button>
+                      <div class="d-flex flex-column">
+                        <h5 class="mb-1" style="margin-top: 1%;">Nouveau participant</h5>
+                        <p class="mb-1" style="font-size: .9rem;">{{notification.content}}</p>
+                        <div class="d-flex justify-content-between align-items-center" style="margin-top: 2%;">
+                          <button class="btn btn-success btn-sm" style="margin-left: 10%;">Accepter</button>
+                          <button class="btn btn-danger btn-sm" style="margin-right: 10%;">Refuser</button>
+                        </div>
+                        <button class="btn p-0">
+                          <i class="bi bi-x-square-fill text-danger icon-size-x" style="position: absolute; top: 0; right: 4%;"></i>
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                </li>
-                <li class="dropdown-divider"></li>
-
-                <li class="dropdown-item">
-                  <div class="d-flex flex-column">
-                    <h5 class="mb-1">Titre notification</h5>
-                    <p class="mb-1">Description notification</p>
+                    <li class="dropdown-divider"></li>
+                  </li>
+                  <li v-else class="dropdown-item">
                     <div class="d-flex justify-content-between align-items-center">
+                      <div class="d-flex flex-column">
+                        <h5 class="mb-1 text-center">Informations</h5>
+                        <p class="mb-1" style="font-size: .9rem;">{{notification.content}}</p>
+                        <button class="btn p-0">
+                          <i class="bi bi-x-square-fill text-danger icon-size-x" style="position: absolute; top: 0; right: 4%;"></i>
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                </li>
-                <li class="dropdown-divider"></li>
-                
-              </ul>
-            </li>
+                    <li class="dropdown-divider"></li>
+                  </li>
+              </span>
+            </ul>
+          </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle d-flex align-items-center custom-dropdown-toggle" id="navbarDropdownProfil" role="button"
               data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:white;">
@@ -101,38 +109,69 @@ import { defineComponent } from 'vue'
 import API from "../scripts/API.js"
 import User from "../scripts/User.js"
 import emitter from "../scripts/emitter.js"
+import SearchResults from './SearchResults.vue'
+
+let intervalID;
 export default defineComponent({
-  name: 'Navbar',
-  mounted() {
-    emitter.on('userUpdated', () => {
-      this.photoPath = API.API_URL + "/static/pictures/" + (User.currentUser?.photoPath ?? "default.png");
-      this.$forceUpdate();
-    })
-  },
-  data() {
-    // si l'utilisateur n'a pas de photo de profil, on affiche l'image par défaut
-    return {
-      photoPath: API.API_URL + "/static/pictures/" + (User.currentUser?.photoPath ?? "default.png"),
-      User
-    }
-  },
-  methods: {
-    async logout() {
-      try {
-        await User.logout();
-        this.$forceUpdate();
-        this.$router.push("/login"); // TODO : vérifier dans le cahier des charges si on doit rediriger vers la page de login ou la page d'accueil
-      } catch (error) {
-        window.alert("Erreur lors de la deconnexion")
-      }
-    }
-  }
+    name: "Navbar",
+    async mounted() {
+        emitter.on("userUpdated", () => {
+            this.photoPath = API.API_URL + "/static/pictures/" + (User.currentUser?.photoPath ?? "default.png");
+            this.$forceUpdate();
+            clearInterval(intervalID);
+            intervalID = setInterval(this.refreshCount, 15000);
+        });
+        if (User.isLoggedIn() == true) {
+            this.refreshCount();
+            intervalID = setInterval(this.refreshCount, 15000);
+        }
+    },
+    data() {
+        // si l'utilisateur n'a pas de photo de profil, on affiche l'image par défaut
+        return {
+            photoPath: API.API_URL + "/static/pictures/" + (User.currentUser?.photoPath ?? "default.png"),
+            User,
+            count: "",
+            notifications: []
+        };
+    },
+    methods: {
+        //Permet de mettre a jour le nombre notifications dans le badge
+        async refreshCount() {
+            const res = await API.requestLogged(API.METHOD.GET, "/users/me/notifications/count", undefined, undefined);
+            this.count = res.count;
+        },
+        async getNotifications() {
+            this.notifications = await API.requestLogged(API.METHOD.GET, "/users/me/notifications", undefined, undefined);
+            this.refreshCount();
+        },
+        async logout() {
+            try {
+                await User.logout();
+                this.$forceUpdate();
+                clearInterval(intervalID)
+                this.$router.push("/");
+            }
+            catch (error) {
+                window.alert("Erreur lors de la deconnexion");
+            }
+        },
+        deleteNotif(){
+          
+          event.stopPropagation();
+        }
+    },
+    components: { SearchResults }
 })
 </script>
 
+
 <style>
-.icon-size {
+.icon-size-bell {
   font-size: 25px;
+}
+.icon-size-x {
+  font-size: 20px;
 }
 .dropdown-menu {
   max-height: 35vh;
@@ -141,5 +180,16 @@ export default defineComponent({
 }
 .custom-dropdown-toggle::after {
   display: none;
+}
+.dropdown-item {
+  width: 18rem;
+  overflow: visible;
+  white-space: normal;
+}
+.dropdown-item:focus, .dropdown-item:active {
+    outline: none !important;
+    box-shadow: none !important;
+    background-color: white;
+    color: black;
 }
 </style>

@@ -1,4 +1,6 @@
 <template>
+    <div class="text-start mt-5 mb-4 col-md-6 mx-auto" id="alertsDiv">
+    </div>
     <div class="col-md-8 mx-auto pt-5">
         <h1 class="text-center">Créer un nouveau groupe</h1>
         <br><br>
@@ -27,7 +29,7 @@
             </div>
         </div>
         
-        <div class="mx-auto col-md-2 mt-3">
+        <div class="mx-auto col-md-2 mb-5">
             <input name="" @click="creategroup" id="" class="btn btn-success" type="button" value="Créer le groupe">
         </div>
     </div>
@@ -186,7 +188,7 @@
                     
                     //this.$router.push({ path: '/findgroups' });
 
-                    //document.querySelector("#alertsDiv").innerHTML="<div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\"><div><strong>Inscription réussie !</strong> Vous pouvez désormais vous <RouterLink to=\"/login\" class=\"text-decoration-none\">connecter</RouterLink> pour commencer à utiliser CrocoJourney.<button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"alert\" aria-label=\"Close\"></button></div></div>";
+                    document.querySelector("#alertsDiv").innerHTML="<div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\"><div><strong>Création réussie !</strong> Vous pouvez maintenant ajouter ce groupe à un trajet. <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"alert\" aria-label=\"Close\"></button></div></div>";
                 } catch (error) {
                     //document.querySelector("#alertsDiv").innerHTML="<div class=\"alert alert-danger alert-dismissible fade show\" role=\"alert\"><div><strong>Oups !</strong> Une erreur est survenue lors de votre inscription. (Code " + error.status + " : " + error.statusText + ")<br><button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"alert\" aria-label=\"Close\"></button></div></div>"
                     console.log(error);

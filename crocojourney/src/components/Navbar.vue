@@ -1,10 +1,10 @@
 <template>
-
   <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
     <div class="container-fluid">
       <RouterLink class="navbar-brand" to="/">
-        <span class="navbar-brand mb-0 h1" >
-          <img src="../assets/img/crocojourney.png" width="40" height="40" class="d-inline-block align-text-center" alt="logo">
+        <span class="navbar-brand mb-0 h1">
+          <img src="../assets/img/crocojourney.png" width="40" height="40" class="d-inline-block align-text-center"
+            alt="logo">
           CrocoJourney
         </span>
       </RouterLink>
@@ -16,7 +16,8 @@
       <div v-if="User.isLoggedIn()" class="collapse navbar-collapse" id="navbar-list-4">
         <ul class="navbar-nav me-auto mb-1">
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle d-flex align-items-center" id="navbarDropdownTrajet" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color:white; font-size: medium;">
+            <a class="nav-link dropdown-toggle d-flex align-items-center" id="navbarDropdownTrajet" role="button"
+              data-bs-toggle="dropdown" aria-expanded="false" style="color:white; font-size: medium;">
               Trajets
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -26,7 +27,8 @@
             </ul>
           </li>
           <li class="nav-item dropdown" style="padding-left: 4px;">
-            <a class="nav-link dropdown-toggle d-flex align-items-center" id="navbarDropdownGroupes" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color:white; font-size: medium;">
+            <a class="nav-link dropdown-toggle d-flex align-items-center" id="navbarDropdownGroupes" role="button"
+              data-bs-toggle="dropdown" aria-expanded="false" style="color:white; font-size: medium;">
               Groupes
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -35,57 +37,61 @@
           </li>
         </ul>
         <ul class="navbar-nav ms-auto">
-            
-            <li class="nav-item dropdown" style="padding-right: 4px;">
-              <a @click="this.getNotifications" class="nav-link dropdown-toggle d-flex align-items-center custom-dropdown-toggle" id="navbarBellNotif" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color:white;">
-                <i class="bi bi-bell icon-size-bell"></i>
-                  <sup>
-                    <span class="badge bg-danger" v-if="count>0">{{count}}</span>
-                  </sup>
-              </a>
-              <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
-                <span v-for="notification in notifications">
-                  <li v-if="notification.action" class="dropdown-item" style="position: relative;">
-                    <div class="d-flex justify-content-between align-items-center">
-                      <div class="d-flex flex-column">
-                        <h5 class="mb-1" style="margin-top: 1%;">Nouveau participant</h5>
-                        <p class="mb-1" style="font-size: .9rem;">{{notification.content}}</p>
-                        <div class="d-flex justify-content-between align-items-center" style="margin-top: 2%;">
-                          <button class="btn btn-success btn-sm" style="margin-left: 10%;">Accepter</button>
-                          <button class="btn btn-danger btn-sm" style="margin-right: 10%;">Refuser</button>
-                        </div>
-                        <button class="btn p-0">
-                          <i class="bi bi-x-square-fill text-danger icon-size-x" style="position: absolute; top: 0; right: 4%;"></i>
-                        </button>
-                      </div>
-                    </div>
-                    <li class="dropdown-divider"></li>
-                  </li>
-                  <li v-else class="dropdown-item">
-                    <div class="d-flex justify-content-between align-items-center">
-                      <div class="d-flex flex-column">
-                        <h5 class="mb-1 text-center">Informations</h5>
-                        <p class="mb-1" style="font-size: .9rem;">{{notification.content}}</p>
-                        <button class="btn p-0">
-                          <i class="bi bi-x-square-fill text-danger icon-size-x" style="position: absolute; top: 0; right: 4%;"></i>
-                        </button>
-                      </div>
-                    </div>
-                    <li class="dropdown-divider"></li>
-                  </li>
-              </span>
-            </ul>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle d-flex align-items-center custom-dropdown-toggle" id="navbarDropdownProfil" role="button"
-              data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:white;">
-              <img :src="photoPath" width="40" height="40" class="rounded-circle" alt="profil">
+
+          <li class="nav-item dropdown" style="padding-right: 4px;">
+            <a @click="this.getNotifications"
+              class="nav-link dropdown-toggle d-flex align-items-center custom-dropdown-toggle" id="navbarBellNotif"
+              role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color:white;">
+              <i class="bi bi-bell icon-size-bell"></i>
+              <sup>
+                <span class="badge bg-danger" v-if="count > 0">{{ count }}</span>
+              </sup>
             </a>
-            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
-              <RouterLink class="dropdown-item" to="/profile">Profil</RouterLink>
-              <button @click="logout" class="dropdown-item">Déconnexion</button>
-            </div>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
+              <span v-for="notification in notifications">
+                <li v-if="notification.action" class="dropdown-item" style="position: relative;">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="d-flex flex-column">
+                      <h5 class="mb-1" style="margin-top: 1%;">Nouveau participant</h5>
+                      <p class="mb-1" style="font-size: .9rem;">{{ notification.content }}</p>
+                      <div class="d-flex justify-content-between align-items-center" style="margin-top: 2%;">
+                        <button class="btn btn-success btn-sm" style="margin-left: 10%;">Accepter</button>
+                        <button class="btn btn-danger btn-sm" style="margin-right: 10%;">Refuser</button>
+                      </div>
+                      <button class="btn p-0">
+                        <i class="bi bi-x-square-fill text-danger icon-size-x"
+                          style="position: absolute; top: 0; right: 4%;"></i>
+                      </button>
+                    </div>
+                  </div>
+                <li class="dropdown-divider"></li>
           </li>
+          <li v-else class="dropdown-item">
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="d-flex flex-column">
+                <h5 class="mb-1 text-center">Informations</h5>
+                <p class="mb-1" style="font-size: .9rem;">{{ notification.content }}</p>
+                <button class="btn p-0">
+                  <i class="bi bi-x-square-fill text-danger icon-size-x"
+                    style="position: absolute; top: 0; right: 4%;"></i>
+                </button>
+              </div>
+            </div>
+          <li class="dropdown-divider"></li>
+          </li>
+          </span>
+        </ul>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle d-flex align-items-center custom-dropdown-toggle" id="navbarDropdownProfil"
+            role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:white;">
+            <img :src="photoPath" width="40" height="40" class="rounded-circle" alt="profil">
+          </a>
+          <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
+            <RouterLink class="dropdown-item" to="/profile">Profil</RouterLink>
+            <button @click="logout" class="dropdown-item">Déconnexion</button>
+          </div>
+        </li>
         </ul>
       </div>
 
@@ -101,7 +107,6 @@
       </div>
     </div>
   </nav>
-  
 </template>
 
 <script>
@@ -113,55 +118,59 @@ import SearchResults from './SearchResults.vue'
 
 let intervalID;
 export default defineComponent({
-    name: "Navbar",
-    async mounted() {
-        emitter.on("userUpdated", () => {
-            this.photoPath = API.API_URL + "/static/pictures/" + (User.currentUser?.photoPath ?? "default.png");
-            this.$forceUpdate();
-            clearInterval(intervalID);
-            intervalID = setInterval(this.refreshCount, 15000);
-        });
-        if (User.isLoggedIn() == true) {
-            this.refreshCount();
-            intervalID = setInterval(this.refreshCount, 15000);
-        }
+  name: "Navbar",
+  async mounted() {
+    emitter.on("userUpdated", () => {
+      this.photoPath = API.API_URL + "/static/pictures/" + (User.currentUser?.photoPath ?? "default.png");
+      this.$forceUpdate();
+      clearInterval(intervalID);
+      intervalID = setInterval(this.refreshCount, 15000);
+    });
+    if (User.isLoggedIn() == true) {
+      this.refreshCount();
+      intervalID = setInterval(this.refreshCount, 15000);
+    }
+  },
+  data() {
+    // si l'utilisateur n'a pas de photo de profil, on affiche l'image par défaut
+    return {
+      photoPath: API.API_URL + "/static/pictures/" + (User.currentUser?.photoPath ?? "default.png"),
+      User,
+      count: "",
+      notifications: []
+    };
+  },
+  methods: {
+    //Permet de mettre a jour le nombre notifications dans le badge
+    async refreshCount() {
+      try {
+        const res = await API.requestLogged(API.METHOD.GET, "/users/me/notifications/count", undefined, undefined);
+        this.count = res.count;
+      } catch (error) {
+        clearInterval(intervalID);
+      }
     },
-    data() {
-        // si l'utilisateur n'a pas de photo de profil, on affiche l'image par défaut
-        return {
-            photoPath: API.API_URL + "/static/pictures/" + (User.currentUser?.photoPath ?? "default.png"),
-            User,
-            count: "",
-            notifications: []
-        };
+    async getNotifications() {
+      this.notifications = await API.requestLogged(API.METHOD.GET, "/users/me/notifications", undefined, undefined);
+      this.refreshCount();
     },
-    methods: {
-        //Permet de mettre a jour le nombre notifications dans le badge
-        async refreshCount() {
-            const res = await API.requestLogged(API.METHOD.GET, "/users/me/notifications/count", undefined, undefined);
-            this.count = res.count;
-        },
-        async getNotifications() {
-            this.notifications = await API.requestLogged(API.METHOD.GET, "/users/me/notifications", undefined, undefined);
-            this.refreshCount();
-        },
-        async logout() {
-            try {
-                await User.logout();
-                this.$forceUpdate();
-                clearInterval(intervalID)
-                this.$router.push("/");
-            }
-            catch (error) {
-                window.alert("Erreur lors de la deconnexion");
-            }
-        },
-        deleteNotif(){
-          
-          event.stopPropagation();
-        }
+    async logout() {
+      try {
+        await User.logout();
+        this.$forceUpdate();
+        clearInterval(intervalID)
+        this.$router.push("/");
+      }
+      catch (error) {
+        window.alert("Erreur lors de la deconnexion");
+      }
     },
-    components: { SearchResults }
+    deleteNotif() {
+
+      event.stopPropagation();
+    }
+  },
+  components: { SearchResults }
 })
 </script>
 
@@ -170,26 +179,32 @@ export default defineComponent({
 .icon-size-bell {
   font-size: 25px;
 }
+
 .icon-size-x {
   font-size: 20px;
 }
+
 .dropdown-menu {
   max-height: 35vh;
   overflow-y: auto;
   overflow-x: hidden;
 }
+
 .custom-dropdown-toggle::after {
   display: none;
 }
+
 .dropdown-item {
   width: 18rem;
   overflow: visible;
   white-space: normal;
 }
-.dropdown-item:focus, .dropdown-item:active {
-    outline: none !important;
-    box-shadow: none !important;
-    background-color: white;
-    color: black;
+
+.dropdown-item:focus,
+.dropdown-item:active {
+  outline: none !important;
+  box-shadow: none !important;
+  background-color: white;
+  color: black;
 }
 </style>

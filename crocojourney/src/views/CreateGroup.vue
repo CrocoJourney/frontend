@@ -17,19 +17,22 @@
                 <div class="col px-5">
                     <h3 class="text-center mb-3">Membres actuels</h3>
                     <p ref="emptyText" class="text-muted text-center align-bottom">Vous n'avez pour l'instant ajouté personne au groupe. Utilisez la liste de droite pour ajouter des amis !</p>
-                    <ul ref="addedList" class="list-group list-group-flush overflow-y-auto h-50 mt-4">
+                    <ul ref="addedList" class="list-group list-group-flush overflow-y-auto mt-4" style="max-height: 200px;">
+
                     </ul>
                 </div>
                 <div class="col px-5">
                     <h3 class="text-center">Ajouter des membres</h3>
-                    <div class="list-group overflow-y-auto h-50 d-inline-block mt-4" ref="userlist">
+                    <div class="overflow-y-auto d-inline-block mt-4" style="max-height: 200px;">
+                        <div class="list-group" ref="userlist">
 
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
         
-        <div class="mx-auto col-md-2 mb-5">
+        <div class="mx-auto col-md-2 mb-5 mt-4">
             <input name="" @click="creategroup" id="" class="btn btn-success" type="button" value="Créer le groupe">
         </div>
     </div>
@@ -190,8 +193,9 @@
 
                     document.querySelector("#alertsDiv").innerHTML="<div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\"><div><strong>Création réussie !</strong> Vous pouvez maintenant ajouter ce groupe à un trajet. <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"alert\" aria-label=\"Close\"></button></div></div>";
                 } catch (error) {
-                    //document.querySelector("#alertsDiv").innerHTML="<div class=\"alert alert-danger alert-dismissible fade show\" role=\"alert\"><div><strong>Oups !</strong> Une erreur est survenue lors de votre inscription. (Code " + error.status + " : " + error.statusText + ")<br><button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"alert\" aria-label=\"Close\"></button></div></div>"
-                    console.log(error);
+                    if(error.status == 422)
+                        document.querySelector("#alertsDiv").innerHTML="<div class=\"alert alert-danger alert-dismissible fade show\" role=\"alert\"><div><strong>Oups !</strong> Une erreur est survenue lors de la création du groupe (Un groupe de ce nom existe déjà). <br><button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"alert\" aria-label=\"Close\"></button></div></div>"
+                    //console.log(error);
                 }
             }
         },

@@ -152,6 +152,7 @@ class API {
                             break;
                         case 401:
                             User.currentUser = undefined
+                            User.saveToLocalStorage();
                             emitter.emit("userUpdated");
                             window.location.href = '/login';
                             break;

@@ -18,16 +18,21 @@
 
                     <h4>Votre trajet est <span class="text-danger">*</span></h4>
                     <div class="form-check">
-                    <input ref="sex" class="form-check-input" type="radio" name="sexRadio" id="sexRadioHomme" value="H" checked>
+                    <input ref="sex" class="form-check-input" type="radio" name="sexRadio" id="sexRadioHomme" value="H" v-model="selectedOption" checked>
                     <label class="form-check-label" for="sexRadioHomme">
                         Public
                     </label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="sexRadio" id="sexRadioFemme" value="F">
+                    <input class="form-check-input" type="radio" name="sexRadio" id="sexRadioFemme" v-model="selectedOption" value="F">
                     <label class="form-check-label" for="sexRadioFemme">
                         Prive
                     </label>
+                    <select v-if="selectedOption === 'F'">
+                        <option value="option1-1">Option 1.1</option>
+                        <option value="option1-2">Option 1.2</option>
+                        <option value="option1-3">Option 1.3</option>
+                    </select>
                 </div>
                 </div>
                 <!-- Partie moyenne -->
@@ -117,6 +122,7 @@ export default defineComponent({
     name: 'Login',
     data() {
     return {
+      selectedOption: 'option1',
       selectedDate: '',
       selectedTime: '',
       combinedDateTime: ''

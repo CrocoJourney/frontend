@@ -190,7 +190,14 @@ export default defineComponent({
                         undefined,
                         API.CONTENT_TYPE.FORM_DATA
                     );
-                    console.log("OK");
+                    firstName.value = "";
+                    lastName.value = "";
+                    email.value = "";
+                    phone.value = "";
+                    vehicle.checked = false;
+                    password.value = "";
+                    passwordConfirm.value = "";
+                    male.checked = true;
                     document.querySelector("#alertsDiv").innerHTML="<div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\"><div><strong>Inscription réussie !</strong> Vous pouvez désormais vous <RouterLink to=\"/login\" class=\"text-decoration-none\">connecter</RouterLink> pour commencer à utiliser CrocoJourney.<button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"alert\" aria-label=\"Close\"></button></div></div>";
                 } catch (error) {
                     document.querySelector("#alertsDiv").innerHTML="<div class=\"alert alert-danger alert-dismissible fade show\" role=\"alert\"><div><strong>Oups !</strong> Une erreur est survenue lors de votre inscription. (Code " + error.status + " : " + error.statusText + ")<br><button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"alert\" aria-label=\"Close\"></button></div></div>"

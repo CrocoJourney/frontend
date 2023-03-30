@@ -44,8 +44,9 @@
 
 
                 <!-- Input de la ville d'étape -->
+                <br>
                 <div class="input-group position-relative flex-nowrap">
-            <span class="input-group-text">à :</span>
+            <span class="input-group-text">Etape :</span>
             <input
                 ref="inputEtape"
                 type="text"
@@ -91,10 +92,11 @@
 
 
         <br>
-        <button class="btn btn-secondary" @click="addButton">Ajouter un bouton</button>
+        <button class="btn btn-secondary" @click="addButton">Ajouter l'étape ici</button>
             <div v-for="(button, index) in buttons" :key="index">
             <label :id="'label_' + index">{{ button.etapesValue }}{{ button.etapeCode }}</label>
-            <button class="btn btn-secondary" :id="'button_' + index" @click="addButton(index + 1)">+</button>
+            <br>
+            <button class="btn btn-secondary" :id="'button_' + index" @click="addButton(index + 1)">Ajouter l'étape ici</button>
             </div>
         <br>
 
@@ -146,7 +148,6 @@
 
 
     </div>
-    <button @click="afficherListeEtape">Afficher la liste des étapes</button>
 </template>
 
 <script>

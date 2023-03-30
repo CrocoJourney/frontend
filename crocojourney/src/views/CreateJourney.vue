@@ -48,9 +48,6 @@
                         <ListEtape ref="listeEtape"></ListEtape>
 
                     </div>
-                    <div>
-                        <button class="col ms-3 btn btn-secondary" @click="ajouterEtape">Ajouter une étape</button>
-                    </div>
                 </div>
                     <!--La date-->
                     <div class="form-check mt-5" style="width: 25%; float: none;">

@@ -15,6 +15,7 @@ import API from './scripts/API'
 import Resetpassword from './views/Resetpassword.vue'
 import SearchTrips from './views/SearchTrips.vue'
 import DetailTrip from './views/DetailTrip.vue'
+import CurrentTrips from './views/CurrentTrips.vue'
 import {
     createRouter,
     createWebHistory
@@ -72,6 +73,10 @@ const router = createRouter({
             path: '/detail-trip/:id',
             name: 'DetailTrip',
             component: DetailTrip,
+        },
+        {
+            path: '/currenttrips',
+            component: CurrentTrips
         }
         
     ]

@@ -24,14 +24,12 @@
                     </label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="sexRadio" id="sexRadioFemme" v-model="selectedOption" value="F">
+                    <input @click="searchTrips" class="form-check-input" type="radio" name="sexRadio" id="sexRadioFemme" v-model="selectedOption" value="F">
                     <label class="form-check-label" for="sexRadioFemme">
                         Prive
                     </label>
-                    <select v-if="selectedOption === 'F'">
-                        <option value="option1-1">Option 1.1</option>
-                        <option value="option1-2">Option 1.2</option>
-                        <option value="option1-3">Option 1.3</option>
+                    <select v-model="selectedItem" @change="onItemSelected" v-if="selectedOption === 'F'">
+                        <option v-for="option in groups" :value="option.id">{{ option.name }}</option>
                     </select>
                 </div>
                 </div>
@@ -122,7 +120,11 @@ export default defineComponent({
       selectedOption: 'option1',
       selectedDate: '',
       selectedTime: '',
-      combinedDateTime: ''
+      selectedItem: '',
+      
+      valuegroup:-1,
+      combinedDateTime: '',
+      groups: []
     }
   },
     components:{
@@ -200,7 +202,7 @@ export default defineComponent({
 
             let groupe;
             if(prive){
-                groupe = 1;
+                groupe = this.valuegroup;
             }else{
                 groupe = 0;
             }
@@ -269,6 +271,40 @@ export default defineComponent({
         },
          ajouterEtape(){
             this.$refs.etapes.addItem();
+        },
+        async searchTrips() {
+            let url = `/groups/`;
+            if (date) {
+            }
+            try {
+                const res = await API.requestLogged(API.METHOD.GET, url, undefined);
+                // refresh component
+                this.groups =  res;
+                console.log(this.groups);
+                /**for await (const element of res) {
+                    const driver = await API.requestLogged(API.METHOD.GET, `/users/${element.driver_id}`, undefined);
+                    const date = new Date(element.date);
+                    const now = new Date();
+                    if (date.getTime() - now.getTime() > 24) {
+                        this.trips.push({
+                            id: element.id,
+                            departure: element.departure_name,
+                            arrival: element.arrival_name,
+                            date: element.date,
+                            title: element.title,
+                            price: element.price.toString(),
+                            time: `${date}`,
+                            driver: element.driver_id,
+                            photo: driver.photoPath,
+                            rate: '4',
+                        });
+                    }
+                }**/
+            } catch (error) {}
+        },
+        onItemSelected(event) {
+            const selectedValue = event.target.value;
+            this.valuegroup = selectedValue;
         }
     }
 })

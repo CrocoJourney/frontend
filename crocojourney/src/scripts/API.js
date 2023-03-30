@@ -1,4 +1,6 @@
 import User from './User.js';
+import emitter from "../scripts/emitter.js"
+
 class API {
     static API_URL =
         import.meta.env.DEV ? 'http://localhost:8000' : 'https://crocojourney-api.antoninrousseau.fr';
@@ -89,7 +91,7 @@ class API {
             try {
                 // on fait la requete avec le token en header
                 const res = await API.request(method, url, body, {
-                    [API.AuthorizationHeader]: `Bearer ${User.currentUser.accessToken}`,
+                    [API.AuthorizationHeader]: `Bearer ${User.currentUser?.accessToken}`,
                 }, contentType);
                 resolve(res);
             } catch (err) {
@@ -135,7 +137,7 @@ class API {
                     mode: 'cors',
                     // add refresh_token to body in json
                     body: JSON.stringify({
-                        refresh_token: `${User.currentUser.refreshToken}`,
+                        refresh_token: `${User.currentUser?.refreshToken}`,
                     }),
                 })
                 .then((response) => {
@@ -149,6 +151,8 @@ class API {
                             });
                             break;
                         case 401:
+                            User.currentUser = undefined
+                            emitter.emit("userUpdated");
                             window.location.href = '/login';
                             break;
                         default:

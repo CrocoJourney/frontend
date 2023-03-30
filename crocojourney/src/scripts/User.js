@@ -4,6 +4,9 @@ class User {
     admin = false;
     static fromLocalStorage() {
         const localData = localStorage.getItem('user');
+        if(localData=="undefined"){
+            return new User();
+        } 
         return localData ? User.fromJSON(localData) : new User();
     }
     static saveToLocalStorage(user = User.currentUser) {

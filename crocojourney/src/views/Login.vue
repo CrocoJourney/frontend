@@ -41,8 +41,15 @@
 import { defineComponent } from 'vue';
 import API from "../scripts/API.js"
 import emitter from "../scripts/emitter.js"
+import User from "../scripts/User.js"
 export default defineComponent({
     name: "Login",
+    mounted() {
+        // si on est deja connecté, on redirige vers la page d'accueil
+        if(User.isLoggedIn()) {
+            this.$router.push("/");
+        }
+    },
     methods: {
         async login() {
             const login = this.$refs.login;

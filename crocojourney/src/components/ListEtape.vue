@@ -93,17 +93,19 @@
 
 
         <br>
-        <button class="btn btn-secondary" @click="addButton">Ajouter l'étape ici</button>
-            <div v-for="(button, index) in buttons" :key="index">
-            <label :id="'label_' + index">{{ button.etapesValue }}{{ button.etapeCode }}</label>
-            <button class="btn btn-danger" :id="'button_suppr' + index" @click="supprButton(index + 1)">Supprimer l'étape</button>
+        <div style="overflow-y:auto; height:200px;">
+            <button class="btn btn-secondary" @click="addButton">Ajouter l'étape ici</button>
+                <div v-for="(button, index) in buttons" :key="index">
+                <label :id="'label_' + index">{{ button.etapesValue }}</label>
+                <button class="btn btn-danger" style ="float: right;" :id="'button_suppr' + index" @click="supprButton(index + 1)">Supprimer l'étape</button>
+                <br>
+                <button class="btn btn-secondary" :id="'button_' + index" @click="addButton(index + 1)">Ajouter l'étape ici</button>
+                </div>
             <br>
-            <button class="btn btn-secondary" :id="'button_' + index" @click="addButton(index + 1)">Ajouter l'étape ici</button>
-            </div>
-        <br>
+        </div>
 
         <!-- Input de la ville d'arrivée -->
-        <div class="input-group position-relative flex-nowrap">
+        <div class="input-group position-relative flex-nowrap" style="padding-top: 20px;">
             <span class="input-group-text">à :</span>
             <input
                 type="text"
@@ -294,7 +296,8 @@ export default {
                 const buttonId = document.getElementById(`button_${i}`);
                 buttonId.id = `button_${i + 1}`;
             }
-            this.$refs.inputEtape.value = "";
+            this.etapesValue = "";
+            
         },
         supprButton(index) {
             

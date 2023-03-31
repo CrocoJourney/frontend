@@ -57,14 +57,15 @@
 
                     </div>
                 </div>
-                    <!--La date-->
-                    <div class="form-check mt-5" style="width: 25%; float: none;">
+                <span>
+                    <span class="form-check mt-5" style="width: 25%; float: left;">
                         <input class="form-control" id="date" ref="date" type="date" v-model="selectedDate">
-                    </div>
+                    </span>
                     <!--L'heure-->
-                    <div class="form-check mt-5" style="width: 25%; float: none;">
+                    <span class="form-check mt-5" style="width: 25%; float: left;">
                         <input class="form-control" id="time" ref="time" type="time" v-model="selectedTime">
-                    </div>
+                    </span>
+                </span>
             </div>
 
             <!-- Partie droite de l'écran -->
@@ -310,11 +311,19 @@ export default defineComponent({
 
                 listeEtape.choice.arrivee="";
 
+                this.$refs.contraintes.value = "";
+
+                this.$refs.precisionsRDV.value = "";
+
                 male.checked = true;
 
                 listeEtape.listeEtapes = [];
 
                 listeEtape.buttons = [];
+
+                listeEtape.etapesValue = "";
+
+                listeEtape.$refs.inputEtape.value ="";
 
 
                     document.querySelector("#alertsDiv").innerHTML="<div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\"><div><strong>Creation du trajet !</strong> <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"alert\" aria-label=\"Close\"></button></div></div>";

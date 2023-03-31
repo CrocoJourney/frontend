@@ -7,6 +7,7 @@
                 type="text"
                 placeholder="Ville de départ"
                 id="depart"
+                ref="depart"
                 name="depart"
                 class="form-control basicAutoComplete"
                 autocomplete="off"
@@ -108,6 +109,7 @@
                 type="text"
                 placeholder="Ville d'arrivée"
                 id="arrivee"
+                ref="arrivee"
                 name="arrivee"
                 class="form-control basicAutoComplete"
                 autocomplete="off"
@@ -292,6 +294,7 @@ export default {
                 const buttonId = document.getElementById(`button_${i}`);
                 buttonId.id = `button_${i + 1}`;
             }
+            this.$refs.inputEtape.value = "";
         },
         supprButton(index) {
             

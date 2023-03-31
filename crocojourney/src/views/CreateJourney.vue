@@ -1,4 +1,14 @@
 <template>
+
+    <div class="text-start mt-5 mb-4 col-md-6 mx-auto" id="alertsDiv">
+        <!--<div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <div>
+                <strong>Oups !</strong> Une erreur est survenue lors de votre inscription.
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>-->
+    </div>
+
     <div class="w-auto px-5 vh-90">
         <div class="mt-5 ms-4">
             <h1>Créer un nouveau trajet</h1>
@@ -28,7 +38,7 @@
                     <label class="form-check-label" for="sexRadioFemme">
                         Prive
                     </label>
-                    <select v-model="selectedItem" @change="onItemSelected" v-if="selectedOption === 'F'">
+                    <select ref="listeGroupe" v-model="selectedItem" @change="onItemSelected" v-if="selectedOption === 'F'">
                         <option v-for="option in groups" :value="option.id">{{ option.name }}</option>
                     </select>
                 </div>
@@ -49,11 +59,11 @@
                 </div>
                     <!--La date-->
                     <div class="form-check mt-5" style="width: 25%; float: none;">
-                        <input class="form-control" id="date" type="date" v-model="selectedDate">
+                        <input class="form-control" id="date" ref="date" type="date" v-model="selectedDate">
                     </div>
                     <!--L'heure-->
                     <div class="form-check mt-5" style="width: 25%; float: none;">
-                        <input class="form-control" id="time" type="time" v-model="selectedTime">
+                        <input class="form-control" id="time" ref="time" type="time" v-model="selectedTime">
                     </div>
             </div>
 
@@ -190,84 +200,130 @@ export default defineComponent({
             
 
             //let dateFusion = date+time
-            const combined = new Date(`${this.selectedDate}T${this.selectedTime}:00.000Z`);
-            combined.toISOString();
-            console.log(combined);
 
-            const male = this.$refs.sex;
-            const prive = male.checked ? false : true;
-
-            console.log(prive);
+            console.log(depart)
 
 
-            let groupe;
-            if(prive){
-                groupe = this.valuegroup;
-            }else{
-                groupe = 0;
+            this.$refs.date.classList.remove("is-invalid");
+            this.$refs.time.classList.remove("is-invalid");
+            this.$refs.titre.classList.remove("is-invalid");
+            this.$refs.places.classList.remove("is-invalid");
+            this.$refs.listeEtape.$refs.depart.classList.remove("is-invalid");
+            this.$refs.listeEtape.$refs.arrivee.classList.remove("is-invalid");
+            this.$refs.prix.classList.remove("is-invalid");
+
+
+            if(this.selectedDate.length <1 ){
+                this.$refs.date.classList.add("is-invalid");
+                valid = false;
             }
-
-            var jsonAEnvoyer = {
-                title: titre,
-                size: Number(places),
-                constraints: contraintes,
-                precisions: precisionsRDV,
-                price: Number(prix),
-                private: prive,
-                steps: listeDesEtapes,
-                departure: depart,
-                group: groupe,
-                arrival: arrivee,
-                date: combined
-                }
-            
-            let resEnvoie = JSON.stringify(jsonAEnvoyer)
-            console.log("la bete :")
-            console.log(resEnvoie)
-
-            try{
-                const res = await API.requestLogged(
-                    API.METHOD.POST,
-                    '/trips/',
-                    resEnvoie,
-                    API.CONTENT_TYPE.JSON
-
-                )
-                console.log(res)
-            }catch (e){
-                console.log(e) 
+            if(this.selectedTime.length <1 ){
+                this.$refs.time.classList.add("is-invalid");
+                valid = false;
+            }
+            if(titre.length < 1) {
+                this.$refs.titre.classList.add("is-invalid");
+                valid = false;
+            }
+            if(places.length < 1 || places < 1) {
+                this.$refs.places.classList.add("is-invalid");
+                valid = false;
+            }
+            if(depart.length < 1) {
+                this.$refs.listeEtape.$refs.depart.classList.add("is-invalid");
+                valid = false;
+            }
+            if(arrivee.length < 1) {
+                this.$refs.listeEtape.$refs.arrivee.classList.add("is-invalid");
+                valid = false;
+            }
+            if(prix.length < 1 || prix.value < 0) {
+                this.$refs.prix.classList.add("is-invalid");
+                valid = false;
             }
             
-            /**if(firstName.value.length < 1) {
-                firstName.classList.add("is-invalid");
-                valid = false;
-            }
-            if(lastName.value.length < 1) {
-                lastName.classList.add("is-invalid");
-                valid = false;
-            }
-            if(email.value.length < 3) {
-                email.classList.add("is-invalid");
-                valid = false;
-            }
-            if(phone.value.length < 10 || phone.value.length > 12) {
-                phone.classList.add("is-invalid");
-                valid = false;
-            }
-            if(password.value.length < 6) {
-                password.classList.add("is-invalid");
-                valid = false;
-            }
-            if(password.value != passwordConfirm.value || passwordConfirm.value == "") {
-                passwordConfirm.classList.add("is-invalid");
-                valid = false;
-            }
 
-            const hasVehicle = vehicle.checked;
-            const sex = male.checked ? "H" : "F";
-
-            **/
+            
             //console.log("Trajet attempted, as " + typeRadioPublique.value + " " + precisionsRDV.value + " (" + contraintes.value + ")\n" + places.value + "\n" + prix.value + "\nDate : " + date.value );
+            
+            if(valid){
+
+                const combined = new Date(`${this.selectedDate}T${this.selectedTime}:00.000Z`);
+                combined.toISOString();
+                console.log(combined);
+
+                const male = this.$refs.sex;
+                const prive = male.checked ? false : true;
+
+                console.log(prive);
+
+
+                let groupe;
+                if(prive){
+                    groupe = this.valuegroup;
+                }else{
+                    groupe = 0;
+                }
+
+                var jsonAEnvoyer = {
+                    title: titre,
+                    size: Number(places),
+                    constraints: contraintes,
+                    precisions: precisionsRDV,
+                    price: Number(prix),
+                    private: prive,
+                    steps: listeDesEtapes,
+                    departure: depart,
+                    group: groupe,
+                    arrival: arrivee,
+                    date: combined
+                    }
+                
+                let resEnvoie = JSON.stringify(jsonAEnvoyer)
+                console.log("la bete :")
+                console.log(resEnvoie)
+
+                try{
+                    const res = await API.requestLogged(
+                        API.METHOD.POST,
+                        '/trips/',
+                        resEnvoie,
+                        API.CONTENT_TYPE.JSON
+
+                    )
+
+                this.$refs.date.value ="";
+
+                this.$refs.time.value ="";
+
+                this.$refs.titre.value ="";
+
+                this.$refs.places.value ="";
+
+                this.$refs.listeEtape.$refs.depart.value ="";
+
+                this.$refs.listeEtape.$refs.arrivee.value ="";
+
+                this.$refs.prix.value ="";
+
+                listeEtape.choice.depart ="";
+
+                listeEtape.choice.arrivee="";
+
+                male.checked = true;
+
+                listeEtape.listeEtapes = [];
+
+                listeEtape.buttons = [];
+
+
+                    document.querySelector("#alertsDiv").innerHTML="<div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\"><div><strong>Creation du trajet !</strong> <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"alert\" aria-label=\"Close\"></button></div></div>";
+                } catch (error) {
+                    document.querySelector("#alertsDiv").innerHTML="<div class=\"alert alert-danger alert-dismissible fade show\" role=\"alert\"><div><strong>Oups !</strong> Une erreur est survenue lors de la création du trajet. (Code " + error.status + " : " + error.statusText + ")<br><button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"alert\" aria-label=\"Close\"></button></div></div>"
+                }
+
+            }
+
         },
          ajouterEtape(){
             this.$refs.etapes.addItem();

@@ -23,7 +23,7 @@
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
               <RouterLink class="dropdown-item" to="/createjourney">Créer un trajet</RouterLink>
               <RouterLink class="dropdown-item" to="/currenttrips">Mes trajets en cours</RouterLink>
-              <RouterLink class="dropdown-item" to="/history">Historique des trajets</RouterLink>
+              <RouterLink class="dropdown-item" to="/history">Historique de mes trajets</RouterLink>
             </ul>
           </li>
           <li class="nav-item dropdown" style="padding-left: 4px;">
@@ -33,6 +33,7 @@
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
               <RouterLink class="dropdown-item" to="/creategroup">Créer un groupe</RouterLink>
+              <RouterLink class="dropdown-item" to="/listgroup">Liste de mes groupes</RouterLink>
             </ul>
           </li>
         </ul>
@@ -55,9 +56,24 @@
                       <h5 class="mb-1" style="margin-top: 1%;">Nouveau participant</h5>
                       <p class="mb-1" style="font-size: .9rem;">{{ notification.content }}</p>
                       <div class="d-flex justify-content-between align-items-center" style="margin-top: 2%;">
-                        <button class="btn btn-success btn-sm" style="margin-left: 10%;">Accepter</button>
-                        <button class="btn btn-danger btn-sm" style="margin-right: 10%;">Refuser</button>
+                        <button @click="acceptNotif(notification.ressourceUrl, notification.sender_id, notification.id)"
+                          class="btn btn-success btn-sm" style="margin-left: 10%;">Accepter</button>
+                        <button @click="refuseNotif(notification.ressourceUrl, notification.sender_id, notification.id)"
+                          class="btn btn-danger btn-sm" style="margin-right: 10%;">Refuser</button>
                       </div>
+                      <button @click="deleteNotif(notification.id)" class="btn p-0">
+                        <i class="bi bi-x-square-fill text-danger icon-size-x"
+                          style="position: absolute; top: 0; right: 4%;"></i>
+                      </button>
+                    </div>
+                  </div>
+                <li class="dropdown-divider"></li>
+                </li>
+                <li v-else class="dropdown-item">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="d-flex flex-column">
+                      <h5 class="mb-1 text-center">Informations</h5>
+                      <p class="mb-1" style="font-size: .9rem;">{{ notification.content }}</p>
                       <button class="btn p-0">
                         <i class="bi bi-x-square-fill text-danger icon-size-x"
                           style="position: absolute; top: 0; right: 4%;"></i>
@@ -65,33 +81,20 @@
                     </div>
                   </div>
                 <li class="dropdown-divider"></li>
+                </li>
+              </span>
+            </ul>
           </li>
-          <li v-else class="dropdown-item">
-            <div class="d-flex justify-content-between align-items-center">
-              <div class="d-flex flex-column">
-                <h5 class="mb-1 text-center">Informations</h5>
-                <p class="mb-1" style="font-size: .9rem;">{{ notification.content }}</p>
-                <button class="btn p-0">
-                  <i class="bi bi-x-square-fill text-danger icon-size-x"
-                    style="position: absolute; top: 0; right: 4%;"></i>
-                </button>
-              </div>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle d-flex align-items-center custom-dropdown-toggle" id="navbarDropdownProfil"
+              role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:white;">
+              <img :src="photoPath" width="40" height="40" class="rounded-circle" alt="profil">
+            </a>
+            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
+              <RouterLink class="dropdown-item" to="/profile">Profil</RouterLink>
+              <button @click="logout" class="dropdown-item">Déconnexion</button>
             </div>
-          <li class="dropdown-divider"></li>
           </li>
-          </span>
-        </ul>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle d-flex align-items-center custom-dropdown-toggle" id="navbarDropdownProfil"
-            role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:white;">
-            <img :src="photoPath" width="40" height="40" class="rounded-circle" alt="profil">
-          </a>
-          <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
-            <RouterLink class="dropdown-item" to="/profile">Profil</RouterLink>
-            <button @click="logout" class="dropdown-item">Déconnexion</button>
-          </div>
-        </li>
         </ul>
       </div>
 
@@ -114,7 +117,6 @@ import { defineComponent } from 'vue'
 import API from "../scripts/API.js"
 import User from "../scripts/User.js"
 import emitter from "../scripts/emitter.js"
-import SearchResults from './SearchResults.vue'
 
 let intervalID;
 export default defineComponent({
@@ -165,12 +167,21 @@ export default defineComponent({
         window.alert("Erreur lors de la deconnexion");
       }
     },
-    deleteNotif() {
-
-      event.stopPropagation();
+    deleteNotif(idNotif) {
+      API.requestLogged(API.METHOD.DELETE, '/users/me/notifications/' + idNotif, undefined, undefined);
+      this.refreshCount();
+    },
+    acceptNotif(idTrip, idPassenger, idNotif) {
+      API.requestLogged(API.METHOD.POST, idTrip + '/accept/' + idPassenger, undefined, undefined);
+      this.deleteNotif(idNotif);
+      this.refreshCount();
+    },
+    refuseNotif(idTrip, idPassenger, idNotif) {
+      API.requestLogged(API.METHOD.POST, idTrip + '/refuse/' + idPassenger, undefined, undefined);
+      this.deleteNotif(idNotif);
+      this.refreshCount();
     }
-  },
-  components: { SearchResults }
+  }
 })
 </script>
 

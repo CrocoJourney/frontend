@@ -11,11 +11,11 @@ import Profile from './views/Profile.vue'
 import CreateJourney from './views/CreateJourney.vue'
 import CreateGroup from './views/CreateGroup.vue'
 import History from './views/History.vue'
-import API from './scripts/API'
 import Resetpassword from './views/Resetpassword.vue'
 import SearchTrips from './views/SearchTrips.vue'
 import DetailTrip from './views/DetailTrip.vue'
 import CurrentTrips from './views/CurrentTrips.vue'
+import ListGroup from './views/ListGroup.vue'
 import {
     createRouter,
     createWebHistory
@@ -26,59 +26,63 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 const router = createRouter({
     history: createWebHistory(),
     routes: [{
-            path: '/',
-            component: Home
-        },
-        {
-            path: '/login',
-            component: Login
-        },
-        {
-            path: '/register',
-            component: Register
-        },
-        {
-            path: '/profile',
-            component: Profile
-        },
-        {
-            path: '/recovery',
-            component: Recovery
-        }, {
-            path: '/reset',
-            component: Resetpassword
-        },
-        {
-            path: '/createjourney',
-            component: CreateJourney
-        },
-        {
-            path: '/creategroup',
-            component: CreateGroup
-        },
-        {
-            path: '/history',
-            component: History
-        },
-        {
-            name: 'searchTrips',
-            path: '/search',
-            component: SearchTrips
-        },
-        {
-            path: '/:pathMatch(.*)*',
-            component: NotFound
-        },
-        {
-            path: '/detail-trip/:id',
-            name: 'DetailTrip',
-            component: DetailTrip,
-        },
-        {
-            path: '/currenttrips',
-            component: CurrentTrips
-        }
-        
+        path: '/',
+        component: Home
+    },
+    {
+        path: '/login',
+        component: Login
+    },
+    {
+        path: '/register',
+        component: Register
+    },
+    {
+        path: '/profile',
+        component: Profile
+    },
+    {
+        path: '/recovery',
+        component: Recovery
+    }, {
+        path: '/reset',
+        component: Resetpassword
+    },
+    {
+        path: '/createjourney',
+        component: CreateJourney
+    },
+    {
+        path: '/creategroup',
+        component: CreateGroup
+    },
+    {
+        path: '/history',
+        component: History
+    },
+    {
+        name: 'searchTrips',
+        path: '/search',
+        component: SearchTrips
+    },
+    {
+        path: '/:pathMatch(.*)*',
+        component: NotFound
+    },
+    {
+        path: '/detail-trip/:id',
+        name: 'DetailTrip',
+        component: DetailTrip,
+    },
+    {
+        path: '/currenttrips',
+        component: CurrentTrips
+    },
+    {
+        path: '/listgroup',
+        component: ListGroup
+    }
+
     ]
 })
 

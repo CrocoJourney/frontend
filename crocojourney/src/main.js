@@ -14,6 +14,7 @@ import History from './views/History.vue'
 import Resetpassword from './views/Resetpassword.vue'
 import SearchTrips from './views/SearchTrips.vue'
 import DetailTrip from './views/DetailTrip.vue'
+import ModifGroup from './views/ModifGroup.vue'
 import CurrentTrips from './views/CurrentTrips.vue'
 import ListGroup from './views/ListGroup.vue'
 import {
@@ -73,6 +74,11 @@ const router = createRouter({
         path: '/detail-trip/:id',
         name: 'DetailTrip',
         component: DetailTrip,
+    },
+    {
+        path: '/modifGroup/:id',
+        name: 'ModifGroup',
+        component: ModifGroup,
     },
     {
         path: '/currenttrips',

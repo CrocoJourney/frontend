@@ -98,7 +98,7 @@
         </ul>
       </div>
 
-      <div v-else class="collapse navbar-collapse" id="navbarNav">
+      <div v-else class="collapse navbar-collapse" id="navbar-list-4">
         <ul class="navbar-nav ms-auto">
           <li class="nav-item">
             <RouterLink class="nav-link active" to="/register">Inscription</RouterLink>

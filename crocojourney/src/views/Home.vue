@@ -5,10 +5,8 @@
                 <h3 class="font-weight-bold mb-3">Argent. Ami. Rejoins CrocoJourney</h3>
                 <p class="mb-4">Deviens un de nos membres pour proposer ou rejoindre un trajet.</p>
                 <div v-if="!User.isLoggedIn()">
-                    <RouterLink to="register">
-                        <button class="btn btn-success btn-lg mb-4" style="border-radius: 5px">
-                            S'inscrire maintenant
-                        </button>
+                    <RouterLink class="btn btn-success btn-lg mb-4" style="border-radius: 5px" to="register">
+                        S'inscrire maintenant
                     </RouterLink>
                 </div>
             </div>

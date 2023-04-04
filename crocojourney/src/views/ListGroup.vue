@@ -33,15 +33,14 @@
                                                                 <div style="margin-top: 3%; margin-bottom: 4%;">
                                                                     <p class="card-text"
                                                                         style="font-size: large;">
-                                                                        <span class="fw-bold me-2">•</span>
-                                                                        Nombre de membres:
                                                                     </p>
                                                                 </div>
 
                                                             </div>
                                                         </div>
                                                         <div class="col d-flex justify-content-center align-items-center">
-                                                            <button class="btn btn-success" id="{{group.id}}" @click="allerModifier(group.id)">Voir</button>
+                                                            <button class="btn btn-danger" id="{{group.id}}" @click="annihilerGroupe(group.id)">Detruire Groupe</button>
+                                                            <button class="btn btn-success mx-5" id="{{group.id}}" @click="allerModifier(group.id)">Voir</button>
                                                             <!--<RouterLink to="/login" class="text-decoration-none">Voir</RouterLink>-->
                                                         </div>
                                                     </div>
@@ -80,6 +79,11 @@ export default defineComponent({
         allerModifier(mimir){
             console.log(mimir);
             this.$router.push({ path: '/modifGroup/'+mimir });
+        },
+        async annihilerGroupe(mimir){
+            console.log(mimir);
+            await API.requestLogged(API.METHOD.DELETE, '/groups/'+mimir, undefined, undefined);
+            this.getGroups();
         }
     }
 })

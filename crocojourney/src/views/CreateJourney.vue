@@ -105,7 +105,7 @@
 
                         <!-- bouton Retour -->
                         <div class="col">
-                            <RouterLink class="btn btn-danger mt-4" to="/">Retour</RouterLink>
+                            <button class="btn btn-danger mt-4" @click="$router.go(-1)">back</button>
                         </div>
 
                     </div>

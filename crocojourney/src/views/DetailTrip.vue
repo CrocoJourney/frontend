@@ -1,4 +1,9 @@
 <template>
+  <div v-if="showTrip==true">
+    <EditTrip
+    :id="this.id"/>
+  </div>
+  <div v-else>
   <div class="d-flex justify-content-center align-items-center vh-100 p-3">
   <div class="card border-success">
     <div class="card-header bg-transparent border-success text-center">
@@ -65,6 +70,7 @@
     </div>
   </div>
 </div>
+</div>
 
 </template>
 
@@ -73,12 +79,14 @@ import API from '../scripts/API';
 import User from '../scripts/User';
 import Candidats from '../components/Candidats.vue';
 import Passagers from '../components/Passagers.vue';
+import EditTrip from '../components/EditTrip.vue';
 
 export default {
   name: 'DetailTrip',
   components: {
     Candidats,
     Passagers,
+    EditTrip,
   },
   data() {
     return {
@@ -112,6 +120,7 @@ export default {
       passengers: [],
       candidates: [],
       photoPath: '',
+      showTrip: false,
     };
   },
   mounted() {
@@ -143,7 +152,6 @@ export default {
     async joinTrip() {
       try {
         await API.requestLogged(API.METHOD.POST, '/trips/' + this.id + '/join');
-        alert('Votre demande à été envoyé !');
         window.location.reload();
       } catch (error) {
         alert('Erreur lors de la demande de trajet.');
@@ -178,7 +186,6 @@ export default {
     async cancelRequest() {
       try {
         await API.requestLogged(API.METHOD.DELETE, '/trips/' + this.id + '/candidates/' + this.user.id);
-        alert('Votre demande a été annulée avec succès !');
         window.location.reload();
       } catch (error) {
         alert('Erreur lors de la tentative d\'annulation de votre demande.');
@@ -186,14 +193,8 @@ export default {
     },
 
     async editTrip() {
-      try {
-        await API.requestLogged(API.METHOD.PATCH, '/trips/' + this.id);
-        alert('Le trajet a été modifié avec succès !');
-      } catch (error) {
-        alert('Erreur lors de la tentative de modification du trajet.');
-      }
+      this.showTrip=true;
     },
-
   },
 };
 </script>

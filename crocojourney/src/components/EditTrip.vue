@@ -1,5 +1,4 @@
 <template>
-    <!-- if the user doesn't have a car show him an error page -->
     <div class="text-start mt-5 mb-4 col-md-6 mx-auto" id="alertsDiv">
         <!--<div class="alert alert-danger alert-dismissible fade show" role="alert">
             <div>
@@ -11,7 +10,7 @@
 
     <div class="w-auto px-5 vh-90">
         <div class="mt-5 ms-4">
-            <h1>Créer un nouveau trajet</h1>
+            <h1>Modifier le trajet</h1>
         </div>
         <div class="row container-fluid">
             <!-- Partie gauche de l'écran -->
@@ -21,7 +20,7 @@
                     <span class="col" style="float: left; width: 50%">
                         <h4>Titre</h4>
                         <div class="form-floating" style="width: 80%">
-                            <input ref="titre" class="form-control" />
+                            <input ref="titre" class="form-control" v-model="title" :placeholder="this.title" />
                         </div>
                     </span>
 
@@ -69,7 +68,13 @@
                     <!-- Partie moyenne Gauche (dessin) -->
                     <div>
                         <!-- Partie moyenne droite (destination et étapes) -->
-                        <ListEtape ref="listeEtape"></ListEtape>
+                        <ListEtape
+                            ref="listeEtape"
+                            :id="id"
+                            :departure="departure"
+                            :arrival="arrival"
+                            :steps="steps"
+                        ></ListEtape>
                     </div>
                 </div>
                 <span>
@@ -93,6 +98,8 @@
                         name=""
                         ref="precisionsRDV"
                         style="resize: none"
+                        v-model="precisions"
+                        :placeholder="this.precisions"
                     ></textarea>
                     <h4>Contraintes et commentaires</h4>
                     <textarea
@@ -101,13 +108,21 @@
                         name=""
                         ref="contraintes"
                         style="resize: none"
+                        v-model="constraints"
+                        :placeholder="this.constraints"
                     ></textarea>
                     <div class="row">
                         <!-- Places -->
                         <div class="col">
                             <h4>Places</h4>
                             <div class="form-floating">
-                                <input ref="places" class="form-control" type="number" />
+                                <input
+                                    ref="places"
+                                    class="form-control"
+                                    type="number"
+                                    v-model="size"
+                                    :placeholder="this.size"
+                                />
                             </div>
                         </div>
 
@@ -115,7 +130,13 @@
                         <div class="col">
                             <h4>Prix</h4>
                             <div class="form-floating input-group">
-                                <input ref="prix" class="form-control" type="number" />
+                                <input
+                                    ref="prix"
+                                    class="form-control"
+                                    type="number"
+                                    v-model="price"
+                                    :placeholder="this.price"
+                                />
                                 <span class="input-group-text" id="eur">€</span>
                             </div>
                         </div>
@@ -124,12 +145,12 @@
                     <div class="row">
                         <!-- bouton Gerer le départ -->
                         <div class="col">
-                            <button class="btn btn-success mt-4" @click="createJourney">Créer le trajet</button>
+                            <button class="btn btn-success mt-4" @click="modifyJourney">Modifier le trajet</button>
                         </div>
 
                         <!-- bouton Retour -->
                         <div class="col">
-                            <button class="btn btn-danger mt-4" @click="$router.go(-1)">back</button>
+                            <RouterLink class="btn btn-danger mt-4" to="/">Retour</RouterLink>
                         </div>
                     </div>
                 </div>
@@ -139,11 +160,8 @@
 </template>
 
 <script>
-import User from '../scripts/User';
 import { defineComponent } from 'vue';
 import API from '../scripts/API.js';
-import emitter from '../scripts/emitter.js';
-import SearchBar from '../components/SearchBar.vue';
 import ListEtape from '../components/ListEtape.vue';
 export default defineComponent({
     name: 'Login',
@@ -157,42 +175,101 @@ export default defineComponent({
             valuegroup: -1,
             combinedDateTime: '',
             groups: [],
+
+            id: '',
+            departure: '',
+            arrival: '',
+            date: '',
+            title: '',
+            rate: '',
+            price: '',
+            size: '',
+            constraints: '',
+            precisions: '',
+            private: '',
+            steps: [
+                {
+                    city_id: '',
+                    order: '',
+                },
+            ],
         };
     },
     components: {
-        SearchBar,
         ListEtape,
     },
+    props: {
+        id: String,
+        required: true,
+    },
+    mounted() {
+        this.id = this.$route.params.id;
+        API.requestLogged(API.METHOD.GET, '/trips/' + this.id)
+            .then((data) => {
+                const trip = data;
+                this.departure = trip.departure;
+                this.arrival = trip.arrival;
+                this.date = trip.date;
+                this.title = trip.title;
+                this.rate = trip.rate;
+                this.price = trip.price;
+                this.size = trip.size;
+                this.constraints = trip.constraints;
+                this.precisions = trip.precisions;
+                this.private = trip.private;
+                this.steps = trip.steps;
+                this.driver = trip.driver;
+                this.group = trip.group;
+                this.passengers = trip.passengers;
+                this.candidates = trip.candidates;
+                this.photoPath = `${API.API_URL}/static/pictures/` + (this.driver.photoPath ?? 'default.png');
+            })
+            .catch((error) => console.log(error));
+    },
     methods: {
-        async createJourney() {
-            var jsonAEnvoyer = {
-                title: 'string',
-                size: 0,
-                constraints: 'string',
-                precisions: 'string',
-                price: 0,
-                private: true,
-                steps: [
-                    {
-                        city_id: 'string',
-                        order: 0,
-                    },
-                ],
-                departure: 'string',
-                group: 0,
-                arrival: 'string',
-                date: '2023-03-21T21:55:04.916Z',
-            };
+        async modifyJourney() {
+            if (this.steps.length < 1) {
+                console.log('Pas d étape');
+                var jsonAEnvoyer = {
+                    title: 'string',
+                    size: 0,
+                    constraints: 'string',
+                    precisions: 'string',
+                    price: 0,
+                    private: true,
+                    departure: 'string',
+                    group: 0,
+                    arrival: 'string',
+                    date: '2023-03-21T21:55:04.916Z',
+                };
+            } else {
+                console.log('Avec étape');
 
-            //const typeRadioPublique = this.$refs.typeRadioPublique.value;
+                var jsonAEnvoyer = {
+                    title: 'string',
+                    size: 0,
+                    constraints: 'string',
+                    precisions: 'string',
+                    price: 0,
+                    private: true,
+                    steps: [
+                        {
+                            city_id: 'string',
+                            order: 0,
+                        },
+                    ],
+                    departure: 'string',
+                    group: 0,
+                    arrival: 'string',
+                    date: '2023-03-21T21:55:04.916Z',
+                };
+            }
+
             const precisionsRDV = this.$refs.precisionsRDV.value;
             const contraintes = this.$refs.contraintes.value;
             const places = this.$refs.places.value;
             const prix = this.$refs.prix.value;
             const titre = this.$refs.titre.value;
-
-            //const date = this.$refs.date.value;
-            //const time = this.$refs.time.value;
 
             const listeEtape = this.$refs.listeEtape;
             listeEtape.afficherListeEtape();
@@ -202,25 +279,7 @@ export default defineComponent({
 
             let valid = true;
 
-            /**typeRadioPublique.classList.remove("is-invalid");
-            precisionsRDV.classList.remove("is-invalid");
-            contraintes.classList.remove("is-invalid");
-            places.classList.remove("is-invalid");
-            prix.classList.remove("is-invalid");
-            date.classList.remove("is-invalid");
-            **/
             let group;
-
-            /**if(typeRadioPublique == "Publique"){
-                group = 0;
-            }else{
-                //à changer plus tard
-                group = 0; 
-            }**/
-
-            //let dateFusion = date+time
-
-            console.log(depart);
 
             this.$refs.date.classList.remove('is-invalid');
             this.$refs.time.classList.remove('is-invalid');
@@ -259,17 +318,12 @@ export default defineComponent({
                 valid = false;
             }
 
-            //console.log("Trajet attempted, as " + typeRadioPublique.value + " " + precisionsRDV.value + " (" + contraintes.value + ")\n" + places.value + "\n" + prix.value + "\nDate : " + date.value );
-
             if (valid) {
                 const combined = new Date(`${this.selectedDate}T${this.selectedTime}:00.000Z`);
                 combined.toISOString();
-                console.log(combined);
 
                 const male = this.$refs.sex;
                 const prive = male.checked ? false : true;
-
-                console.log(prive);
 
                 let groupe;
                 if (prive) {
@@ -278,61 +332,49 @@ export default defineComponent({
                     groupe = 0;
                 }
 
-                var jsonAEnvoyer = {
-                    title: titre,
-                    size: Number(places),
-                    constraints: contraintes,
-                    precisions: precisionsRDV,
-                    price: Number(prix),
-                    private: prive,
-                    steps: listeDesEtapes,
-                    departure: depart,
-                    group: groupe,
-                    arrival: arrivee,
-                    date: combined,
-                };
+                if (this.steps.length < 1) {
+                    console.log('Pas d étape 2222');
+                    var jsonAEnvoyer = {
+                        title: titre,
+                        size: Number(places),
+                        constraints: contraintes,
+                        precisions: precisionsRDV,
+                        price: Number(prix),
+                        private: prive,
+                        departure: depart,
+                        group: groupe,
+                        arrival: arrivee,
+                        date: combined,
+                    };
+                } else {
+                    console.log('Avec étape 2222');
+                    var jsonAEnvoyer = {
+                        title: titre,
+                        size: Number(places),
+                        constraints: contraintes,
+                        precisions: precisionsRDV,
+                        price: Number(prix),
+                        private: prive,
+                        steps: listeDesEtapes,
+                        departure: depart,
+                        group: groupe,
+                        arrival: arrivee,
+                        date: combined,
+                    };
+                }
 
                 let resEnvoie = JSON.stringify(jsonAEnvoyer);
-                console.log('la bete :');
-                console.log(resEnvoie);
 
                 try {
-                    const res = await API.requestLogged(API.METHOD.POST, '/trips/', resEnvoie, API.CONTENT_TYPE.JSON);
-
-                    this.$refs.date.value = '';
-
-                    this.$refs.time.value = '';
-
-                    this.$refs.titre.value = '';
-
-                    this.$refs.places.value = '';
-
-                    this.$refs.listeEtape.$refs.depart.value = '';
-
-                    this.$refs.listeEtape.$refs.arrivee.value = '';
-
-                    this.$refs.prix.value = '';
-
-                    listeEtape.choice.depart = '';
-
-                    listeEtape.choice.arrivee = '';
-
-                    this.$refs.contraintes.value = '';
-
-                    this.$refs.precisionsRDV.value = '';
-
-                    male.checked = true;
-
-                    listeEtape.listeEtapes = [];
-
-                    listeEtape.buttons = [];
-
-                    listeEtape.etapesValue = '';
-
-                    listeEtape.$refs.inputEtape.value = '';
+                    const res = await API.requestLogged(
+                        API.METHOD.PATCH,
+                        '/trips/' + this.id,
+                        resEnvoie,
+                        API.CONTENT_TYPE.JSON
+                    );
 
                     document.querySelector('#alertsDiv').innerHTML =
-                        '<div class="alert alert-success alert-dismissible fade show" role="alert"><div><strong>Creation du trajet !</strong> <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div></div>';
+                        '<div class="alert alert-success alert-dismissible fade show" role="alert"><div><strong>Trajet modifié !</strong> <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div></div>';
                 } catch (error) {
                     document.querySelector('#alertsDiv').innerHTML =
                         '<div class="alert alert-danger alert-dismissible fade show" role="alert"><div><strong>Oups !</strong> Une erreur est survenue lors de la création du trajet. (Code ' +
@@ -352,28 +394,7 @@ export default defineComponent({
             }
             try {
                 const res = await API.requestLogged(API.METHOD.GET, url, undefined);
-                // refresh component
                 this.groups = res;
-                console.log(this.groups);
-                /**for await (const element of res) {
-                    const driver = await API.requestLogged(API.METHOD.GET, `/users/${element.driver_id}`, undefined);
-                    const date = new Date(element.date);
-                    const now = new Date();
-                    if (date.getTime() - now.getTime() > 24) {
-                        this.trips.push({
-                            id: element.id,
-                            departure: element.departure_name,
-                            arrival: element.arrival_name,
-                            date: element.date,
-                            title: element.title,
-                            price: element.price.toString(),
-                            time: `${date}`,
-                            driver: element.driver_id,
-                            photo: driver.photoPath,
-                            rate: '4',
-                        });
-                    }
-                }**/
             } catch (error) {}
         },
         onItemSelected(event) {

@@ -1,5 +1,4 @@
 <template>
-    <!-- if the user doesn't have a car show him an error page -->
     <div class="text-start mt-5 mb-4 col-md-6 mx-auto" id="alertsDiv">
         <!--<div class="alert alert-danger alert-dismissible fade show" role="alert">
             <div>
@@ -124,12 +123,12 @@
                     <div class="row">
                         <!-- bouton Gerer le départ -->
                         <div class="col">
-                            <button class="btn btn-success mt-4" @click="createJourney">Créer le trajet</button>
+                            <button class="btn btn-success mt-4" @click="modifyJourney">Créer le trajet</button>
                         </div>
 
                         <!-- bouton Retour -->
                         <div class="col">
-                            <button class="btn btn-danger mt-4" @click="$router.go(-1)">back</button>
+                            <RouterLink class="btn btn-danger mt-4" to="/">Retour</RouterLink>
                         </div>
                     </div>
                 </div>
@@ -139,12 +138,11 @@
 </template>
 
 <script>
-import User from '../scripts/User';
 import { defineComponent } from 'vue';
 import API from '../scripts/API.js';
 import emitter from '../scripts/emitter.js';
-import SearchBar from '../components/SearchBar.vue';
-import ListEtape from '../components/ListEtape.vue';
+import SearchBar from '../components/SearchBar.vue.js';
+import ListEtape from '../components/ListEtape.vue.js';
 export default defineComponent({
     name: 'Login',
     data() {
@@ -164,7 +162,7 @@ export default defineComponent({
         ListEtape,
     },
     methods: {
-        async createJourney() {
+        async modifyJourney() {
             var jsonAEnvoyer = {
                 title: 'string',
                 size: 0,
@@ -191,9 +189,6 @@ export default defineComponent({
             const prix = this.$refs.prix.value;
             const titre = this.$refs.titre.value;
 
-            //const date = this.$refs.date.value;
-            //const time = this.$refs.time.value;
-
             const listeEtape = this.$refs.listeEtape;
             listeEtape.afficherListeEtape();
             const listeDesEtapes = listeEtape.listeEtapes;
@@ -202,25 +197,7 @@ export default defineComponent({
 
             let valid = true;
 
-            /**typeRadioPublique.classList.remove("is-invalid");
-            precisionsRDV.classList.remove("is-invalid");
-            contraintes.classList.remove("is-invalid");
-            places.classList.remove("is-invalid");
-            prix.classList.remove("is-invalid");
-            date.classList.remove("is-invalid");
-            **/
             let group;
-
-            /**if(typeRadioPublique == "Publique"){
-                group = 0;
-            }else{
-                //à changer plus tard
-                group = 0; 
-            }**/
-
-            //let dateFusion = date+time
-
-            console.log(depart);
 
             this.$refs.date.classList.remove('is-invalid');
             this.$refs.time.classList.remove('is-invalid');
@@ -259,17 +236,12 @@ export default defineComponent({
                 valid = false;
             }
 
-            //console.log("Trajet attempted, as " + typeRadioPublique.value + " " + precisionsRDV.value + " (" + contraintes.value + ")\n" + places.value + "\n" + prix.value + "\nDate : " + date.value );
-
             if (valid) {
                 const combined = new Date(`${this.selectedDate}T${this.selectedTime}:00.000Z`);
                 combined.toISOString();
-                console.log(combined);
 
                 const male = this.$refs.sex;
                 const prive = male.checked ? false : true;
-
-                console.log(prive);
 
                 let groupe;
                 if (prive) {
@@ -291,13 +263,31 @@ export default defineComponent({
                     arrival: arrivee,
                     date: combined,
                 };
+                if (listeDesEtapes.length < 1) {
+                    console.log('listeEtape vide');
+                    var jsonAEnvoyer = {
+                        title: titre,
+                        size: Number(places),
+                        constraints: contraintes,
+                        precisions: precisionsRDV,
+                        price: Number(prix),
+                        private: prive,
+                        departure: depart,
+                        group: groupe,
+                        arrival: arrivee,
+                        date: combined,
+                    };
+                }
 
                 let resEnvoie = JSON.stringify(jsonAEnvoyer);
-                console.log('la bete :');
-                console.log(resEnvoie);
 
                 try {
-                    const res = await API.requestLogged(API.METHOD.POST, '/trips/', resEnvoie, API.CONTENT_TYPE.JSON);
+                    const res = await API.requestLogged(
+                        API.METHOD.PATCH,
+                        '/trips/' + this.id,
+                        resEnvoie,
+                        API.CONTENT_TYPE.JSON
+                    );
 
                     this.$refs.date.value = '';
 
@@ -335,7 +325,7 @@ export default defineComponent({
                         '<div class="alert alert-success alert-dismissible fade show" role="alert"><div><strong>Creation du trajet !</strong> <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div></div>';
                 } catch (error) {
                     document.querySelector('#alertsDiv').innerHTML =
-                        '<div class="alert alert-danger alert-dismissible fade show" role="alert"><div><strong>Oups !</strong> Une erreur est survenue lors de la création du trajet. (Code ' +
+                        '<div class="alert alert-danger alert-dismissible fade show" role="alert"><div><strong>Oups !</strong> Une erreur est survenue lors de la modification du trajet. (Code ' +
                         error.status +
                         ' : ' +
                         error.statusText +
@@ -354,26 +344,6 @@ export default defineComponent({
                 const res = await API.requestLogged(API.METHOD.GET, url, undefined);
                 // refresh component
                 this.groups = res;
-                console.log(this.groups);
-                /**for await (const element of res) {
-                    const driver = await API.requestLogged(API.METHOD.GET, `/users/${element.driver_id}`, undefined);
-                    const date = new Date(element.date);
-                    const now = new Date();
-                    if (date.getTime() - now.getTime() > 24) {
-                        this.trips.push({
-                            id: element.id,
-                            departure: element.departure_name,
-                            arrival: element.arrival_name,
-                            date: element.date,
-                            title: element.title,
-                            price: element.price.toString(),
-                            time: `${date}`,
-                            driver: element.driver_id,
-                            photo: driver.photoPath,
-                            rate: '4',
-                        });
-                    }
-                }**/
             } catch (error) {}
         },
         onItemSelected(event) {

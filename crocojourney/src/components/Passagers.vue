@@ -10,13 +10,17 @@
                         <label for="formPhoto" class="form-label"></label>
                         <img :src="photoUrl" class="rounded-circle" width="50" height="50" alt="PHOTO" id="formPhoto" />
                         <a v-if="!this.loading">
-                        <p>Note : </p>
+                        
                         
                             <a v-if="this.dejaNote(this.id)">
+                                <p>Note : </p>
                                 <input ref="note" type="number"><p>/5</p>
                                 <button class="btn btn-success" @click="noter">Valider note</button>
                             </a>
                             <a v-else>
+                                <p>Note actuelle : </p>
+                                <input ref="note" type="number"><p>/5</p>
+                                <button class="btn btn-primary" @click="updateNoter">Changer Note</button>
                                 <button class="btn btn-danger" @click="deNoter">Retirer Note</button>
                             </a>
                         </a>
@@ -90,6 +94,27 @@ export default defineComponent({
             let ras = await API.requestLogged(
                         API.METHOD.POST,
                         '/reviews/',
+                        resu,
+                        API.CONTENT_TYPE.JSON
+
+                    )
+            console.log(ras)
+            this.loading = true;
+            this.getReviews();
+        },
+        async updateNoter(){
+            let noteInt = this.$refs.note.value
+
+            let res={
+                rating: Number(noteInt)
+            }
+            console.log(res);
+            let rousse = this.notationsDejaDonnees.reviews.find(element => element.trip_id == this.tripId && element.rated_id == this.id)
+            console.log("hey"+rousse.id)
+            let resu= JSON.stringify(res);
+            let ras = await API.requestLogged(
+                        API.METHOD.PUT,
+                        '/reviews/'+rousse.id,
                         resu,
                         API.CONTENT_TYPE.JSON
 

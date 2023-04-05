@@ -31,11 +31,6 @@
             <option value="date_desc">Date décroissant</option>
         </select>
     </div>
-    <div class="col-12 text-center">
-        <label><input type="radio" name="trip-type" value="public" v-model="tripType" />Public</label>
-        <span>&nbsp;&nbsp;&nbsp;</span>
-        <label><input type="radio" name="trip-type" value="private" v-model="tripType" />Private</label>
-    </div>
 
     <div class="container my-3 mt-3 mb-3">
         <div v-for="trip of sortedTrips">
@@ -145,7 +140,7 @@ export default defineComponent({
                             time: `${date}`,
                             driver: element.driver_id,
                             photo: driver.photoPath,
-                            rate: '4',
+                            rate: driver.rate,
                         });
                     }
                 }

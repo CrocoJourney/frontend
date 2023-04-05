@@ -9,7 +9,12 @@
         </div>-->
     </div>
 
-    <div class="w-auto px-5 vh-90">
+    <div v-if="user.car == false">
+        <div class="d-flex align-items-center justify-content-center vh-100">
+            Vous ne possédez pas de voiture, vous ne pouvez donc pas créer de trajet.
+        </div>
+    </div>
+    <div v-else class="w-auto px-5 vh-90">
         <div class="mt-5 ms-4">
             <h1>Créer un nouveau trajet</h1>
         </div>
@@ -157,6 +162,7 @@ export default defineComponent({
             valuegroup: -1,
             combinedDateTime: '',
             groups: [],
+            user: User.currentUser,
         };
     },
     components: {

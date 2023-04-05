@@ -40,7 +40,8 @@
         <br>
         <strong v-if="this.precisions!==''">Précisions :</strong> {{ precisions }}
         <br>
-        <strong v-if="this.group!==null">Groupe :</strong> {{ group }}
+        <strong v-if="this.group!==null">Trajet privé</strong>
+        <strong v-else>Trajet Public</strong>
 
       </p>
     </div>
@@ -154,7 +155,7 @@ export default {
         await API.requestLogged(API.METHOD.POST, '/trips/' + this.id + '/join');
         window.location.reload();
       } catch (error) {
-        alert('Erreur lors de la demande de trajet.');
+        alert('Erreur lors de la demande de trajet, ce trajet est peut être privé.');
       }
     },
 

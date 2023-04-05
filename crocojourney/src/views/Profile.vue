@@ -3,6 +3,7 @@
     <div class="col-md-5 mx-auto text-center">
         <br />
         <h1>Mon Compte</h1>
+        <div>Votre moyenne : {{ this.moyenne }} / 5</div>
         <br /><br />
         <!--Nom/Prenom-->
         <div class="mt-5 mb-3">
@@ -184,6 +185,7 @@ export default {
             password: User.currentUser.password,
             confirmPassword: User.currentUser.password,
             showAlert: false,
+            moyenne: -1
         };
     },
     methods: {
@@ -263,10 +265,21 @@ export default {
             User.saveToLocalStorage();
             emitter.emit('userUpdated');
         },
+        async getMoyenne(){
+            let tmp = await API.requestLogged(
+                    API.METHOD.GET,
+                    '/reviews/me',
+                    undefined,
+                    undefined
+                );
+
+                this.moyenne = tmp.avg;
+        }
     },
     mounted() {
         this.$refs.women.checked = User.currentUser.sex === 'F';
         this.$refs.men.checked = User.currentUser.sex === 'H';
+        this.getMoyenne();
     },
 };
 </script>

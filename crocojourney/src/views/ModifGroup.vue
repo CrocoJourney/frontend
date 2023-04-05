@@ -154,8 +154,8 @@ export default defineComponent({
         async chercherMembre(){
             console.log("salut")
             let tmp = await API.requestLogged(API.METHOD.GET, '/groups/'+this.$route.params.id, undefined, undefined);
-            this.membres = tmp.friends[0];
-            console.log(tmp.friends[0])
+            this.membres = tmp.friends;
+            console.log(tmp.friends)
             //console.log(tmp.friends[1])
         },
         async chercherUsers(){

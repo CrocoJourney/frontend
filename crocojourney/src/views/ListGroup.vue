@@ -22,7 +22,10 @@
                                         Nom du groupe: {{ group.name }}
                                     </h4>
                                     <div class="d-flex justify-content-center flex-grow-1" style="margin-bottom: 2%; margin-top: 1%;">
-                                        <button class="btn btn-success mx-5 w-50" id="{{group.id}}" @click="allerModifier(group.id)">Détails</button>
+                                        <RouterLink :to="{ name: 'ModifGroup', params: { id: group.id } }" class="btn btn-success mx-5 w-50">
+                                            Détails
+                                        </RouterLink>
+                                        
                                         <button class="btn btn-danger mx-5 w-50" id="{{group.id}}" @click="annihilerGroupe(group.id)">Supprimer</button>
                                     </div>
                                 </div>
@@ -53,10 +56,6 @@ export default defineComponent({
         async getGroups() {
             this.groups = await API.requestLogged(API.METHOD.GET, '/groups/', undefined, undefined);
         },
-        allerModifier(mimir){
-            console.log(mimir);
-            this.$router.push({ path: '/modifGroup/'+mimir });
-        },
         async annihilerGroupe(mimir){
             console.log(mimir);
             await API.requestLogged(API.METHOD.DELETE, '/groups/'+mimir, undefined, undefined);
@@ -68,7 +67,7 @@ export default defineComponent({
 
 <style>
 .scrollable {
-    height: calc(61vh - 3.5rem);
+    height: calc(61vh - 2.6rem);
     overflow-y: auto;
 }
 </style>

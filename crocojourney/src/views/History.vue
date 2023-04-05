@@ -68,7 +68,7 @@
                                                             <i class="bi bi-person-fill" style="font-size: 2.5rem;" title="Ce trajet est public"></i>
                                                         </div>
                                                         <div class="col d-flex justify-content-center align-items-center">
-                                                            <RouterLink to="#" class="btn btn-success align-middle">Noter</RouterLink>
+                                                            <button class="btn btn-success mx-5" id="{{trip.id}}" @click="allerDetail(trip.id)">Detail</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -137,7 +137,7 @@
                                                             <i class="bi bi-person-fill" style="font-size: 2.5rem;" title="Ce trajet est public"></i>
                                                         </div>
                                                         <div class="col d-flex justify-content-center align-items-center">
-                                                            <RouterLink to="#" class="btn btn-success align-middle">Noter</RouterLink>
+                                                            <button class="btn btn-success mx-5" id="{{trip.id}}" @click="allerDetail(trip.id)">Detail</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -162,7 +162,7 @@ export default defineComponent({
   name: 'History',
   async mounted() {
     this.getTrips();
-    this.getCurrentDate();
+    //this.getCurrentDate();
   },
   data() {
     return {
@@ -176,7 +176,11 @@ export default defineComponent({
         const res = await API.requestLogged(API.METHOD.GET,'/trips/me',undefined,undefined);
         this.tripsDriver = res.tripsDriver;
         this.tripsPassenger = res.tripsPassenger;
-    }
+    },
+    allerDetail(mimir){
+            console.log(mimir);
+            this.$router.push({ path: '/detail-trip/'+mimir });
+    },
   }
 })
 </script>

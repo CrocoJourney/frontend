@@ -9,6 +9,9 @@
                     <div class="col-6 col-md-3">
                         <label for="formPhoto" class="form-label"></label>
                         <img :src="photoUrl" class="rounded-circle" width="50" height="50" alt="PHOTO" id="formPhoto" />
+                        <p>Note : </p>
+                        <input ref="note" type="number"><p>/5</p>
+                        <button class="btn btn-success" @click="noter">Valider note</button>
                     </div>
                 </div>
             </div>
@@ -29,6 +32,8 @@ export default defineComponent({
     mounted() {
         this.photoUrl = `${API.API_URL}/static/pictures/` + (this.photoPath ?? 'default.png');
     },
+    
+
     props: {
         id: {
             type: Number,
@@ -51,5 +56,27 @@ export default defineComponent({
             required: true,
         },
     },
+    methods: {
+        async noter(){
+            let noteInt = this.$refs.note.value
+
+            let res={
+                user_rated: this.id,
+                trip_rated: this.tripId,
+                rating: Number(noteInt)
+            }
+            console.log(res);
+            let resu= JSON.stringify(res);
+            let ras = await API.requestLogged(
+                        API.METHOD.POST,
+                        '/reviews/',
+                        resu,
+                        API.CONTENT_TYPE.JSON
+
+                    )
+            console.log(ras)
+        }
+        
+    }
 });
 </script>

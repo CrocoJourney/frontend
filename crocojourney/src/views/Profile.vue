@@ -280,6 +280,7 @@ export default {
         this.$refs.women.checked = User.currentUser.sex === 'F';
         this.$refs.men.checked = User.currentUser.sex === 'H';
         this.getMoyenne();
+        console.log(this.photoPath)
     },
 };
 </script>

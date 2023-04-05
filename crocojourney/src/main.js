@@ -17,6 +17,7 @@ import DetailTrip from './views/DetailTrip.vue'
 import ModifGroup from './views/ModifGroup.vue'
 import CurrentTrips from './views/CurrentTrips.vue'
 import ListGroup from './views/ListGroup.vue'
+import User from './views/User.vue'
 import {
     createRouter,
     createWebHistory
@@ -87,6 +88,11 @@ const router = createRouter({
     {
         path: '/listgroup',
         component: ListGroup
+    },
+    {
+        path: '/user/:id',
+        name: 'User',
+        component: User,
     }
 
     ]

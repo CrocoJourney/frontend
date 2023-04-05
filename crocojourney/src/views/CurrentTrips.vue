@@ -52,15 +52,19 @@
                                                                                 Départ: {{ new
                                                                                     Date(trip.date).toLocaleDateString('fr-FR')
                                                                                 }}
-                                                                                à {{ new Date(time).getHours() + ':' + new
-                                                                                    Date(time).getMinutes().toString().padStart(2,
-                                                                                        '0') }}
+                                                                                à {{ new Date(trip.date).getUTCHours() + ':' + new Date(trip.date).getUTCMinutes().toString().padStart(2, '0') }}
                                                                             </p>
                                                                         </div>
                                                                         <div>
                                                                             <p class="card-text" style="font-size: large;">
-                                                                                <span class="fw-bold me-2">•</span>
-                                                                                Conducteur:
+                                                                                <a v-if="user.id === trip.driver_id">
+                                                                                    <span class="fw-bold me-2">•</span>
+                                                                                    Conducteur: Moi
+                                                                                </a>
+                                                                                <a v-else>
+                                                                                    <span class="fw-bold me-2">•</span>
+                                                                                    Conducteur:
+                                                                                </a>
                                                                             </p>
                                                                         </div>
                                                                     </div>
@@ -80,7 +84,7 @@
                                                         <div class="col d-flex justify-content-center align-items-center">
                                                             <RouterLink
                                                                 :to="{ name: 'DetailTrip', params: { id: trip.id } }"
-                                                                class="btn btn-success align-middle">Voir</RouterLink>
+                                                                class="btn btn-success align-middle">Détails</RouterLink>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -101,14 +105,17 @@
 <script>
 import { defineComponent } from 'vue'
 import API from "../scripts/API.js"
+import User from '../scripts/User';
 export default defineComponent({
     name: 'History',
     async mounted() {
         this.getTrips();
-        this.getCurrentDate();
+        this.getUsers();
+        //this.getCurrentDate();
     },
     data() {
         return {
+            user: User.currentUser,
             trips: [],
             currentDate: new Date()
         }
@@ -117,6 +124,8 @@ export default defineComponent({
         async getTrips() {
             const res = await API.requestLogged(API.METHOD.GET, '/trips/me', undefined, undefined);
             this.trips = res.tripsDriver;
+            this.trips = this.trips.concat(res.tripsPassenger);
+            this.trips.sort((a, b) => new Date(a.date) - new Date(b.date));
         }
     }
 })

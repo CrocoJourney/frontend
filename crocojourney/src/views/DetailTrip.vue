@@ -17,7 +17,7 @@
       <h5 class="card-title text-center">{{ new Date(date).toLocaleDateString('fr-FR') }}</h5>
       <p class="card-text">
         <strong>Heure de départ :</strong>
-        {{ new Date(date).getHours() + ':' + new Date(date).getMinutes().toString().padStart(2, '0') }}
+        {{ new Date(date).getUTCHours() + ':' + new Date(date).getUTCMinutes().toString().padStart(2, '0') }}
         <br>
         <strong>Départ :</strong> {{ departure.name }}
         <br>

@@ -68,7 +68,9 @@
                                                             <i class="bi bi-person-fill" style="font-size: 2.5rem;" title="Ce trajet est public"></i>
                                                         </div>
                                                         <div class="col d-flex justify-content-center align-items-center">
-                                                            <button class="btn btn-success mx-5" id="{{trip.id}}" @click="allerDetail(trip.id)">Detail</button>
+                                                            <RouterLink
+                                                                :to="{ name: 'DetailTrip', params: { id: trip.id } }"
+                                                                class="btn btn-success align-middle">Détails</RouterLink>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -137,7 +139,9 @@
                                                             <i class="bi bi-person-fill" style="font-size: 2.5rem;" title="Ce trajet est public"></i>
                                                         </div>
                                                         <div class="col d-flex justify-content-center align-items-center">
-                                                            <button class="btn btn-success mx-5" id="{{trip.id}}" @click="allerDetail(trip.id)">Detail</button>
+                                                            <RouterLink
+                                                                :to="{ name: 'DetailTrip', params: { id: trip.id } }"
+                                                                class="btn btn-success align-middle">Détails</RouterLink>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -176,11 +180,9 @@ export default defineComponent({
         const res = await API.requestLogged(API.METHOD.GET,'/trips/me',undefined,undefined);
         this.tripsDriver = res.tripsDriver;
         this.tripsPassenger = res.tripsPassenger;
-    },
-    allerDetail(mimir){
-            console.log(mimir);
-            this.$router.push({ path: '/detail-trip/'+mimir });
-    },
+        this.tripsDriver.sort((a, b) => new Date(b.date) - new Date(a.date));
+        this.tripsPassenger.sort((a, b) => new Date(b.date) - new Date(a.date));
+    }
   }
 })
 </script>

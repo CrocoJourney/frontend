@@ -18,7 +18,7 @@
                                 <button class="btn btn-success" @click="noter">Valider note</button>
                             </a>
                             <a v-else>
-                                <p>Note actuelle : </p>
+                                <p>Note actuelle : {{ this.note.rating }}</p>
                                 <input ref="note" type="number"><p>/5</p>
                                 <button class="btn btn-primary" @click="updateNoter">Changer Note</button>
                                 <button class="btn btn-danger" @click="deNoter">Retirer Note</button>
@@ -41,7 +41,8 @@ export default defineComponent({
             photoUrl: '',
             notationsDejaDonnees: [],
             alreadyNoted: false,
-            loading: true
+            loading: true,
+            note:-1
         };
     },
     mounted() {
@@ -149,6 +150,7 @@ export default defineComponent({
                     )
                     console.log(this.notationsDejaDonnees.reviews)
                     this.loading = false
+                    this.note= this.notationsDejaDonnees.reviews.find(element => element.trip_id == this.tripId && element.rated_id == this.id)
         },
         dejaNote(idPersonne){
             console.log(idPersonne)

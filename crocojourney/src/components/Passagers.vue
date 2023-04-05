@@ -17,7 +17,7 @@
                                 <button class="btn btn-success" @click="noter">Valider note</button>
                             </a>
                             <a v-else>
-                                <button class="btn btn-danger">Retirer Note</button>
+                                <button class="btn btn-danger" @click="deNoter">Retirer Note</button>
                             </a>
                         </a>
                     </div>
@@ -95,25 +95,24 @@ export default defineComponent({
 
                     )
             console.log(ras)
+            this.loading = true;
+            this.getReviews();
         },
         async deNoter(){
             //let noteInt = this.$refs.note.value
-
-            let res={
-                user_rated: this.id,
-                trip_rated: this.tripId,
-                rating: Number(noteInt)
-            }
-            console.log(res);
-            let resu= JSON.stringify(res);
+            console.log(this.notationsDejaDonnees.reviews);
+            let res = this.notationsDejaDonnees.reviews.find(element => element.trip_id == this.tripId && element.rated_id == this.id)
+            console.log(res.id);
             let ras = await API.requestLogged(
-                        API.METHOD.POST,
-                        '/reviews/',
-                        resu,
-                        API.CONTENT_TYPE.JSON
+                        API.METHOD.DELETE,
+                        '/reviews/'+res.id,
+                        undefined,
+                        undefined
 
                     )
             console.log(ras)
+            this.loading = true;
+            this.getReviews();
         },
         async getReviews(){
             this.notationsDejaDonnees = await API.requestLogged(

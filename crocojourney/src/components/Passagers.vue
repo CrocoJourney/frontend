@@ -9,9 +9,17 @@
                     <div class="col-6 col-md-3">
                         <label for="formPhoto" class="form-label"></label>
                         <img :src="photoUrl" class="rounded-circle" width="50" height="50" alt="PHOTO" id="formPhoto" />
+                        <a v-if="!this.loading">
                         <p>Note : </p>
-                        <input ref="note" type="number"><p>/5</p>
-                        <button class="btn btn-success" @click="noter">Valider note</button>
+                        
+                            <a v-if="this.dejaNote(this.id)">
+                                <input ref="note" type="number"><p>/5</p>
+                                <button class="btn btn-success" @click="noter">Valider note</button>
+                            </a>
+                            <a v-else>
+                                <button class="btn btn-danger">Retirer Note</button>
+                            </a>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -27,10 +35,22 @@ export default defineComponent({
     data() {
         return {
             photoUrl: '',
+            notationsDejaDonnees: [],
+            alreadyNoted: false,
+            loading: true
         };
     },
     mounted() {
         this.photoUrl = `${API.API_URL}/static/pictures/` + (this.photoPath ?? 'default.png');
+        this.getReviews();
+        
+    },
+    created(){
+        
+    },
+    finally(){
+        console.log("fini")
+        
     },
     
 
@@ -75,6 +95,42 @@ export default defineComponent({
 
                     )
             console.log(ras)
+        },
+        async deNoter(){
+            //let noteInt = this.$refs.note.value
+
+            let res={
+                user_rated: this.id,
+                trip_rated: this.tripId,
+                rating: Number(noteInt)
+            }
+            console.log(res);
+            let resu= JSON.stringify(res);
+            let ras = await API.requestLogged(
+                        API.METHOD.POST,
+                        '/reviews/',
+                        resu,
+                        API.CONTENT_TYPE.JSON
+
+                    )
+            console.log(ras)
+        },
+        async getReviews(){
+            this.notationsDejaDonnees = await API.requestLogged(
+                        API.METHOD.GET,
+                        '/reviews/',
+                        undefined,
+                        undefined
+
+                    )
+                    console.log(this.notationsDejaDonnees.reviews)
+                    this.loading = false
+        },
+        dejaNote(idPersonne){
+            console.log(idPersonne)
+            console.log(this.tripId)
+            console.log( this.notationsDejaDonnees.reviews.some(element => element.trip_id == this.tripId && element.rated_id == idPersonne))
+            return !this.notationsDejaDonnees.reviews.some(element => element.trip_id == this.tripId && element.rated_id == idPersonne)
         }
         
     }

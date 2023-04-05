@@ -8,7 +8,11 @@
                 <div class="row justify-content-center">
                     <div class="col-6 col-md-3">
                         <label for="formPhoto" class="form-label"></label>
+                        <RouterLink :to="{ name: 'User', params: { id: this.id } }"
+                        >
                         <img :src="photoUrl" class="rounded-circle" width="50" height="50" alt="PHOTO" id="formPhoto" />
+                        </RouterLink>
+                        
                         <a v-if="!this.loading">
                         
                         

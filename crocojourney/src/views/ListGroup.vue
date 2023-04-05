@@ -17,36 +17,16 @@
 
                         <a v-else>
                             <a v-for="group in groups">
-                                <div class="card border-success">
-                                    <div class="container-fluid">
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="container-fluid">
-                                                    <div class="row">
-                                                        <div class="col-10">
-                                                            <div class="col-md-12">
-                                                                <h4 class="card-title text-center" style="margin-top: 2%">Nom du groupe:
-                                                                    {{ group.name }}</h4>
-                                                            </div>
-                                                            <div class="container-fluid">
-
-                                                                <div style="margin-top: 3%; margin-bottom: 4%;">
-                                                                    <p class="card-text"
-                                                                        style="font-size: large;">
-                                                                    </p>
-                                                                </div>
-
-                                                            </div>
-                                                        </div>
-                                                        <div class="col d-flex justify-content-center align-items-center">
-                                                            <button class="btn btn-danger" id="{{group.id}}" @click="annihilerGroupe(group.id)">Detruire Groupe</button>
-                                                            <button class="btn btn-success mx-5" id="{{group.id}}" @click="allerModifier(group.id)">Voir</button>
-                                                            <!--<RouterLink to="/login" class="text-decoration-none">Voir</RouterLink>-->
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                <div class="card border-success d-flex flex-column align-items-stretch">
+                                    <h4 class="card-title text-center" style="margin-top: 2%;">
+                                        Nom du groupe: {{ group.name }}
+                                    </h4>
+                                    <div class="d-flex justify-content-center flex-grow-1" style="margin-bottom: 2%; margin-top: 1%;">
+                                        <RouterLink :to="{ name: 'ModifGroup', params: { id: group.id } }" class="btn btn-success mx-5 w-50">
+                                            Détails
+                                        </RouterLink>
+                                        
+                                        <button class="btn btn-danger mx-5 w-50" id="{{group.id}}" @click="annihilerGroupe(group.id)">Supprimer</button>
                                     </div>
                                 </div>
                             </a>
@@ -76,10 +56,6 @@ export default defineComponent({
         async getGroups() {
             this.groups = await API.requestLogged(API.METHOD.GET, '/groups/', undefined, undefined);
         },
-        allerModifier(mimir){
-            console.log(mimir);
-            this.$router.push({ path: '/modifGroup/'+mimir });
-        },
         async annihilerGroupe(mimir){
             console.log(mimir);
             await API.requestLogged(API.METHOD.DELETE, '/groups/'+mimir, undefined, undefined);
@@ -91,7 +67,7 @@ export default defineComponent({
 
 <style>
 .scrollable {
-    height: calc(61vh - 3.5rem);
+    height: calc(61vh - 2.6rem);
     overflow-y: auto;
 }
 </style>

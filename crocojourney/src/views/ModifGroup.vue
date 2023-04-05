@@ -123,7 +123,7 @@
                 </div>
             </div>
         </div>
-        <button class="btn btn-danger" @click="$router.go(-1)">back</button>
+        <button class="btn btn-danger" @click="$router.go(-1)">Retour</button>
 
     </div>
 </template>

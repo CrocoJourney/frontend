@@ -71,6 +71,7 @@ export default defineComponent({
             date: '',
             trips: [],
             sortBy: '',
+            tripType: '',
         };
     },
     computed: {
@@ -139,7 +140,7 @@ export default defineComponent({
                             time: `${date}`,
                             driver: element.driver_id,
                             photo: driver.photoPath,
-                            rate: '4',
+                            rate: driver.rate,
                         });
                     }
                 }

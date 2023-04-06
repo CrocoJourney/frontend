@@ -24,6 +24,8 @@
               <RouterLink class="dropdown-item" to="/createjourney">Créer un trajet</RouterLink>
               <RouterLink class="dropdown-item" to="/currenttrips">Mes trajets en cours</RouterLink>
               <RouterLink class="dropdown-item" to="/history">Historique de mes trajets</RouterLink>
+              <RouterLink class="dropdown-item" to="/privatetrips">Trajet privé </RouterLink>
+
             </ul>
           </li>
           <li class="nav-item dropdown" style="padding-left: 4px;">

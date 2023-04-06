@@ -197,8 +197,6 @@ export default defineComponent({
 
             let valid = true;
 
-            let group;
-
             this.$refs.date.classList.remove('is-invalid');
             this.$refs.time.classList.remove('is-invalid');
             this.$refs.titre.classList.remove('is-invalid');

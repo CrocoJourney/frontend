@@ -73,8 +73,8 @@
                   <div class="d-flex justify-content-between align-items-center">
                     <div class="d-flex flex-column">
                       <h5 class="mb-1 text-center">{{notification.subject}}</h5>
-                      <p class="mb-1" style="font-size: .9rem;">{{ notification.content }}</p>
-                      <button class="btn p-0">
+                      <p class="mb-1" style="font-size: .9rem;"><pre>{{ notification.content }}</pre></p>
+                      <button @click="deleteNotif(notification.id)" class="btn p-0">
                         <i class="bi bi-x-square-fill text-danger icon-size-x"
                           style="position: absolute; top: 0; right: 4%;"></i>
                       </button>
